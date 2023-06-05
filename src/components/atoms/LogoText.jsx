@@ -5,7 +5,7 @@ const LogoText = () => {
   return (
     <>
       <Link to="/" className="font-bold lg:text-2xl">
-        Griya <span className="text-accent">Lestari</span>
+        Griya <span className="text-primary">Lestari</span>
       </Link>
     </>
   );

@@ -5,7 +5,7 @@ import LogoText from "../atoms/LogoText";
 const Navbar = () => {
   return (
     <>
-      <div className="navbar bg-base-100 px-[7%]">
+      <div className="navbar bg-base-100 px-[7%] fixed z-40">
         <div className="navbar-start">
           <div className="dropdown">
             <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -29,7 +29,7 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a href="#navbar">Beranda</a>
+                <a href="#hero">Beranda</a>
               </li>
               <li>
                 <a href="#about">Tentang Kami</a>
@@ -44,7 +44,7 @@ const Navbar = () => {
                 >
                   Masuk
                 </Link>
-                <Link to="dashboard" className="btn btn-accent btn-sm">
+                <Link to="dashboard" className="btn btn-primary btn-sm">
                   Daftar
                 </Link>
               </li>
@@ -53,9 +53,9 @@ const Navbar = () => {
           <LogoText />
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 font-medium">
             <li>
-              <a href="#navbar">Beranda</a>
+              <a href="#hero">Beranda</a>
             </li>
             <li>
               <a href="#about">Tentang Kami</a>
@@ -65,11 +65,11 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <div className="navbar-end hidden lg:flex">
+        <div className="navbar-end hidden lg:flex gap-2">
           <Link to="dashboard" className="btn btn-outline btn-ghost">
             Masuk
           </Link>
-          <Link to="dashboard" className="btn btn-accent">
+          <Link to="dashboard" className="btn btn-primary">
             Daftar
           </Link>
         </div>
