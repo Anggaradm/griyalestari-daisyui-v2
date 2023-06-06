@@ -8,7 +8,7 @@ const Copyright = () => {
       <div className="flex flex-col justify-between">
         {/* Konten lain di sini */}
 
-        <footer className="bg-gray-200 py-4 text-center text-gray-600">
+        <footer className="py-4 text-center">
           <p className="text-sm">
             &copy; {currentYear} Griya Lestari. All rights reserved.
           </p>

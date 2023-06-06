@@ -38,13 +38,10 @@ const Navbar = () => {
                 <a href="#contact">Kontak</a>
               </li>
               <li className="max-w-md mt-4 flex flex-col gap-1">
-                <Link
-                  to="dashboard"
-                  className="btn btn-outline btn-ghost btn-sm"
-                >
+                <Link to="/signin" className="btn btn-outline btn-ghost btn-sm">
                   Masuk
                 </Link>
-                <Link to="dashboard" className="btn btn-primary btn-sm">
+                <Link to="/signup" className="btn btn-primary btn-sm">
                   Daftar
                 </Link>
               </li>
@@ -66,10 +63,10 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end hidden lg:flex gap-2">
-          <Link to="dashboard" className="btn btn-outline btn-ghost">
+          <Link to="/signin" className="btn btn-outline btn-ghost">
             Masuk
           </Link>
-          <Link to="dashboard" className="btn btn-primary">
+          <Link to="/signup" className="btn btn-primary">
             Daftar
           </Link>
         </div>
