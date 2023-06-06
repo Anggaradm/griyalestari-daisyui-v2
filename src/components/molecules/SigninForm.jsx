@@ -70,7 +70,7 @@ const SigninForm = () => {
             to="/"
             className="flex flex-col items-center gap-2 lg:gap-4 mt-24"
           >
-            <img src={image.WhiteLogo} alt="company logo" className="w-10" />
+            <img src={image.BlackLogo} alt="company logo" className="w-10" />
             <div className="font-bold">
               Griya
               <span className="text-primary">Lestari</span>
