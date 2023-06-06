@@ -12,7 +12,7 @@ const Hero = () => {
               Temukan Hunian Nyaman <br />
               di Griya Lestari
             </h1>
-            <p className="mb-5 mix-blend-overlay mix-blend-difference">
+            <p className="mb-5 mix-blend-difference">
               Jaminan Fasilitas Lengkap dan Keamanan 24 Jam untuk Kenyamanan
               Anda.
             </p>

@@ -4,6 +4,7 @@ import PhotoCard from "./atoms/PhotoCard";
 import About from "./molecules/About";
 import DashNav from "./molecules/DashNav";
 import DrawerDash from "./molecules/DrawerDash";
+import EditMemberProfile from "./molecules/EditMemberProfile";
 import Footer from "./molecules/Footer";
 import Hero from "./molecules/Hero";
 import MemberProfile from "./molecules/MemberProfile";
@@ -17,6 +18,7 @@ export {
   Copyright,
   DashNav,
   DrawerDash,
+  EditMemberProfile,
   Footer,
   Hero,
   LogoText,

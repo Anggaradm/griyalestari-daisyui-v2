@@ -34,7 +34,7 @@ const NavbarDashboard = () => {
           <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
         </div>
         <div className="navbar-end">
-          <div className="dropdown dropdown-left lg:hidden">
+          <div className="dropdown dropdown-bottom dropdown-end lg:hidden">
             <label tabIndex={0} className="btn m-1 flex">
               <Icon.Circle size={3} />
               <Icon.Circle size={3} />
@@ -42,15 +42,15 @@ const NavbarDashboard = () => {
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 flex flex-col gap-2"
             >
               <li>
-                <Link to="/" className="btn btn-ghost">
+                <Link to="/" className="btn btn-ghost btn-sm btn-outline">
                   Beranda
                 </Link>
               </li>
               <li>
-                <Link to="/" className="btn btn-ghost">
+                <Link to="/" className="btn btn-error btn-sm btn-outline">
                   Keluar
                 </Link>
               </li>
@@ -60,7 +60,7 @@ const NavbarDashboard = () => {
             <Link to="/" className="btn btn-ghost">
               Beranda
             </Link>
-            <Link to="/" className="btn btn-ghost">
+            <Link to="/" className="btn btn-error btn-outline">
               Keluar
             </Link>
           </div>
