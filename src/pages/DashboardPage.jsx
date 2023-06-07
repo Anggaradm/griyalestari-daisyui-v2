@@ -29,7 +29,7 @@ const DashboardPage = () => {
               <Route path="/dashboard-roominfo" element={<AllRoomInfo />} />
               <Route
                 path="/dashboard-addpayment"
-                element={<AddPaymentMember />}
+                element={<AddPaymentAdmin />}
               />
             </Routes>
           </div>
