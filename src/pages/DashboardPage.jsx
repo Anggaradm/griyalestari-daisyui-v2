@@ -1,12 +1,15 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
 import {
+  AddMaintenance,
   AddPaymentAdmin,
   AddPaymentMember,
+  AdminPaymentHistory,
   AdminProfile,
   AllRoomInfo,
   DashNav,
   EditMemberProfile,
+  MemberPaymentHistory,
   MemberProfile,
   SingleRoomInfo,
 } from "../components";
@@ -30,6 +33,14 @@ const DashboardPage = () => {
               <Route
                 path="/dashboard-addpayment"
                 element={<AddPaymentAdmin />}
+              />
+              <Route
+                path="/dashboard-paymenthistory"
+                element={<AdminPaymentHistory />}
+              />
+              <Route
+                path="/dashboard-addmaintenance"
+                element={<AddMaintenance />}
               />
             </Routes>
           </div>

@@ -41,6 +41,24 @@ const DrawerDashboard = () => {
                   <li>
                     <Link to="/dashboard-addpayment">Tambah Pembayaran</Link>
                   </li>
+                  <li>
+                    <Link to="/dashboard-paymenthistory">
+                      Riwayat Pembayaran
+                    </Link>
+                  </li>
+                </ul>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>Pengeluaran</summary>
+                <ul>
+                  <li>
+                    <Link to="/dashboard-addmaintenance">
+                      Tambah Pengeluaran
+                    </Link>
+                  </li>
                 </ul>
               </details>
             </li>

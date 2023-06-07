@@ -30,7 +30,11 @@ const AddPaymentAdmin = () => {
             </option>
             <option value="2A">2A</option>
           </select>
-          <button type="submit" className="btn btn-primary mt-24">
+          <button
+            disabled={!roomId ? "disabled" : ""}
+            type="submit"
+            className="btn btn-primary mt-24"
+          >
             Kirim
           </button>
         </form>
