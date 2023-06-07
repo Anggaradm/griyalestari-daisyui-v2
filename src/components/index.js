@@ -2,6 +2,8 @@ import Copyright from "./atoms/Copyright";
 import LogoText from "./atoms/LogoText";
 import PhotoCard from "./atoms/PhotoCard";
 import About from "./molecules/About";
+import AddPaymentAdmin from "./molecules/AddPaymentAdmin";
+import AddPaymentMember from "./molecules/AddPaymentMember";
 import AdminProfile from "./molecules/AdminProfile";
 import AllRoomInfo from "./molecules/AllRoomInfo";
 import DashNav from "./molecules/DashNav";
@@ -18,6 +20,8 @@ import SingleRoomInfo from "./molecules/SingleRoomInfo";
 
 export {
   About,
+  AddPaymentAdmin,
+  AddPaymentMember,
   AdminProfile,
   AllRoomInfo,
   Copyright,

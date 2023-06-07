@@ -13,7 +13,7 @@ const DrawerDashboard = () => {
             {/* Sidebar content here */}
 
             <li>
-              <details open>
+              <details>
                 <summary>User</summary>
                 <ul>
                   <li>
@@ -24,11 +24,22 @@ const DrawerDashboard = () => {
             </li>
 
             <li>
-              <details open>
+              <details>
                 <summary>Kamar</summary>
                 <ul>
                   <li>
                     <Link to="/dashboard-roominfo">Info Kamar</Link>
+                  </li>
+                </ul>
+              </details>
+            </li>
+
+            <li>
+              <details>
+                <summary>Pembayaran</summary>
+                <ul>
+                  <li>
+                    <Link to="/dashboard-addpayment">Tambah Pembayaran</Link>
                   </li>
                 </ul>
               </details>
