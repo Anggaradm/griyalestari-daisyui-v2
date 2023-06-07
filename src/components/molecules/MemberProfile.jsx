@@ -1,5 +1,6 @@
 import React from "react";
 import * as Icon from "react-feather";
+import { Link } from "react-router-dom";
 
 const MemberProfile = () => {
   return (
@@ -32,9 +33,12 @@ const MemberProfile = () => {
             </span>
           </div>
           <div className="w-full">
-            <button className="btn btn-outline btn-ghost w-full mt-12">
+            <Link
+              to="/dashboard-editmember"
+              className="btn btn-outline btn-ghost w-full mt-12"
+            >
               Edit
-            </button>
+            </Link>
           </div>
         </div>
       </div>

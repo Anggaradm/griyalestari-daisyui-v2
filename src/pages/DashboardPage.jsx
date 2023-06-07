@@ -1,6 +1,13 @@
 import React from "react";
 import { Link, Route, Routes } from "react-router-dom";
-import { DashNav, EditMemberProfile, MemberProfile } from "../components";
+import {
+  AdminProfile,
+  AllRoomInfo,
+  DashNav,
+  EditMemberProfile,
+  MemberProfile,
+  SingleRoomInfo,
+} from "../components";
 
 const DashboardPage = () => {
   return (
@@ -12,11 +19,12 @@ const DashboardPage = () => {
         <div className="hero-content flex-col lg:flex-row-reverse">
           <div className="text-center lg:text-left">
             <Routes>
-              <Route path="/dashboard" element={<MemberProfile />} />
+              <Route path="/dashboard" element={<AdminProfile />} />
               <Route
                 path="/dashboard-editmember"
-                element={<EditMemberProfile />}
+                element={<EditMemberProfile userId="01" />}
               />
+              <Route path="/dashboard-roominfo" element={<SingleRoomInfo />} />
             </Routes>
           </div>
         </div>

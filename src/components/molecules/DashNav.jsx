@@ -31,7 +31,7 @@ const NavbarDashboard = () => {
           </div>
         </div>
         <div className="navbar-center">
-          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+          <Link className="btn btn-ghost normal-case text-xl">daisyUI</Link>
         </div>
         <div className="navbar-end">
           <div className="dropdown dropdown-bottom dropdown-end lg:hidden">
