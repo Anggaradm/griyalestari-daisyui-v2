@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import * as image from "../../assets";
+import * as image from "../../../assets";
 
 const SigninForm = () => {
   const [email, setEmail] = useState("");

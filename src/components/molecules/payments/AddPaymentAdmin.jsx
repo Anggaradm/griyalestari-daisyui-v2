@@ -26,7 +26,7 @@ const AddPaymentAdmin = () => {
             className="select select-bordered"
           >
             <option disabled value="">
-              Pick one
+              Pilih kamar
             </option>
             <option value="2A">2A</option>
           </select>

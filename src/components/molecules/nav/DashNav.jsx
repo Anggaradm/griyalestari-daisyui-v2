@@ -1,7 +1,7 @@
 import React from "react";
 import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
-import { DrawerDash } from "..";
+import { DrawerDash } from "../..";
 
 const NavbarDashboard = () => {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogoText from "../atoms/LogoText";
+import LogoText from "../../atoms/LogoText";
 
 const Navbar = () => {
   return (

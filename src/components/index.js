@@ -2,24 +2,25 @@ import Copyright from "./atoms/Copyright";
 import LogoText from "./atoms/LogoText";
 import PhotoCard from "./atoms/PhotoCard";
 import About from "./molecules/About";
-import AddMaintenance from "./molecules/AddMaintenance";
-import AddPaymentAdmin from "./molecules/AddPaymentAdmin";
-import AddPaymentMember from "./molecules/AddPaymentMember";
-import AdminPaymentHistory from "./molecules/AdminPaymentHistory";
-import AdminProfile from "./molecules/AdminProfile";
-import AllRoomInfo from "./molecules/AllRoomInfo";
-import DashNav from "./molecules/DashNav";
 import DrawerDash from "./molecules/DrawerDash";
-import EditMemberProfile from "./molecules/EditMemberProfile";
 import Footer from "./molecules/Footer";
 import Hero from "./molecules/Hero";
-import MemberPaymentHistory from "./molecules/MemberPaymentHistory";
-import MemberProfile from "./molecules/MemberProfile";
-import Navbar from "./molecules/Navbar";
 import Photos from "./molecules/Photos";
-import SigninForm from "./molecules/SigninForm";
-import SignupForm from "./molecules/SignupForm";
-import SingleRoomInfo from "./molecules/SingleRoomInfo";
+import AddMaintenance from "./molecules/maintenances/AddMaintenance";
+import MaintenanceTable from "./molecules/maintenances/MaintenanceTable";
+import DashNav from "./molecules/nav/DashNav";
+import Navbar from "./molecules/nav/Navbar";
+import AddPaymentAdmin from "./molecules/payments/AddPaymentAdmin";
+import AddPaymentMember from "./molecules/payments/AddPaymentMember";
+import AdminPaymentHistory from "./molecules/paymentshistory/AdminPaymentHistory";
+import MemberPaymentHistory from "./molecules/paymentshistory/MemberPaymentHistory";
+import AdminProfile from "./molecules/profiles/AdminProfile";
+import EditMemberProfile from "./molecules/profiles/EditMemberProfile";
+import MemberProfile from "./molecules/profiles/MemberProfile";
+import SigninForm from "./molecules/signforms/SigninForm";
+import SignupForm from "./molecules/signforms/SignupForm";
+import AllRoomInfo from "./roominfos/AllRoomInfo";
+import SingleRoomInfo from "./roominfos/SingleRoomInfo";
 
 export {
   About,
@@ -36,6 +37,7 @@ export {
   Footer,
   Hero,
   LogoText,
+  MaintenanceTable,
   MemberPaymentHistory,
   MemberProfile,
   Navbar,

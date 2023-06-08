@@ -28,7 +28,7 @@ const DrawerDashboard = () => {
                 <summary>Kamar</summary>
                 <ul>
                   <li>
-                    <Link to="/dashboard-roominfo">Info Kamar</Link>
+                    <Link to="/dashboard/roominfo">Informasi Kamar</Link>
                   </li>
                 </ul>
               </details>
@@ -39,10 +39,10 @@ const DrawerDashboard = () => {
                 <summary>Pembayaran</summary>
                 <ul>
                   <li>
-                    <Link to="/dashboard-addpayment">Tambah Pembayaran</Link>
+                    <Link to="/dashboard/addpayment">Tambah Pembayaran</Link>
                   </li>
                   <li>
-                    <Link to="/dashboard-paymenthistory">
+                    <Link to="/dashboard/paymenthistory">
                       Riwayat Pembayaran
                     </Link>
                   </li>
@@ -55,9 +55,7 @@ const DrawerDashboard = () => {
                 <summary>Pengeluaran</summary>
                 <ul>
                   <li>
-                    <Link to="/dashboard-addmaintenance">
-                      Tambah Pengeluaran
-                    </Link>
+                    <Link to="/dashboard/maintenance">Daftar Pengeluaran</Link>
                   </li>
                 </ul>
               </details>
