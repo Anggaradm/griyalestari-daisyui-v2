@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const AddRoom = () => {
+const EditRoom = () => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
@@ -20,9 +20,7 @@ const AddRoom = () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-        Tambah Kamar
-      </h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">Edit Kamar</h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         <form
           action=""
@@ -74,4 +72,4 @@ const AddRoom = () => {
   );
 };
 
-export default AddRoom;
+export default EditRoom;

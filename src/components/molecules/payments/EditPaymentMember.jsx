@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-const AddPaymentMember = () => {
+const EditPaymentMember = () => {
   const [image, setImage] = useState(null);
   const [isPopUp, setIsPopUp] = useState(false);
   const [imgPreview, setImgPreview] = useState(null);
@@ -57,4 +57,4 @@ const AddPaymentMember = () => {
   );
 };
 
-export default AddPaymentMember;
+export default EditPaymentMember;

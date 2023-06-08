@@ -32,11 +32,14 @@ const DashboardPage = () => {
                 path="/editmember"
                 element={<EditMemberProfile userId="01" />}
               />
-              <Route path="/roominfo" element={<AllRoomInfo />} />
+              <Route path="/roominfo/*" element={<AllRoomInfo />} />
               <Route path="/addroom" element={<AddRoom />} />
+              <Route
+                path="/paymenthistory/*"
+                element={<MemberPaymentHistory />}
+              />
               <Route path="/addpayment" element={<AddPaymentAdmin />} />
-              <Route path="/paymenthistory" element={<AdminPaymentHistory />} />
-              <Route path="/maintenance" element={<MaintenanceTable />} />
+              <Route path="/maintenance/*" element={<MaintenanceTable />} />
               <Route path="/addmaintenance" element={<AddMaintenance />} />
             </Routes>
           </div>
