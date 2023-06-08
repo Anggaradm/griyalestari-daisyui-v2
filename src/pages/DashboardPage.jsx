@@ -4,6 +4,7 @@ import {
   AddMaintenance,
   AddPaymentAdmin,
   AddPaymentMember,
+  AddRoom,
   AdminPaymentHistory,
   AdminProfile,
   AllRoomInfo,
@@ -26,18 +27,17 @@ const DashboardPage = () => {
         <div className="hero-content flex-col lg:flex-row-reverse w-full overflow-hidden">
           <div className="text-center lg:text-left">
             <Routes>
-              <Route path="/" element={<AdminProfile />} />
+              <Route path="/" element={<MemberProfile />} />
               <Route
                 path="/editmember"
                 element={<EditMemberProfile userId="01" />}
               />
               <Route path="/roominfo" element={<AllRoomInfo />} />
+              <Route path="/addroom" element={<AddRoom />} />
               <Route path="/addpayment" element={<AddPaymentAdmin />} />
-              <Route
-                path="/paymenthistory"
-                element={<MemberPaymentHistory />}
-              />
-              <Route path="/maintenance/*" element={<MaintenanceTable />} />
+              <Route path="/paymenthistory" element={<AdminPaymentHistory />} />
+              <Route path="/maintenance" element={<MaintenanceTable />} />
+              <Route path="/addmaintenance" element={<AddMaintenance />} />
             </Routes>
           </div>
         </div>

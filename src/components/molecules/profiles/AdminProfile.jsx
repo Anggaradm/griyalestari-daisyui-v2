@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const AdminProfile = () => {
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center">Admin Name</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">Admin Name</h1>
       <div className="py-6 flex flex-col items-center">
         <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
           <li>

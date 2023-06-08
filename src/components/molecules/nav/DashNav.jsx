@@ -52,6 +52,7 @@ const NavbarDashboard = () => {
               <li>
                 <Link to="/" className="btn btn-error btn-sm btn-outline">
                   Keluar
+                  <Icon.LogOut size={15} className="ml-2" />
                 </Link>
               </li>
             </ul>
@@ -60,8 +61,9 @@ const NavbarDashboard = () => {
             <Link to="/" className="btn btn-ghost">
               Beranda
             </Link>
-            <Link to="/" className="btn btn-error btn-outline">
+            <Link to="/" className="btn text-error">
               Keluar
+              <Icon.LogOut size={18} className="ml-2" />
             </Link>
           </div>
         </div>

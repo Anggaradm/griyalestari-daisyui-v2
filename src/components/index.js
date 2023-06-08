@@ -12,13 +12,14 @@ import DashNav from "./molecules/nav/DashNav";
 import Navbar from "./molecules/nav/Navbar";
 import AddPaymentAdmin from "./molecules/payments/AddPaymentAdmin";
 import AddPaymentMember from "./molecules/payments/AddPaymentMember";
-import AdminPaymentHistory from "./molecules/paymentshistory/AdminPaymentHistory";
-import MemberPaymentHistory from "./molecules/paymentshistory/MemberPaymentHistory";
+import AdminPaymentHistory from "./molecules/payments/AdminPaymentHistory";
+import MemberPaymentHistory from "./molecules/payments/MemberPaymentHistory";
 import AdminProfile from "./molecules/profiles/AdminProfile";
 import EditMemberProfile from "./molecules/profiles/EditMemberProfile";
 import MemberProfile from "./molecules/profiles/MemberProfile";
 import SigninForm from "./molecules/signforms/SigninForm";
 import SignupForm from "./molecules/signforms/SignupForm";
+import AddRoom from "./roominfos/AddRoom";
 import AllRoomInfo from "./roominfos/AllRoomInfo";
 import SingleRoomInfo from "./roominfos/SingleRoomInfo";
 
@@ -27,6 +28,7 @@ export {
   AddMaintenance,
   AddPaymentAdmin,
   AddPaymentMember,
+  AddRoom,
   AdminPaymentHistory,
   AdminProfile,
   AllRoomInfo,

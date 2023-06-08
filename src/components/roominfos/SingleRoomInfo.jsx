@@ -3,7 +3,9 @@ import React from "react";
 const SingleRoomInfo = () => {
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center">Kamar nomor 2A</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
+        Kamar nomor 2A
+      </h1>
       <div className="py-6 flex flex-col items-center">
         <div className="stats stats-vertical lg:stats-horizontal bg-base-100 text-primary-content">
           <div className="stat flex flex-col gap-2">

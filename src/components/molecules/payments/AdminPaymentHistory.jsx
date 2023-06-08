@@ -1,12 +1,22 @@
 import React from "react";
+import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 
-const MemberPaymentHistory = () => {
+const AdminPaymentHistory = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("delete");
+  };
+
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center">
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
         Riwayat Pembayaran
       </h1>
+      <Link to="/dashboard/addpayment" className="mx-6 mt-12 btn btn-primary">
+        Tambah Data
+        <Icon.PlusCircle size={20} />
+      </Link>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         <div className="overflow-x-auto w-full">
           <table className="table table-zebra table-pin-cols md:table-pin-rows">
@@ -17,7 +27,7 @@ const MemberPaymentHistory = () => {
                 <th>Kamar</th>
                 <th>Tanggal</th>
                 <th>Nominal</th>
-                <th className="text-center">Invoice</th>
+                <th>Pilihan</th>
               </tr>
             </thead>
             <tbody>
@@ -28,11 +38,19 @@ const MemberPaymentHistory = () => {
                 <td>27-5-2023</td>
                 <td>Rp 600.000</td>
                 <td>
-                  <div className="flex gap-2">
-                    <Link className="btn btn-sm btn-ghost btn-outline text-xs font-normal">
-                      Cetak
-                    </Link>
-                  </div>
+                  <form action="" onSubmit={handleSubmit}>
+                    <div className="flex gap-2">
+                      <Link className="btn btn-sm btn-ghost btn-outline text-xs font-normal">
+                        Edit
+                      </Link>
+                      <button
+                        type="submit"
+                        className="btn btn-sm btn-error btn-outline text-xs font-normal"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </form>
                 </td>
               </tr>
             </tbody>
@@ -48,4 +66,4 @@ const MemberPaymentHistory = () => {
   );
 };
 
-export default MemberPaymentHistory;
+export default AdminPaymentHistory;

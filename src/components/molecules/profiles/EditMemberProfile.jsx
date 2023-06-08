@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const EditMemberProfile = ({ userId }) => {
   const [name, setName] = useState("");
@@ -30,7 +31,9 @@ const EditMemberProfile = ({ userId }) => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4">Edit Member Profile</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
+        Edit Member Profile
+      </h1>
       <div className="py-6 flex flex-col items-center">
         <form
           action=""
@@ -88,10 +91,16 @@ const EditMemberProfile = ({ userId }) => {
               className="textarea textarea-bordered h-24"
             />
           </div>
-          <div className="mt-12 w-full flex flex-col items-center">
+          <div className="mt-12 w-full flex flex-col items-center gap-2">
             <button type="submit" className="btn btn-primary w-full max-w-xs">
               Kirim
             </button>
+            <Link
+              to="/dashboard"
+              className="btn btn-ghost btn-outline w-full max-w-xs"
+            >
+              Batal
+            </Link>
           </div>
         </form>
       </div>

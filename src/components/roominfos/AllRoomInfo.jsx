@@ -9,9 +9,20 @@ const AllRoomInfo = () => {
     setRoomTag(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("delete");
+  };
+
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center">Informasi Kamar</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
+        Informasi Kamar
+      </h1>
+      <Link to="/dashboard/addroom" className="mx-6 mt-12 btn btn-primary">
+        Tambah Data
+        <Icon.PlusCircle size={20} />
+      </Link>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         <div className="overflow-x-auto w-full">
           <table className="table table-zebra table-pin-cols md:table-pin-rows">
@@ -33,14 +44,19 @@ const AllRoomInfo = () => {
                 <td>2 orang</td>
                 <td>Rp 600.000</td>
                 <td>
-                  <div className="flex gap-2">
-                    <Link className="btn btn-sm btn-ghost btn-outline">
-                      <Icon.PenTool size={15} />
-                    </Link>
-                    <Link className="btn btn-sm btn-error">
-                      <Icon.Trash size={15} />
-                    </Link>
-                  </div>
+                  <form action="" onSubmit={handleSubmit}>
+                    <div className="flex gap-2">
+                      <Link className="btn btn-sm btn-ghost btn-outline text-xs font-normal">
+                        Edit
+                      </Link>
+                      <button
+                        type="submit"
+                        className="btn btn-sm btn-error btn-outline text-xs font-normal"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </form>
                 </td>
               </tr>
             </tbody>

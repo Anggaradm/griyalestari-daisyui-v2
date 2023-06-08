@@ -1,11 +1,10 @@
 import React from "react";
-import * as Icon from "react-feather";
 import { Link } from "react-router-dom";
 
-const AdminPaymentHistory = () => {
+const MemberPaymentHistory = () => {
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center">
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
         Riwayat Pembayaran
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
@@ -49,4 +48,4 @@ const AdminPaymentHistory = () => {
   );
 };
 
-export default AdminPaymentHistory;
+export default MemberPaymentHistory;

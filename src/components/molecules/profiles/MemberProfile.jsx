@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 const MemberProfile = () => {
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4">Member Profile</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
+        Member Profile
+      </h1>
       <div className="py-6 flex flex-col items-center">
         <div className="menu bg-base-200 w-56 rounded-box flex flex-col gap-4">
           <div className="flex gap-6">
@@ -34,7 +36,7 @@ const MemberProfile = () => {
           </div>
           <div className="w-full">
             <Link
-              to="/dashboard-editmember"
+              to="/dashboard/editmember"
               className="btn btn-outline btn-ghost w-full mt-12"
             >
               Edit
