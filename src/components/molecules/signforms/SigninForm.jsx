@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import * as image from "../../../assets";
+import { LoginUser, reset } from "../../../features/authSlice";
 
 const SigninForm = () => {
   const [email, setEmail] = useState("");
@@ -16,15 +18,34 @@ const SigninForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ email, password });
+    // console.log({ email, password });
+    dispatch(LoginUser({ email, password }));
   };
+
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError, isSuccess, isLoading, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (user || isSuccess) {
+      navigate("/dashboard");
+    }
+    dispatch(reset);
+  }, [user, dispatch, isSuccess, navigate]);
+
   return (
     <>
-      <div className="w-screen">
+      <div className="w-full">
         <div className="py-[4%] px-[6%] flex flex-col items-center gap-12">
           <div className="text-2xl lg:text-4xl font-bold">Signin</div>
 
           <form action="" onSubmit={handleSubmit}>
+            {isError && (
+              <p className="text-error text-center text-xs italic">{message}</p>
+            )}
             <div className="form-control w-full max-w-xs">
               <label htmlFor="emailInput" className="label">
                 <span className="label-text">Email</span>
@@ -55,7 +76,7 @@ const SigninForm = () => {
             </div>
             <div className="mt-12">
               <button type="submit" className="btn btn-primary w-full max-w-xs">
-                Masuk
+                {isLoading ? "Loading..." : "Masuk"}
               </button>
               <span className="text-xs text-center flex gap-1 justify-center mt-2">
                 Belum punya akun?
