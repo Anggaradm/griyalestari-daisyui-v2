@@ -10,6 +10,7 @@ import {
   AllRoomInfo,
   DashNav,
   EditMemberProfile,
+  FinancialsBook,
   Maintenance,
   MaintenanceTable,
   MemberPaymentHistory,
@@ -41,6 +42,7 @@ const DashboardPage = () => {
               <Route path="/addpayment" element={<AddPaymentAdmin />} />
               <Route path="/maintenance/*" element={<MaintenanceTable />} />
               <Route path="/addmaintenance" element={<AddMaintenance />} />
+              <Route path="/financial" element={<FinancialsBook />} />
             </Routes>
           </div>
         </div>

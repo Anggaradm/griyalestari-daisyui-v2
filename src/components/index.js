@@ -6,6 +6,7 @@ import DrawerDash from "./molecules/DrawerDash";
 import Footer from "./molecules/Footer";
 import Hero from "./molecules/Hero";
 import Photos from "./molecules/Photos";
+import FinancialsBook from "./molecules/financials/FinancialsBook";
 import AddMaintenance from "./molecules/maintenances/AddMaintenance";
 import MaintenanceTable from "./molecules/maintenances/MaintenanceTable";
 import DashNav from "./molecules/nav/DashNav";
@@ -36,6 +37,7 @@ export {
   DashNav,
   DrawerDash,
   EditMemberProfile,
+  FinancialsBook,
   Footer,
   Hero,
   LogoText,

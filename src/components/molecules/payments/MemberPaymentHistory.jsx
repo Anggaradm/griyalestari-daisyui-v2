@@ -1,4 +1,5 @@
 import React from "react";
+import * as Icon from "react-feather";
 import { Link, Route, Routes } from "react-router-dom";
 import EditPaymentMember from "./EditPaymentMember";
 
@@ -12,6 +13,13 @@ const MemberPaymentHistory = () => {
             <h1 className="text-4xl font-bold mb-4 text-center pt-12">
               Riwayat Pembayaran
             </h1>
+            <Link
+              to="/dashboard/addpayment"
+              className="mx-6 mt-12 btn btn-primary"
+            >
+              Tambah Data
+              <Icon.PlusCircle size={20} />
+            </Link>
             <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
               <div className="overflow-x-auto w-full">
                 <table className="table table-zebra table-pin-cols md:table-pin-rows">

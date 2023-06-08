@@ -68,6 +68,17 @@ const DrawerDashboard = () => {
                 </ul>
               </details>
             </li>
+
+            <li>
+              <details>
+                <summary>Keuangan</summary>
+                <ul>
+                  <li>
+                    <Link to="/dashboard/financial">Catatan Keuangan</Link>
+                  </li>
+                </ul>
+              </details>
+            </li>
           </ul>
         </div>
       </div>
