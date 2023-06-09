@@ -7,6 +7,7 @@ import { LoginUser, reset } from "../../../features/authSlice";
 const SigninForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoadError, setIsLoadError] = useState(false);
 
   const handleChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -33,8 +34,15 @@ const SigninForm = () => {
     if (user || isSuccess) {
       navigate("/dashboard");
     }
+    if (isError) {
+      setIsLoadError(true);
+      setTimeout(() => {
+        dispatch(reset());
+        setIsLoadError(false);
+      }, 3000);
+    }
     dispatch(reset);
-  }, [user, dispatch, isSuccess, navigate]);
+  }, [user, dispatch, isSuccess, navigate, isError]);
 
   return (
     <>
@@ -75,7 +83,11 @@ const SigninForm = () => {
               />
             </div>
             <div className="mt-12">
-              <button type="submit" className="btn btn-primary w-full max-w-xs">
+              <button
+                type="submit"
+                disabled={isLoadError ? "disabled" : ""}
+                className="btn btn-primary w-full max-w-xs"
+              >
                 {isLoading ? "Loading..." : "Masuk"}
               </button>
               <span className="text-xs text-center flex gap-1 justify-center mt-2">
