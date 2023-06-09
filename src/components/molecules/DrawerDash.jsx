@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const DrawerDashboard = () => {
+  const { user } = useSelector((state) => state.auth);
+
   return (
     <>
       <div className="drawer z-50">
@@ -30,9 +33,13 @@ const DrawerDashboard = () => {
                   <li>
                     <Link to="/dashboard/roominfo">Informasi Kamar</Link>
                   </li>
-                  <li>
-                    <Link to="/dashboard/addroom">Tambah Kamar</Link>
-                  </li>
+                  {user && user.userStatus === "admin" ? (
+                    <li>
+                      <Link to="/dashboard/addroom">Tambah Kamar</Link>
+                    </li>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </details>
             </li>
@@ -53,32 +60,43 @@ const DrawerDashboard = () => {
               </details>
             </li>
 
-            <li>
-              <details>
-                <summary>Pengeluaran</summary>
-                <ul>
+            {user &&
+              (user.userStatus === "admin" ? (
+                <>
                   <li>
-                    <Link to="/dashboard/maintenance">Daftar Pengeluaran</Link>
+                    <details>
+                      <summary>Pengeluaran</summary>
+                      <ul>
+                        <li>
+                          <Link to="/dashboard/maintenance">
+                            Daftar Pengeluaran
+                          </Link>
+                        </li>
+                        <li>
+                          <Link to="/dashboard/addmaintenance">
+                            Tambah Pengeluaran
+                          </Link>
+                        </li>
+                      </ul>
+                    </details>
                   </li>
-                  <li>
-                    <Link to="/dashboard/addmaintenance">
-                      Tambah Pengeluaran
-                    </Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
 
-            <li>
-              <details>
-                <summary>Keuangan</summary>
-                <ul>
                   <li>
-                    <Link to="/dashboard/financial">Catatan Keuangan</Link>
+                    <details>
+                      <summary>Keuangan</summary>
+                      <ul>
+                        <li>
+                          <Link to="/dashboard/financial">
+                            Catatan Keuangan
+                          </Link>
+                        </li>
+                      </ul>
+                    </details>
                   </li>
-                </ul>
-              </details>
-            </li>
+                </>
+              ) : (
+                ""
+              ))}
           </ul>
         </div>
       </div>

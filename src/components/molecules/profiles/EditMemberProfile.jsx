@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 
 const EditMemberProfile = ({ userId }) => {
   const [name, setName] = useState("");
@@ -28,6 +30,21 @@ const EditMemberProfile = ({ userId }) => {
     e.preventDefault();
     console.log({ name, phone, company, address });
   };
+
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
 
   return (
     <>

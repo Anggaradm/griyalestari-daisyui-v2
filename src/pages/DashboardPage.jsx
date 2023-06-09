@@ -19,12 +19,13 @@ import {
   SingleRoomInfo,
 } from "../components";
 import { getMe } from "../features/authSlice";
+import NotFoundPage from "./NotFoundPage";
 
 const DashboardPage = () => {
   // consumeAPI
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
+  const { isError, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getMe());
@@ -32,7 +33,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     if (isError) {
-      navigate("/signin");
+      window.location.href = "/signin";
     }
   }, [isError, navigate]);
 
@@ -45,18 +46,63 @@ const DashboardPage = () => {
         <div className="hero-content flex-col lg:flex-row-reverse w-full overflow-hidden">
           <div className="text-center lg:text-left">
             <Routes>
-              <Route path="/" element={<MemberProfile />} />
+              <Route
+                path="/"
+                element={
+                  user &&
+                  (user.userStatus === "admin" ? (
+                    <AdminProfile />
+                  ) : user.userStatus === "member" ? (
+                    <MemberProfile />
+                  ) : (
+                    <NotFoundPage />
+                  ))
+                }
+              />
               <Route
                 path="/editmember"
                 element={<EditMemberProfile userId="01" />}
               />
-              <Route path="/roominfo/*" element={<AllRoomInfo />} />
+              <Route
+                path="/roominfo/*"
+                element={
+                  user &&
+                  (user.userStatus === "admin" ? (
+                    <AllRoomInfo />
+                  ) : user.userStatus === "member" ? (
+                    <SingleRoomInfo />
+                  ) : (
+                    <NotFoundPage />
+                  ))
+                }
+              />
               <Route path="/addroom" element={<AddRoom />} />
               <Route
                 path="/paymenthistory/*"
-                element={<MemberPaymentHistory />}
+                element={
+                  user &&
+                  (user.userStatus === "admin" ? (
+                    <AdminPaymentHistory />
+                  ) : user.userStatus === "member" ? (
+                    <MemberPaymentHistory />
+                  ) : (
+                    <NotFoundPage />
+                  ))
+                }
               />
-              <Route path="/addpayment" element={<AddPaymentAdmin />} />
+              <Route
+                path="/addpayment"
+                element={
+                  user &&
+                  (user.userStatus === "admin" ? (
+                    <AddPaymentAdmin />
+                  ) : user.userStatus === "member" ? (
+                    <AddPaymentMember />
+                  ) : (
+                    <NotFoundPage />
+                  ))
+                }
+              />
               <Route path="/maintenance/*" element={<MaintenanceTable />} />
               <Route path="/addmaintenance" element={<AddMaintenance />} />
               <Route path="/financial" element={<FinancialsBook />} />

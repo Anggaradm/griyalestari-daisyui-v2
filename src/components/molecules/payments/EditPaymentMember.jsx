@@ -1,5 +1,7 @@
-import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 
 const EditPaymentMember = () => {
   const [image, setImage] = useState(null);
@@ -17,6 +19,27 @@ const EditPaymentMember = () => {
     e.preventDefault();
     console.log(image);
   };
+
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
+
+  useEffect(() => {
+    if (user && user.userStatus !== "member") {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   return (
     <>

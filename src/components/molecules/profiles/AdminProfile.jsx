@@ -1,8 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as Icon from "react-feather";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 
 const AdminProfile = () => {
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
+
+  useEffect(() => {
+    if (user && user.userStatus !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">Admin Name</h1>

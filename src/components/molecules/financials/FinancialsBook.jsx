@@ -1,19 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 
 const FinancialsBook = () => {
   const [category, setCategory] = useState("Hari ini");
 
   // consumeAPI
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((state) => state.auth);
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
 
   useEffect(() => {
     if (user && user.userStatus !== "admin") {
       navigate("/dashboard");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <>

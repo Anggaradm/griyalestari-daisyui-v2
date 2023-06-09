@@ -1,12 +1,48 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
-import { Link, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 import EditMaintenance from "./EditMaintenance";
 
 const MaintenanceTable = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("delete");
+  };
+
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
+
+  useEffect(() => {
+    if (user && user.userStatus !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [maintenances, setMaintenances] = useState([]);
+
+  useEffect(() => {
+    getMaintenances();
+  }, []);
+
+  const getMaintenances = async () => {
+    const response = await axios.get(`${serverUrl}/maintenances`);
+    setMaintenances(response.data.datas);
   };
 
   return (
@@ -39,31 +75,40 @@ const MaintenanceTable = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* row 1 */}
-                    <tr>
-                      <th>1</th>
-                      <th>Membeli lampu</th>
-                      <td>27-5-2023</td>
-                      <td>Rp 600.000</td>
-                      <td>
-                        <form action="" onSubmit={handleSubmit}>
-                          <div className="flex gap-2">
-                            <Link
-                              to={`/dashboard/maintenance/wefnewfe7`}
-                              className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-                            >
-                              Edit
-                            </Link>
-                            <button
-                              type="submit"
-                              className="btn btn-sm btn-error btn-outline text-xs font-normal"
-                            >
-                              Hapus
-                            </button>
-                          </div>
-                        </form>
-                      </td>
-                    </tr>
+                    {/* row mapping */}
+                    {maintenances.map((maintenance, index) => (
+                      <tr key={maintenance._id}>
+                        <th>{index + 1}</th>
+                        <th>
+                          {maintenance.mtType === "newBuy"
+                            ? "Membeli"
+                            : maintenance.mtType === "repair"
+                            ? "Perbaikan"
+                            : ""}{" "}
+                          {maintenance.mtName}
+                        </th>
+                        <td>{maintenance.mtDate}</td>
+                        <td>{maintenance.mtCost}</td>
+                        <td>
+                          <form action="" onSubmit={handleSubmit}>
+                            <div className="flex gap-2">
+                              <Link
+                                to={`/dashboard/maintenance/wefnewfe7`}
+                                className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                              >
+                                Edit
+                              </Link>
+                              <button
+                                type="submit"
+                                className="btn btn-sm btn-error btn-outline text-xs font-normal"
+                              >
+                                Hapus
+                              </button>
+                            </div>
+                          </form>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

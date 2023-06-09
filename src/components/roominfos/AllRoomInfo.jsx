@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
-import { Link, Route, Routes } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { getMe } from "../../features/authSlice";
 import EditRoom from "./EditRoom";
 
 const AllRoomInfo = () => {
@@ -13,6 +16,39 @@ const AllRoomInfo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("delete");
+  };
+
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
+
+  useEffect(() => {
+    if (user && user.userStatus !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  const getRooms = async () => {
+    const response = await axios.get(`${serverUrl}/rooms`);
+    setRooms(response.data);
   };
 
   return (
@@ -45,31 +81,70 @@ const AllRoomInfo = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {/* row 1 */}
-                    <tr>
-                      <th>1</th>
-                      <th>1{roomTag}</th>
-                      <td>2 orang</td>
-                      <td>Rp 600.000</td>
-                      <td>
-                        <form action="" onSubmit={handleSubmit}>
-                          <div className="flex gap-2">
-                            <Link
-                              to={`/dashboard/roominfo/gnweignewi4`}
-                              className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-                            >
-                              Edit
-                            </Link>
-                            <button
-                              type="submit"
-                              className="btn btn-sm btn-error btn-outline text-xs font-normal"
-                            >
-                              Hapus
-                            </button>
+                    {/* row mapping */}
+                    {rooms.map((room, index) => (
+                      <tr key={room._id}>
+                        <th>{index + 1}</th>
+                        <th>{room.roomNumber + room.roomTag}</th>
+                        <td>{room.userId.length}</td>
+                        <td>{room.price}</td>
+                        <td>
+                          <div>
+                            <div className="flex gap-2">
+                              <Link
+                                to={`/dashboard/roominfo/${room._id}`}
+                                className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                              >
+                                Edit
+                              </Link>
+                              <label
+                                htmlFor="my_modal_6"
+                                className="btn btn-sm btn-error btn-outline text-xs font-normal"
+                              >
+                                Hapus
+                              </label>
+
+                              {/* The button to open modal */}
+
+                              {/* Put this part before </body> tag */}
+                              <input
+                                type="checkbox"
+                                id="my_modal_6"
+                                className="modal-toggle"
+                              />
+                              <div className="modal">
+                                <div className="modal-box">
+                                  <h3 className="font-bold text-lg text-warning flex items-center gap-1">
+                                    <Icon.AlertCircle size={20} /> Peringatan
+                                  </h3>
+                                  <p className="py-4">
+                                    Anda yakin ingin menghapus kamar{" "}
+                                    {room.roomNumber + room.roomTag}?
+                                  </p>
+                                  <div className="modal-action">
+                                    <label
+                                      htmlFor="my_modal_6"
+                                      className="btn btn-outline"
+                                    >
+                                      Tidak
+                                    </label>
+                                    <button
+                                      className="btn"
+                                      onClick={(e) => {
+                                        e.preventDefault();
+                                        console.log({ roomId: room._id });
+                                      }}
+                                    >
+                                      Ya
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
-                        </form>
-                      </td>
-                    </tr>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

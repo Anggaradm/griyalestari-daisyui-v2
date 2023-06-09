@@ -50,7 +50,9 @@ const NavbarDashboard = () => {
           </div>
         </div>
         <div className="navbar-center">
-          <Link className="btn btn-ghost normal-case text-xl">daisyUI</Link>
+          <Link className="btn btn-ghost normal-case text-xl">
+            {user && user.userStatus}
+          </Link>
         </div>
         <div className="navbar-end">
           <div className="dropdown dropdown-bottom dropdown-end lg:hidden">

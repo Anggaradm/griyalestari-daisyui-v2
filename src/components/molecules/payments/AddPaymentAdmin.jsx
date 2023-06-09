@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 
 const AddPaymentAdmin = () => {
   const [roomId, setRoomId] = useState("");
@@ -11,6 +14,39 @@ const AddPaymentAdmin = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({ roomId });
+  };
+
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
+
+  useEffect(() => {
+    if (user && user.userStatus !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    getRooms();
+  }, []);
+
+  const getRooms = async () => {
+    const response = await axios.get(`${serverUrl}/rooms`);
+    setRooms(response.data);
   };
 
   return (
@@ -31,7 +67,12 @@ const AddPaymentAdmin = () => {
             <option disabled value="">
               Pilih kamar
             </option>
-            <option value="2A">2A</option>
+            {rooms.map((room) => (
+              <option key={room._id} value={room._id}>
+                {room.roomNumber}
+                {room.roomTag}
+              </option>
+            ))}
           </select>
           <button
             disabled={!roomId ? "disabled" : ""}
