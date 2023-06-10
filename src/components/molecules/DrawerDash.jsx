@@ -69,7 +69,7 @@ const DrawerDashboard = () => {
                       <ul>
                         <li>
                           <Link to="/dashboard/maintenance">
-                            Daftar Pengeluaran
+                            Data Pengeluaran
                           </Link>
                         </li>
                         <li>

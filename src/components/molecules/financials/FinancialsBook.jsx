@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
@@ -25,6 +26,7 @@ const FinancialsBook = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user, isError } = useSelector((state) => state.auth);
+  const [apiEndPoint, setApiEndPoint] = useState("");
 
   useEffect(() => {
     dispatch(getMe());
@@ -47,15 +49,61 @@ const FinancialsBook = () => {
 
   useEffect(() => {
     getFinancials();
-  }, []);
+  }, [apiEndPoint]);
 
-  useEffect(() => {
-    console.log(financials);
-  }, [financials]);
+  // useEffect(() => {
+  //   console.log(financials);
+  // }, [financials]);
 
   const getFinancials = async () => {
-    const response = await axios.get(`${serverUrl}/financials`);
+    const response = await axios.get(`${serverUrl}/financials${apiEndPoint}`);
     setFinancials(response.data);
+  };
+
+  // ########pagination########
+  const [currentPagePayments, setCurrentPagePayments] = useState(1);
+  const [currentPageMaintenances, setCurrentPageMaintenances] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5); // jumlah item per page
+  // inisialisasi data array
+  const paymentsData = financials?.paymentData;
+  const maintenancesData = financials?.maintenanceData;
+
+  // menghitung total page
+  const totalPagePayments = Math.ceil(paymentsData?.length / itemsPerPage);
+  const totalPageMaintenances = Math.ceil(
+    maintenancesData?.length / itemsPerPage
+  );
+
+  // mengambil data halaman saat ini
+  const indexOfLastItemPayments = currentPagePayments * itemsPerPage;
+  const indexOfFirstItemPayments = indexOfLastItemPayments - itemsPerPage;
+  const currentItemsPayments = paymentsData?.slice(
+    indexOfFirstItemPayments,
+    indexOfLastItemPayments
+  );
+
+  const indexOfLastItemMaintenances = currentPageMaintenances * itemsPerPage;
+  const indexOfFirstItemMaintenances =
+    indexOfLastItemMaintenances - itemsPerPage;
+  const currentItemsMaintenances = maintenancesData?.slice(
+    indexOfFirstItemMaintenances,
+    indexOfLastItemMaintenances
+  );
+
+  // previous page
+  const prevPagePayments = (pageNumber) => {
+    setCurrentPagePayments(pageNumber);
+  };
+  const prevPageMaintenances = (pageNumber) => {
+    setCurrentPageMaintenances((pageNumber) => pageNumber - 1);
+  };
+
+  // next page
+  const nextPagePayments = (pageNumber) => {
+    setCurrentPagePayments((pageNumber) => pageNumber + 1);
+  };
+  const nextPageMaintenances = (pageNumber) => {
+    setCurrentPageMaintenances((pageNumber) => pageNumber + 1);
   };
 
   return (
@@ -67,31 +115,46 @@ const FinancialsBook = () => {
       <div className="py-6 flex flex-col items-center lg:items-start w-screen px-6 lg:w-full">
         <div className="btn-group pt-4 pb-12 flex flex-wrap">
           <button
-            onClick={() => setCategory("")}
+            onClick={() => {
+              setCategory("");
+              setApiEndPoint("");
+            }}
             className="btn btn-ghost underline underline-offset-2"
           >
             Semua
           </button>
           <button
-            onClick={() => setCategory("Hari ini")}
+            onClick={() => {
+              setCategory("Hari ini");
+              setApiEndPoint("/today");
+            }}
             className="btn btn-ghost underline underline-offset-2"
           >
             Hari ini
           </button>
           <button
-            onClick={() => setCategory("Minggu ini")}
+            onClick={() => {
+              setCategory("Minggu ini");
+              setApiEndPoint("/week");
+            }}
             className="btn btn-ghost underline underline-offset-2"
           >
             Minggu ini
           </button>
           <button
-            onClick={() => setCategory("Minggu lalu")}
+            onClick={() => {
+              setCategory("Minggu lalu");
+              setApiEndPoint("/last-week");
+            }}
             className="btn btn-ghost underline underline-offset-2"
           >
             Minggu lalu
           </button>
           <button
-            onClick={() => setCategory("Bulan ini")}
+            onClick={() => {
+              setCategory("Bulan ini");
+              setApiEndPoint("/month");
+            }}
             className="btn btn-ghost underline underline-offset-2"
           >
             Bulan ini
@@ -99,6 +162,14 @@ const FinancialsBook = () => {
         </div>
         <div className="w-full flex flex-col gap-10">
           <div className="w-full">
+            {financials?.income === 0 && financials?.outcome === 0 ? (
+              <div className="alert text-warning">
+                <Icon.AlertCircle size={20} />
+                <span>Tidak Ada Catatan {category}</span>
+              </div>
+            ) : (
+              ""
+            )}
             <div className="my-2">
               <h3>Profit</h3>
             </div>
@@ -139,6 +210,8 @@ const FinancialsBook = () => {
               </table>
             </div>
           </div>
+
+          {/* pemasukan */}
           <div className="w-full">
             <div className="my-2">
               <h3>Detail Pemasukan</h3>
@@ -148,35 +221,67 @@ const FinancialsBook = () => {
                 {/* head */}
                 <thead>
                   <tr>
-                    <td></td>
+                    <th></th>
                     <td>Kamar</td>
                     <td>Tanggal</td>
-                    <td>Nominal</td>
+                    <th>Nominal</th>
                   </tr>
                 </thead>
                 <tbody>
                   {/* row mapping */}
-                  {financials?.paymentData?.map((payment, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {payment.roomId?.roomNumber}
-                        {payment.roomId?.roomTag}
-                      </td>
-                      <td>{payment.createdAt}</td>
-                      <td>{currency(payment.price)}</td>
-                    </tr>
-                  ))}
+                  {currentItemsPayments
+                    ?.sort(
+                      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                    )
+                    ?.map((payment, index) => (
+                      <tr key={index}>
+                        <th>
+                          {index + 1 + (currentPagePayments - 1) * itemsPerPage}
+                        </th>
+                        <td>
+                          {payment.roomId?.roomNumber}
+                          {payment.roomId?.roomTag}
+                        </td>
+                        <td>{payment.createdAt?.toString().slice(0, 10)}</td>
+                        <th>{currency(payment.price)}</th>
+                      </tr>
+                    ))}
                 </tbody>
                 <tfoot>
                   <tr className="text-accent">
-                    <td colSpan="3">Total</td>
-                    <td>Rp 300000</td>
+                    <th colSpan="3">Total</th>
+                    <th>{currency(financials.income)}</th>
                   </tr>
                 </tfoot>
               </table>
             </div>
+            <div className="join mt-1">
+              <button
+                onClick={prevPagePayments}
+                className="join-item btn"
+                disabled={currentPagePayments === 1}
+              >
+                «
+              </button>
+              <button className="join-item btn">
+                halaman {currentPagePayments}
+              </button>
+              <button
+                onClick={nextPagePayments}
+                className="join-item btn"
+                disabled={
+                  currentPagePayments === totalPagePayments ||
+                  totalPagePayments === 0
+                    ? "disabled"
+                    : ""
+                }
+              >
+                »
+              </button>
+            </div>
           </div>
+
+          {/* pengeluaran */}
           <div className="w-full">
             <div className="my-2">
               <h3>Detail Pengeluaran</h3>
@@ -186,44 +291,69 @@ const FinancialsBook = () => {
                 {/* head */}
                 <thead>
                   <tr>
-                    <td></td>
+                    <th></th>
                     <td>Keterangan</td>
                     <td>Tanggal</td>
-                    <td>Biaya</td>
+                    <th>Biaya</th>
                   </tr>
                 </thead>
                 <tbody>
                   {/* row mapping */}
-                  {financials?.maintenanceData?.map((maintenance, index) => (
-                    <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>
-                        {maintenance.mtType === "newBuy"
-                          ? "Membeli"
-                          : maintenance.mtType === "repair"
-                          ? "Perbaikan"
-                          : ""}{" "}
-                        {maintenance.mtName}
-                      </td>
-                      <td>{maintenance.mtDate}</td>
-                      <td>{currency(maintenance.mtCost)}</td>
-                    </tr>
-                  ))}
+                  {currentItemsMaintenances
+                    ?.sort((a, b) => new Date(b.mtDate) - new Date(a.mtDate))
+                    .map((maintenance, index) => (
+                      <tr key={index}>
+                        <th>
+                          {index +
+                            1 +
+                            (currentPageMaintenances - 1) * itemsPerPage}
+                        </th>
+                        <td>
+                          {maintenance.mtType === "newBuy"
+                            ? "Membeli"
+                            : maintenance.mtType === "repair"
+                            ? "Perbaikan"
+                            : ""}{" "}
+                          {maintenance.mtName}
+                        </td>
+                        <td>{maintenance.mtDate?.toString().slice(0, 10)}</td>
+                        <th>{currency(maintenance.mtCost)}</th>
+                      </tr>
+                    ))}
                 </tbody>
                 <tfoot>
                   <tr className="text-error">
-                    <td colSpan="3">Total</td>
-                    <td>{currency(financials.outcome)}</td>
+                    <th colSpan="3">Total</th>
+                    <th>{currency(financials.outcome)}</th>
                   </tr>
                 </tfoot>
               </table>
             </div>
+            <div className="join mt-1">
+              <button
+                onClick={prevPageMaintenances}
+                className="join-item btn"
+                disabled={currentPageMaintenances === 1}
+              >
+                «
+              </button>
+              <button className="join-item btn">
+                halaman {currentPageMaintenances}
+              </button>
+              <button
+                onClick={nextPageMaintenances}
+                className="join-item btn"
+                disabled={
+                  currentPageMaintenances === totalPageMaintenances ||
+                  totalPageMaintenances === 0
+                    ? "disabled"
+                    : ""
+                }
+              >
+                »
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="join mt-12">
-          <button className="join-item btn">«</button>
-          <button className="join-item btn">Page 22</button>
-          <button className="join-item btn">»</button>
         </div>
       </div>
     </>

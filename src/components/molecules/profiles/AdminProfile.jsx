@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,23 +27,50 @@ const AdminProfile = () => {
     }
   }, [user, navigate]);
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [users, setUsers] = useState([]);
+  const [payments, setPayments] = useState([]);
+
+  const getUsers = async () => {
+    const response = await axios.get(`${serverUrl}/users`);
+    const datas = response.data?.filter((user) => user.userStatus !== "guest");
+    setUsers(datas);
+  };
+
+  const getPayments = async () => {
+    const response = await axios.get(`${serverUrl}/payments`);
+    const datas = response.data?.datas?.filter(
+      (payment) => payment.status === "pending"
+    );
+    setPayments(datas);
+  };
+
+  useEffect(() => {
+    getUsers();
+    getPayments();
+  }, []);
+
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center pt-12">Admin Name</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">{user.name}</h1>
       <div className="py-6 flex flex-col items-center">
         <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
-          <li>
+          <li className="indicator">
             <Link>
               <Icon.Users size={15} />
               Daftar Booking
-              <span className="badge badge-sm">99+</span>
+              <span className="indicator-item badge badge-secondary badge-sm">
+                {users?.length} menunggu..
+              </span>
             </Link>
           </li>
-          <li>
-            <Link>
+          <li className="indicator">
+            <Link to="/dashboard/paymenthistory">
               <Icon.CheckCircle size={15} />
               Terima Pembayaran
-              <span className="badge badge-sm">99+</span>
+              <span className="indicator-item badge badge-secondary badge-sm">
+                {payments?.length} menunggu..
+              </span>
             </Link>
           </li>
         </ul>

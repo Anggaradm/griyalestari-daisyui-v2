@@ -7,7 +7,8 @@ import { getMe } from "../../features/authSlice";
 import EditRoom from "./EditRoom";
 
 const AllRoomInfo = () => {
-  const [roomTag, setRoomTag] = useState("A");
+  const [roomTag, setRoomTag] = useState("");
+  const [roomTags, setRoomTags] = useState([]);
 
   const handleRoomTag = (e) => {
     setRoomTag(e.target.value);
@@ -48,7 +49,28 @@ const AllRoomInfo = () => {
 
   const getRooms = async () => {
     const response = await axios.get(`${serverUrl}/rooms`);
-    setRooms(response.data);
+    const datas = response.data;
+    setRooms(datas);
+
+    const roomTags = datas?.map((room) => room.roomTag);
+    const uniqueRoomTags = [...new Set(roomTags)];
+    setRoomTags(uniqueRoomTags);
+    setRoomTag(uniqueRoomTags[0]);
+  };
+
+  //currency
+  const currency = (price) => {
+    // Menambahkan format rupiah dengan opsi lain
+    if (price) {
+      const formatted = price.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return formatted;
+    }
+    return "Rp 0";
   };
 
   return (
@@ -73,7 +95,6 @@ const AllRoomInfo = () => {
                   {/* head */}
                   <thead>
                     <tr>
-                      <th></th>
                       <th>Kamar</th>
                       <th>Jumlah penghuni</th>
                       <th>Tagihan</th>
@@ -82,94 +103,92 @@ const AllRoomInfo = () => {
                   </thead>
                   <tbody>
                     {/* row mapping */}
-                    {rooms.map((room, index) => (
-                      <tr key={room._id}>
-                        <th>{index + 1}</th>
-                        <th>{room.roomNumber + room.roomTag}</th>
-                        <td>{room.userId.length}</td>
-                        <td>{room.price}</td>
-                        <td>
-                          <div>
-                            <div className="flex gap-2">
-                              <Link
-                                to={`/dashboard/roominfo/${room._id}`}
-                                className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-                              >
-                                Edit
-                              </Link>
-                              <label
-                                htmlFor="my_modal_6"
-                                className="btn btn-sm btn-error btn-outline text-xs font-normal"
-                              >
-                                Hapus
-                              </label>
+                    {rooms
+                      ?.filter((room) => room.roomTag === roomTag)
+                      .sort((a, b) => a.roomNumber - b.roomNumber)
+                      .map((room, index) => (
+                        <tr key={room._id}>
+                          <th>
+                            {room.roomNumber}
+                            {room.roomTag}
+                          </th>
+                          <td className={`${room.isEmpty && "italic text-xs"}`}>
+                            {!room.isEmpty
+                              ? room.userId?.length
+                              : "kamar kosong"}
+                          </td>
+                          <td>{currency(room.price)}</td>
+                          <td>
+                            <div>
+                              <div className="flex gap-2">
+                                <Link
+                                  to={`/dashboard/roominfo/${room._id}`}
+                                  className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                                >
+                                  Edit
+                                </Link>
+                                <label
+                                  htmlFor="my_modal_6"
+                                  className="btn btn-sm btn-error btn-outline text-xs font-normal"
+                                >
+                                  Hapus
+                                </label>
 
-                              {/* The button to open modal */}
+                                {/* The button to open modal */}
 
-                              {/* Put this part before </body> tag */}
-                              <input
-                                type="checkbox"
-                                id="my_modal_6"
-                                className="modal-toggle"
-                              />
-                              <div className="modal">
-                                <div className="modal-box">
-                                  <h3 className="font-bold text-lg text-warning flex items-center gap-1">
-                                    <Icon.AlertCircle size={20} /> Peringatan
-                                  </h3>
-                                  <p className="py-4">
-                                    Anda yakin ingin menghapus kamar{" "}
-                                    {room.roomNumber + room.roomTag}?
-                                  </p>
-                                  <div className="modal-action">
-                                    <label
-                                      htmlFor="my_modal_6"
-                                      className="btn btn-outline"
-                                    >
-                                      Tidak
-                                    </label>
-                                    <button
-                                      className="btn"
-                                      onClick={(e) => {
-                                        e.preventDefault();
-                                        console.log({ roomId: room._id });
-                                      }}
-                                    >
-                                      Ya
-                                    </button>
+                                {/* Put this part before </body> tag */}
+                                <input
+                                  type="checkbox"
+                                  id="my_modal_6"
+                                  className="modal-toggle"
+                                />
+                                <div className="modal">
+                                  <div className="modal-box">
+                                    <h3 className="font-bold text-lg text-warning flex items-center gap-1">
+                                      <Icon.AlertCircle size={20} /> Peringatan
+                                    </h3>
+                                    <p className="py-4">
+                                      Anda yakin ingin menghapus kamar{" "}
+                                      {room.roomNumber + room.roomTag}?
+                                    </p>
+                                    <div className="modal-action">
+                                      <label
+                                        htmlFor="my_modal_6"
+                                        className="btn btn-outline"
+                                      >
+                                        Tidak
+                                      </label>
+                                      <button
+                                        className="btn"
+                                        onClick={(e) => {
+                                          e.preventDefault();
+                                          console.log({ roomId: room._id });
+                                        }}
+                                      >
+                                        Ya
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
               <div className="btn-group btn-group-horizontal mt-12">
-                <button
-                  onClick={handleRoomTag}
-                  value="A"
-                  className="btn btn-outline"
-                >
-                  A
-                </button>
-                <button
-                  onClick={handleRoomTag}
-                  value="B"
-                  className="btn btn-outline"
-                >
-                  B
-                </button>
-                <button
-                  onClick={handleRoomTag}
-                  value="C"
-                  className="btn btn-outline"
-                >
-                  C
-                </button>
+                {roomTags?.map((roomTag, index) => (
+                  <button
+                    key={index}
+                    onClick={handleRoomTag}
+                    value={roomTag}
+                    className="btn btn-outline"
+                  >
+                    {roomTag}
+                  </button>
+                ))}
               </div>
             </div>
           </>

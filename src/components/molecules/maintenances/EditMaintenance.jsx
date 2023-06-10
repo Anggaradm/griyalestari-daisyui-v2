@@ -56,7 +56,7 @@ const EditMaintenance = () => {
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-        Tambah Pengeluaran
+        Edit Pengeluaran
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         <form

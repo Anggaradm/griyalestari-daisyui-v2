@@ -45,6 +45,42 @@ const MaintenanceTable = () => {
     setMaintenances(response.data.datas);
   };
 
+  //currency
+  const currency = (price) => {
+    // Menambahkan format rupiah dengan opsi lain
+    if (price) {
+      const formatted = price.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return formatted;
+    }
+    return "Rp 0";
+  };
+
+  // #######pagination########
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+
+  const totalPages = Math.ceil(maintenances?.length / itemsPerPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const maintenanceItems = maintenances?.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const handleNextPage = (pageNumber) => {
+    setCurrentPage((pageNumber) => pageNumber + 1);
+  };
+
+  const handlePrevPage = (pageNumber) => {
+    setCurrentPage((pageNumber) => pageNumber - 1);
+  };
+
   return (
     <Routes>
       <Route
@@ -52,7 +88,7 @@ const MaintenanceTable = () => {
         element={
           <>
             <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-              Edit Pengeluaran
+              Data Pengeluaran
             </h1>
             <Link
               to="/dashboard/addmaintenance"
@@ -76,46 +112,64 @@ const MaintenanceTable = () => {
                   </thead>
                   <tbody>
                     {/* row mapping */}
-                    {maintenances.map((maintenance, index) => (
-                      <tr key={maintenance._id}>
-                        <th>{index + 1}</th>
-                        <th>
-                          {maintenance.mtType === "newBuy"
-                            ? "Membeli"
-                            : maintenance.mtType === "repair"
-                            ? "Perbaikan"
-                            : ""}{" "}
-                          {maintenance.mtName}
-                        </th>
-                        <td>{maintenance.mtDate}</td>
-                        <td>{maintenance.mtCost}</td>
-                        <td>
-                          <form action="" onSubmit={handleSubmit}>
-                            <div className="flex gap-2">
-                              <Link
-                                to={`/dashboard/maintenance/${maintenance._id}`}
-                                className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-                              >
-                                Edit
-                              </Link>
-                              <button
-                                type="submit"
-                                className="btn btn-sm btn-error btn-outline text-xs font-normal"
-                              >
-                                Hapus
-                              </button>
-                            </div>
-                          </form>
-                        </td>
-                      </tr>
-                    ))}
+                    {maintenanceItems
+                      ?.sort(
+                        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                      )
+                      .map((maintenance, index) => (
+                        <tr key={maintenance._id}>
+                          <th>
+                            {index + 1 + (currentPage - 1) * itemsPerPage}
+                          </th>
+                          <th>
+                            {maintenance.mtType === "newBuy"
+                              ? "Membeli"
+                              : maintenance.mtType === "repair"
+                              ? "Perbaikan"
+                              : ""}{" "}
+                            {maintenance.mtName}
+                          </th>
+                          <td>{maintenance.mtDate?.toString().slice(0, 10)}</td>
+                          <td>{currency(maintenance.mtCost)}</td>
+                          <td>
+                            <form action="" onSubmit={handleSubmit}>
+                              <div className="flex gap-2">
+                                <Link
+                                  to={`/dashboard/maintenance/${maintenance._id}`}
+                                  className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                                >
+                                  Edit
+                                </Link>
+                                <button
+                                  type="submit"
+                                  className="btn btn-sm btn-error btn-outline text-xs font-normal"
+                                >
+                                  Hapus
+                                </button>
+                              </div>
+                            </form>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
               <div className="join mt-12">
-                <button className="join-item btn">«</button>
-                <button className="join-item btn">Page 22</button>
-                <button className="join-item btn">»</button>
+                <button
+                  onClick={handlePrevPage}
+                  disabled={currentPage <= 1}
+                  className="join-item btn"
+                >
+                  «
+                </button>
+                <button className="join-item btn">halaman {currentPage}</button>
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage >= totalPages}
+                  className="join-item btn"
+                >
+                  »
+                </button>
               </div>
             </div>
           </>

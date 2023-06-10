@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../features/authSlice";
 
 const SingleRoomInfo = () => {
@@ -42,6 +42,21 @@ const SingleRoomInfo = () => {
     setRoom(response.data[0]);
   };
 
+  //currency
+  const currency = (price) => {
+    // Menambahkan format rupiah dengan opsi lain
+    if (price) {
+      const formatted = price.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return formatted;
+    }
+    return "Rp 0";
+  };
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
@@ -65,7 +80,9 @@ const SingleRoomInfo = () => {
             </div>
             <div>
               <div className="stat-title">Tagihan</div>
-              <div className="stat-value text-lg font-medium">{room.price}</div>
+              <div className="stat-value text-lg font-medium">
+                {currency(room.price)}
+              </div>
             </div>
           </div>
 
@@ -74,7 +91,9 @@ const SingleRoomInfo = () => {
               <div className="stat-title">Tenggat waktu</div>
               <div className="stat-value text-xl font-medium">2 hari lagi</div>
               <div className="stat-actions">
-                <button className="btn btn-sm">Bayar Sekarang</button>
+                <Link to="/dashboard/addpayment" className="btn btn-sm">
+                  Bayar Sekarang
+                </Link>
               </div>
             </div>
           </div>
