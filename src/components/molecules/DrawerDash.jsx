@@ -1,4 +1,5 @@
 import React from "react";
+import * as Icon from "react-feather";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -17,7 +18,10 @@ const DrawerDashboard = () => {
 
             <li>
               <details>
-                <summary>User</summary>
+                <summary>
+                  <Icon.User size={20} className="mr-2" />
+                  User
+                </summary>
                 <ul>
                   <li>
                     <Link to="/dashboard">Profil</Link>
@@ -28,7 +32,10 @@ const DrawerDashboard = () => {
 
             <li>
               <details>
-                <summary>Kamar</summary>
+                <summary>
+                  <Icon.Home size={20} className="mr-2" />
+                  Kamar
+                </summary>
                 <ul>
                   <li>
                     <Link to="/dashboard/roominfo">Informasi Kamar</Link>
@@ -46,7 +53,10 @@ const DrawerDashboard = () => {
 
             <li>
               <details>
-                <summary>Pembayaran</summary>
+                <summary>
+                  <Icon.DollarSign size={20} className="mr-2" />
+                  Pembayaran
+                </summary>
                 <ul>
                   <li>
                     <Link to="/dashboard/paymenthistory">
@@ -65,7 +75,10 @@ const DrawerDashboard = () => {
                 <>
                   <li>
                     <details>
-                      <summary>Pengeluaran</summary>
+                      <summary>
+                        <Icon.FolderMinus size={20} className="mr-2" />
+                        Pengeluaran
+                      </summary>
                       <ul>
                         <li>
                           <Link to="/dashboard/maintenance">
@@ -83,7 +96,10 @@ const DrawerDashboard = () => {
 
                   <li>
                     <details>
-                      <summary>Keuangan</summary>
+                      <summary>
+                        <Icon.BookOpen size={20} className="mr-2" />
+                        Keuangan
+                      </summary>
                       <ul>
                         <li>
                           <Link to="/dashboard/financial">

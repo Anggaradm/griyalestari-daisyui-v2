@@ -60,7 +60,7 @@ const AdminProfile = () => {
               <Icon.Users size={15} />
               Daftar Booking
               <span className="indicator-item badge badge-secondary badge-sm">
-                {users?.length} menunggu..
+                {users?.length}
               </span>
             </Link>
           </li>
@@ -69,7 +69,7 @@ const AdminProfile = () => {
               <Icon.CheckCircle size={15} />
               Terima Pembayaran
               <span className="indicator-item badge badge-secondary badge-sm">
-                {payments?.length} menunggu..
+                {payments?.length}
               </span>
             </Link>
           </li>
