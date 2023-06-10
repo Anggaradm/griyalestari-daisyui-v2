@@ -93,7 +93,7 @@ const MaintenanceTable = () => {
                           <form action="" onSubmit={handleSubmit}>
                             <div className="flex gap-2">
                               <Link
-                                to={`/dashboard/maintenance/wefnewfe7`}
+                                to={`/dashboard/maintenance/${maintenance._id}`}
                                 className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
                               >
                                 Edit

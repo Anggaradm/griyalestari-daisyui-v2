@@ -39,7 +39,7 @@ const SigninForm = () => {
       setTimeout(() => {
         dispatch(reset());
         setIsLoadError(false);
-      }, 3000);
+      }, 2000);
     }
     dispatch(reset);
   }, [user, dispatch, isSuccess, navigate, isError]);

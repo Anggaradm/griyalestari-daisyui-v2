@@ -1,10 +1,25 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
 
 const FinancialsBook = () => {
-  const [category, setCategory] = useState("Hari ini");
+  const [category, setCategory] = useState("");
+
+  const currency = (price) => {
+    // Menambahkan format rupiah dengan opsi lain
+    if (price) {
+      const formatted = price.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+      return formatted;
+    }
+    return "Rp 0";
+  };
 
   // consumeAPI
   const dispatch = useDispatch();
@@ -27,6 +42,22 @@ const FinancialsBook = () => {
     }
   }, [user, navigate]);
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [financials, setFinancials] = useState([]);
+
+  useEffect(() => {
+    getFinancials();
+  }, []);
+
+  useEffect(() => {
+    console.log(financials);
+  }, [financials]);
+
+  const getFinancials = async () => {
+    const response = await axios.get(`${serverUrl}/financials`);
+    setFinancials(response.data);
+  };
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
@@ -35,6 +66,12 @@ const FinancialsBook = () => {
       <h2 className="text-xl font-medium mb-4 text-center">{category}</h2>
       <div className="py-6 flex flex-col items-center lg:items-start w-screen px-6 lg:w-full">
         <div className="btn-group pt-4 pb-12 flex flex-wrap">
+          <button
+            onClick={() => setCategory("")}
+            className="btn btn-ghost underline underline-offset-2"
+          >
+            Semua
+          </button>
           <button
             onClick={() => setCategory("Hari ini")}
             className="btn btn-ghost underline underline-offset-2"
@@ -71,19 +108,32 @@ const FinancialsBook = () => {
                 <thead>
                   <tr>
                     <td>Pendapatan</td>
-                    <td className="text-accent">+ Rp 5000000</td>
+                    <td className="text-accent">
+                      + {currency(financials.income)}
+                    </td>
                   </tr>
                 </thead>
                 <thead>
                   <tr>
                     <td>Pengeluaran</td>
-                    <td className="text-error">- Rp 300000</td>
+                    <td className="text-error">
+                      - {currency(financials.outcome)}
+                    </td>
                   </tr>
                 </thead>
                 <thead>
-                  <tr className="bg-accent text-base-100 lg:bg-accent lg:text-base-100">
+                  <tr
+                    className={`text-base-100 lg:text-base-100 ${currency(
+                      financials.balance >= 0
+                        ? "bg-accent lg:bg-accent"
+                        : "bg-error lg:bg-error"
+                    )}`}
+                  >
                     <td>Total Pendapatan</td>
-                    <td>+Rp 200000</td>
+                    <td>
+                      {financials.balance >= 0 ? "+" : ""}{" "}
+                      {currency(financials.balance)}
+                    </td>
                   </tr>
                 </thead>
               </table>
@@ -105,12 +155,18 @@ const FinancialsBook = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>10B</td>
-                    <td>26-2-2023</td>
-                    <td>Rp 300000</td>
-                  </tr>
+                  {/* row mapping */}
+                  {financials?.paymentData?.map((payment, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>
+                        {payment.roomId?.roomNumber}
+                        {payment.roomId?.roomTag}
+                      </td>
+                      <td>{payment.createdAt}</td>
+                      <td>{currency(payment.price)}</td>
+                    </tr>
+                  ))}
                 </tbody>
                 <tfoot>
                   <tr className="text-accent">
@@ -137,17 +193,27 @@ const FinancialsBook = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>10B</td>
-                    <td>26-2-2023</td>
-                    <td>Rp 300000</td>
-                  </tr>
+                  {/* row mapping */}
+                  {financials?.maintenanceData?.map((maintenance, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>
+                        {maintenance.mtType === "newBuy"
+                          ? "Membeli"
+                          : maintenance.mtType === "repair"
+                          ? "Perbaikan"
+                          : ""}{" "}
+                        {maintenance.mtName}
+                      </td>
+                      <td>{maintenance.mtDate}</td>
+                      <td>{currency(maintenance.mtCost)}</td>
+                    </tr>
+                  ))}
                 </tbody>
                 <tfoot>
                   <tr className="text-error">
                     <td colSpan="3">Total</td>
-                    <td>Rp 300000</td>
+                    <td>{currency(financials.outcome)}</td>
                   </tr>
                 </tfoot>
               </table>
