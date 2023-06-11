@@ -33,7 +33,7 @@ const AdminProfile = () => {
 
   const getUsers = async () => {
     const response = await axios.get(`${serverUrl}/users`);
-    const datas = response.data?.filter((user) => user.userStatus !== "guest");
+    const datas = response.data?.filter((user) => user.userStatus === "guest");
     setUsers(datas);
   };
 
@@ -56,7 +56,7 @@ const AdminProfile = () => {
       <div className="py-6 flex flex-col items-center">
         <ul className="menu bg-base-200 lg:menu-horizontal rounded-box">
           <li className="indicator">
-            <Link>
+            <Link to="/dashboard/booking">
               <Icon.Users size={15} />
               Daftar Booking
               <span className="indicator-item badge badge-secondary badge-sm">

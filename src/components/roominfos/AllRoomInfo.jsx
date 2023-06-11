@@ -58,6 +58,10 @@ const AllRoomInfo = () => {
     setRoomTag(uniqueRoomTags[0]);
   };
 
+  const deleteRoom = async (id) => {
+    await axios.delete(`${serverUrl}/rooms/${id}`);
+  };
+
   //currency
   const currency = (price) => {
     // Menambahkan format rupiah dengan opsi lain
@@ -162,7 +166,8 @@ const AllRoomInfo = () => {
                                         className="btn"
                                         onClick={(e) => {
                                           e.preventDefault();
-                                          console.log({ roomId: room._id });
+                                          deleteRoom(room._id);
+                                          getRooms();
                                         }}
                                       >
                                         Ya

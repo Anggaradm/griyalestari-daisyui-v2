@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../features/authSlice";
@@ -13,11 +15,6 @@ const AddRoom = () => {
 
   const handleChangeNumber = (e) => {
     setNumber(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ name, number });
   };
 
   // consumeAPI
@@ -41,12 +38,58 @@ const AddRoom = () => {
     }
   }, [user, navigate]);
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
+
+  const addRoom = async () => {
+    await axios
+      .post(`${serverUrl}/rooms`, {
+        roomTag: name,
+        roomNumber: number,
+      })
+      .then((response) => {
+        console.log(response);
+        setMessage(response.data.message);
+        setStatus(response.data.status);
+      })
+      .catch((error) => {
+        console.log(error);
+        setMessage(error.response.data.message);
+        setStatus(error.response.data.status);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log({ name, number });
+    addRoom();
+  };
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
         Tambah Kamar
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
+        {message && (
+          <div className="alert">
+            <Icon.AlertCircle size={20} />
+            <span className={`${status !== 201 && "text-error"}`}>
+              {message}
+            </span>
+            {status === 201 && (
+              <div>
+                <button
+                  onClick={() => window.location.replace("/dashboard/roominfo")}
+                  className="btn btn-sm btn-primary"
+                >
+                  kembali?
+                </button>
+              </div>
+            )}
+          </div>
+        )}
         <form
           action=""
           onSubmit={handleSubmit}

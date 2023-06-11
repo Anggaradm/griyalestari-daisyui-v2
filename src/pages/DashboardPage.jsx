@@ -17,6 +17,7 @@ import {
   MemberPaymentHistory,
   MemberProfile,
   SingleRoomInfo,
+  UserBooking,
 } from "../components";
 import { getMe } from "../features/authSlice";
 import NotFoundPage from "./NotFoundPage";
@@ -59,6 +60,7 @@ const DashboardPage = () => {
                   ))
                 }
               />
+              <Route path="/booking" element={<UserBooking />} />
               <Route
                 path="/editmember"
                 element={<EditMemberProfile userId="01" />}

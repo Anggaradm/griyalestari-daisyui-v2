@@ -1,6 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
+import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getMe } from "../../features/authSlice";
 
 const EditRoom = () => {
@@ -13,11 +15,6 @@ const EditRoom = () => {
 
   const handleChangeNumber = (e) => {
     setNumber(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ name, number });
   };
 
   // consumeAPI
@@ -41,12 +38,68 @@ const EditRoom = () => {
     }
   }, [user, navigate]);
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const { id } = useParams();
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    getRoom();
+  }, []);
+
+  const getRoom = async () => {
+    const response = await axios.get(`${serverUrl}/rooms/${id}`);
+    const data = response.data;
+    setName(data.roomTag);
+    setNumber(data.roomNumber);
+  };
+
+  const updateRoom = async (id) => {
+    await axios
+      .patch(`${serverUrl}/rooms/${id}`, {
+        newRoomTag: name,
+        newRoomNumber: number,
+      })
+      .then((res) => {
+        setStatus(res.status);
+        setMessage(res.data.message);
+      })
+      .catch((err) => {
+        setStatus(err.response.status);
+        setMessage(err.response.data.message);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log({ name, number });
+    updateRoom(id);
+    console.log({ status, message });
+  };
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">Edit Kamar</h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
+        {message && (
+          <div className="alert">
+            <Icon.AlertCircle size={20} />
+            <span className={`${status !== 200 && "text-error"}`}>
+              {message}
+            </span>
+            {status === 200 && (
+              <div>
+                <button
+                  onClick={() => window.location.replace("/dashboard/roominfo")}
+                  className="btn btn-sm btn-primary"
+                >
+                  kembali?
+                </button>
+              </div>
+            )}
+          </div>
+        )}
         <form
-          action=""
           onSubmit={handleSubmit}
           className="w-full flex flex-col items-center"
         >

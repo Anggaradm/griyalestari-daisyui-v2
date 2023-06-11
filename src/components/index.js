@@ -18,6 +18,7 @@ import MemberPaymentHistory from "./molecules/payments/MemberPaymentHistory";
 import AdminProfile from "./molecules/profiles/AdminProfile";
 import EditMemberProfile from "./molecules/profiles/EditMemberProfile";
 import MemberProfile from "./molecules/profiles/MemberProfile";
+import UserBooking from "./molecules/profiles/UserBooking";
 import SigninForm from "./molecules/signforms/SigninForm";
 import SignupForm from "./molecules/signforms/SignupForm";
 import AddRoom from "./roominfos/AddRoom";
@@ -50,4 +51,5 @@ export {
   SigninForm,
   SignupForm,
   SingleRoomInfo,
+  UserBooking,
 };

@@ -26,6 +26,9 @@ const DrawerDashboard = () => {
                   <li>
                     <Link to="/dashboard">Profil</Link>
                   </li>
+                  <li>
+                    <Link to="/dashboard/booking">Daftar Booking</Link>
+                  </li>
                 </ul>
               </details>
             </li>
