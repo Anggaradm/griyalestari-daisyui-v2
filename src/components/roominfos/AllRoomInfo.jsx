@@ -3,22 +3,18 @@ import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import { getMe } from "../../features/authSlice";
+import { getMe, reset } from "../../features/authSlice";
 import EditRoom from "./EditRoom";
 
 const AllRoomInfo = () => {
   const [roomTag, setRoomTag] = useState("");
   const [roomTags, setRoomTags] = useState([]);
-  const [roomId, setRoomId] = useState("");
   const [modalRoom, setModalRoom] = useState({});
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
 
   const handleRoomTag = (e) => {
     setRoomTag(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("delete");
   };
 
   // consumeAPI
@@ -45,10 +41,6 @@ const AllRoomInfo = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const [rooms, setRooms] = useState([]);
 
-  useEffect(() => {
-    getRooms();
-  }, []);
-
   const getRooms = async () => {
     const response = await axios.get(`${serverUrl}/rooms`);
     const datas = response.data;
@@ -58,10 +50,6 @@ const AllRoomInfo = () => {
     const uniqueRoomTags = [...new Set(roomTags)];
     setRoomTags(uniqueRoomTags);
     setRoomTag(uniqueRoomTags[0]);
-  };
-
-  const deleteRoom = async (id) => {
-    await axios.delete(`${serverUrl}/rooms/${id}`);
   };
 
   //currency
@@ -78,6 +66,26 @@ const AllRoomInfo = () => {
     }
     return "Rp 0";
   };
+
+  const deleteRoom = async (id) => {
+    try {
+      const response = await axios.delete(`${serverUrl}/rooms/${id}`);
+      setMessage(response.data.message);
+      setStatus(response.status);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getRooms();
+    if (status !== null && message === "") {
+      setTimeout(() => {
+        setMessage("");
+        setStatus(null);
+      }, 3000);
+    }
+  }, [status, message]);
 
   return (
     <>
@@ -98,6 +106,18 @@ const AllRoomInfo = () => {
               </Link>
               <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
                 <div className="overflow-x-auto w-full">
+                  {message && (
+                    <div className="alert">
+                      <Icon.AlertCircle size={20} />
+                      <span
+                        className={`${
+                          status === 200 ? "text-accent" : "text-error"
+                        }`}
+                      >
+                        {message}
+                      </span>
+                    </div>
+                  )}
                   <table className="table table-zebra table-pin-cols md:table-pin-rows">
                     {/* head */}
                     <thead>
@@ -138,8 +158,8 @@ const AllRoomInfo = () => {
                                 htmlFor="my_modal_6"
                                 className="btn btn-sm btn-error btn-outline text-xs font-normal"
                                 onClick={() => {
-                                  setRoomId(room._id);
                                   setModalRoom({
+                                    id: room._id,
                                     number: room.roomNumber,
                                     tag: room.roomTag,
                                   });
@@ -189,16 +209,17 @@ const AllRoomInfo = () => {
             <label htmlFor="my_modal_6" className="btn btn-outline">
               Tidak
             </label>
-            <button
+            <label
+              htmlFor="my_modal_6"
               className="btn"
               onClick={(e) => {
-                e.preventDefault();
-                deleteRoom(roomId);
-                window.location.reload();
+                setMessage("");
+                setStatus(null);
+                deleteRoom(modalRoom?.id);
               }}
             >
               Ya
-            </button>
+            </label>
           </div>
         </div>
       </div>

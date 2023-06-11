@@ -93,13 +93,21 @@ const UserBooking = () => {
                     <td>{user.phone}</td>
                     <td>
                       <div>
-                        <div className="flex">
-                          <button
-                            type="submit"
+                        <div className="flex gap-2">
+                          <a
+                            href={`mailto:${user.email}`}
                             className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
                           >
-                            Lihat Bukti Bayar
-                          </button>
+                            <Icon.Mail size={20} />
+                          </a>
+                          <a
+                            target="_blank"
+                            href={`https://wa.me/6287771289730?text=Halo,%20kami%20dari%20Griya%20Kost%20Lestari.%20Kami%20melihat%20anda%20melakukan%20booking%20pada%20Website%20kami,%20untuk%20saat%20ini%20ada%20beberapa%20kamar%20yang%20siap%20ditempati.%20Silakan%20menghubungi%20kami%20di%20nomor%20ini%20%F0%9F%98%89.`}
+                            className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                            rel="noreferrer"
+                          >
+                            <Icon.MessageCircle size={20} />
+                          </a>
                         </div>
                       </div>
                     </td>

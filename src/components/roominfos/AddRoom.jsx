@@ -51,13 +51,18 @@ const AddRoom = () => {
       .then((response) => {
         console.log(response);
         setMessage(response.data.message);
-        setStatus(response.data.status);
+        setStatus(response.status);
       })
       .catch((error) => {
         console.log(error);
         setMessage(error.response.data.message);
-        setStatus(error.response.data.status);
+        setStatus(error.response.status);
       });
+  };
+
+  const handleReset = () => {
+    setName("");
+    setNumber("");
   };
 
   const handleSubmit = (e) => {
@@ -65,6 +70,16 @@ const AddRoom = () => {
     // console.log({ name, number });
     addRoom();
   };
+
+  useEffect(() => {
+    if (status === 201) {
+      handleReset();
+    }
+    setTimeout(() => {
+      setMessage("");
+      setStatus(null);
+    }, 3000);
+  }, [status]);
 
   return (
     <>
@@ -75,7 +90,11 @@ const AddRoom = () => {
         {message && (
           <div className="alert">
             <Icon.AlertCircle size={20} />
-            <span>{message}</span>
+            <span
+              className={`${status !== 201 ? "text-error" : "text-accent"}`}
+            >
+              {message}
+            </span>
           </div>
         )}
         <form

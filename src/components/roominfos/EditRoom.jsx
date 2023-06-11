@@ -76,6 +76,16 @@ const EditRoom = () => {
     updateRoom(id);
   };
 
+  useEffect(() => {
+    if (status === 200) {
+      getRoom();
+    }
+    setTimeout(() => {
+      setMessage("");
+      setStatus(null);
+    }, 3000);
+  }, [status]);
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">Edit Kamar</h1>
@@ -83,7 +93,9 @@ const EditRoom = () => {
         {message && (
           <div className="alert">
             <Icon.AlertCircle size={20} />
-            <span className={`${status !== 200 && "text-error"}`}>
+            <span
+              className={`${status !== 200 ? "text-error" : "text-accent"}`}
+            >
               {message}
             </span>
             {status === 200 && (
