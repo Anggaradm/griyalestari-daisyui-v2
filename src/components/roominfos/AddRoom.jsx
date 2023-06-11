@@ -75,19 +75,7 @@ const AddRoom = () => {
         {message && (
           <div className="alert">
             <Icon.AlertCircle size={20} />
-            <span className={`${status !== 201 && "text-error"}`}>
-              {message}
-            </span>
-            {status === 201 && (
-              <div>
-                <button
-                  onClick={() => window.location.replace("/dashboard/roominfo")}
-                  className="btn btn-sm btn-primary"
-                >
-                  kembali?
-                </button>
-              </div>
-            )}
+            <span>{message}</span>
           </div>
         )}
         <form

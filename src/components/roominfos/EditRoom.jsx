@@ -74,7 +74,6 @@ const EditRoom = () => {
     e.preventDefault();
     // console.log({ name, number });
     updateRoom(id);
-    console.log({ status, message });
   };
 
   return (

@@ -53,10 +53,8 @@ const DashboardPage = () => {
                   user &&
                   (user.userStatus === "admin" ? (
                     <AdminProfile />
-                  ) : user.userStatus === "member" ? (
-                    <MemberProfile />
                   ) : (
-                    <NotFoundPage />
+                    <MemberProfile />
                   ))
                 }
               />

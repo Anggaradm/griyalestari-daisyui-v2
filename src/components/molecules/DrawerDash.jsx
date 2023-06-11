@@ -16,106 +16,137 @@ const DrawerDashboard = () => {
           <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content pt-[5%]">
             {/* Sidebar content here */}
 
-            <li>
-              <details>
-                <summary>
-                  <Icon.User size={20} className="mr-2" />
-                  User
-                </summary>
-                <ul>
-                  <li>
-                    <Link to="/dashboard">Profil</Link>
-                  </li>
-                  <li>
-                    <Link to="/dashboard/booking">Daftar Booking</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-
-            <li>
-              <details>
-                <summary>
-                  <Icon.Home size={20} className="mr-2" />
-                  Kamar
-                </summary>
-                <ul>
-                  <li>
-                    <Link to="/dashboard/roominfo">Informasi Kamar</Link>
-                  </li>
-                  {user && user.userStatus === "admin" ? (
+            {user?.userStatus === "guest" ? (
+              <li>
+                <details>
+                  <summary>
+                    <Icon.User size={20} className="mr-2" />
+                    User
+                  </summary>
+                  <ul>
                     <li>
-                      <Link to="/dashboard/addroom">Tambah Kamar</Link>
+                      <Link to="/dashboard">Profil</Link>
                     </li>
+                    {user && user.userStatus === "admin" ? (
+                      <li>
+                        <Link to="/dashboard/booking">Daftar Booking</Link>
+                      </li>
+                    ) : (
+                      ""
+                    )}
+                  </ul>
+                </details>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <details>
+                    <summary>
+                      <Icon.User size={20} className="mr-2" />
+                      User
+                    </summary>
+                    <ul>
+                      <li>
+                        <Link to="/dashboard">Profil</Link>
+                      </li>
+                      {user && user.userStatus === "admin" ? (
+                        <li>
+                          <Link to="/dashboard/booking">Daftar Booking</Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                    </ul>
+                  </details>
+                </li>
+
+                <li>
+                  <details>
+                    <summary>
+                      <Icon.Home size={20} className="mr-2" />
+                      Kamar
+                    </summary>
+                    <ul>
+                      <li>
+                        <Link to="/dashboard/roominfo">Informasi Kamar</Link>
+                      </li>
+                      {user && user.userStatus === "admin" ? (
+                        <li>
+                          <Link to="/dashboard/addroom">Tambah Kamar</Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                    </ul>
+                  </details>
+                </li>
+
+                <li>
+                  <details>
+                    <summary>
+                      <Icon.DollarSign size={20} className="mr-2" />
+                      Pembayaran
+                    </summary>
+                    <ul>
+                      <li>
+                        <Link to="/dashboard/paymenthistory">
+                          Riwayat Pembayaran
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/dashboard/addpayment">
+                          Tambah Pembayaran
+                        </Link>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+
+                {user &&
+                  (user.userStatus === "admin" ? (
+                    <>
+                      <li>
+                        <details>
+                          <summary>
+                            <Icon.FolderMinus size={20} className="mr-2" />
+                            Pengeluaran
+                          </summary>
+                          <ul>
+                            <li>
+                              <Link to="/dashboard/maintenance">
+                                Data Pengeluaran
+                              </Link>
+                            </li>
+                            <li>
+                              <Link to="/dashboard/addmaintenance">
+                                Tambah Pengeluaran
+                              </Link>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+
+                      <li>
+                        <details>
+                          <summary>
+                            <Icon.BookOpen size={20} className="mr-2" />
+                            Keuangan
+                          </summary>
+                          <ul>
+                            <li>
+                              <Link to="/dashboard/financial">
+                                Catatan Keuangan
+                              </Link>
+                            </li>
+                          </ul>
+                        </details>
+                      </li>
+                    </>
                   ) : (
                     ""
-                  )}
-                </ul>
-              </details>
-            </li>
-
-            <li>
-              <details>
-                <summary>
-                  <Icon.DollarSign size={20} className="mr-2" />
-                  Pembayaran
-                </summary>
-                <ul>
-                  <li>
-                    <Link to="/dashboard/paymenthistory">
-                      Riwayat Pembayaran
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/dashboard/addpayment">Tambah Pembayaran</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-
-            {user &&
-              (user.userStatus === "admin" ? (
-                <>
-                  <li>
-                    <details>
-                      <summary>
-                        <Icon.FolderMinus size={20} className="mr-2" />
-                        Pengeluaran
-                      </summary>
-                      <ul>
-                        <li>
-                          <Link to="/dashboard/maintenance">
-                            Data Pengeluaran
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/dashboard/addmaintenance">
-                            Tambah Pengeluaran
-                          </Link>
-                        </li>
-                      </ul>
-                    </details>
-                  </li>
-
-                  <li>
-                    <details>
-                      <summary>
-                        <Icon.BookOpen size={20} className="mr-2" />
-                        Keuangan
-                      </summary>
-                      <ul>
-                        <li>
-                          <Link to="/dashboard/financial">
-                            Catatan Keuangan
-                          </Link>
-                        </li>
-                      </ul>
-                    </details>
-                  </li>
-                </>
-              ) : (
-                ""
-              ))}
+                  ))}
+              </>
+            )}
           </ul>
         </div>
       </div>
