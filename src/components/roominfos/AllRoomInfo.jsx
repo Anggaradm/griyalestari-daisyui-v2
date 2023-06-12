@@ -70,18 +70,21 @@ const AllRoomInfo = () => {
   };
 
   const deleteRoom = async (id) => {
-    try {
-      const response = await axios.delete(`${serverUrl}/rooms/${id}`);
-      setMessage(response.data.message);
-      setStatus(response.status);
-    } catch (error) {
-      console.log(error);
-    }
+    await axios
+      .delete(`${serverUrl}/rooms/${id}`)
+      .then((response) => {
+        setMessage(response.data.message);
+        setStatus(response.status);
+      })
+      .catch((error) => {
+        setStatus(error.status);
+        setMessage(error.response.data.message);
+      });
   };
 
   useEffect(() => {
     getRooms();
-    if (status !== null && message === "") {
+    if (status !== null && message !== "") {
       setTimeout(() => {
         setMessage("");
         setStatus(null);

@@ -16,7 +16,7 @@ const DrawerDashboard = () => {
           <ul className="menu p-4 w-80 h-full bg-base-200 text-base-content pt-[5%]">
             {/* Sidebar content here */}
 
-            {user?.userStatus === "guest" ? (
+            {user?.userStatus === "guest" || user?.userStatus === "ex" ? (
               <li>
                 <details>
                   <summary>

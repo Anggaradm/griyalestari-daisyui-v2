@@ -28,9 +28,7 @@ const MemberProfile = () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-        Member Profile
-      </h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">{user.name}</h1>
       <div className="py-6 flex flex-col items-center">
         <div className="menu bg-base-200 w-56 rounded-box flex flex-col gap-4">
           <div className="flex gap-6">
