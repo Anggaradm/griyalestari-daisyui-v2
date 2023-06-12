@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { getMe } from "../../features/authSlice";
 import AddUserToRoom from "./AddUserToRoom";
+import DeleteUserFromRoom from "./DeleteUserFromRoom";
 import EditRoom from "./EditRoom";
 
 const AllRoomInfo = () => {
@@ -126,6 +127,7 @@ const AllRoomInfo = () => {
                         <th>Kamar</th>
                         <th>Jumlah penghuni</th>
                         <th>Tagihan</th>
+                        <th>Status</th>
                         <th className="text-center">Pilihan</th>
                       </tr>
                     </thead>
@@ -148,13 +150,14 @@ const AllRoomInfo = () => {
                                 : "kamar kosong"}
                             </td>
                             <td>{currency(room.price)}</td>
+                            <td>
+                              {room.isPaid
+                                ? `sudah bayar sampai tanggal ${room.expiredDate
+                                    ?.toString()
+                                    .slice(0, 10)}`
+                                : "Belum bayar"}
+                            </td>
                             <td className="flex gap-1">
-                              <Link
-                                to={`/dashboard/roominfo/addusertoroom/${room._id}`}
-                                className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-                              >
-                                Tambah user
-                              </Link>
                               <Link
                                 to={`/dashboard/roominfo/${room._id}`}
                                 className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
@@ -198,6 +201,10 @@ const AllRoomInfo = () => {
         />
         <Route path="/:id" element={<EditRoom />} />
         <Route path="/addusertoroom/:id" element={<AddUserToRoom />} />
+        <Route
+          path="/deleteuserfromroom/:id"
+          element={<DeleteUserFromRoom />}
+        />
       </Routes>
 
       {/* The button to open modal */}

@@ -44,6 +44,7 @@ const EditRoom = () => {
   const { id } = useParams();
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
+  const [isRoomEmpty, setIsRoomEmpty] = useState(false);
 
   useEffect(() => {
     getRoom();
@@ -54,6 +55,9 @@ const EditRoom = () => {
     const data = response.data;
     setName(data.roomTag);
     setNumber(data.roomNumber);
+    if (data.userId.length === 0) {
+      setIsRoomEmpty(true);
+    }
   };
 
   const updateRoom = async (id) => {
@@ -103,6 +107,25 @@ const EditRoom = () => {
             </span>
           </div>
         )}
+
+        <div className="flex gap-2 w-full">
+          <Link
+            to={`/dashboard/roominfo/addusertoroom/${id}`}
+            className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+          >
+            <Icon.PlusCircle size={18} />
+            Tambah user
+          </Link>
+          {!isRoomEmpty && (
+            <Link
+              to={`/dashboard/roominfo/deleteuserfromroom/${id}`}
+              className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+            >
+              <Icon.MinusCircle size={18} />
+              Hapus user
+            </Link>
+          )}
+        </div>
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col items-center"
@@ -139,12 +162,15 @@ const EditRoom = () => {
             <button type="submit" className="btn btn-primary w-full max-w-xs">
               Kirim
             </button>
-            <Link
-              to="/dashboard/roominfo"
+            <button
+              type="button"
+              onClick={() => {
+                window.location.replace("/dashboard/roominfo");
+              }}
               className="btn btn-outline mt-2 w-full max-w-xs"
             >
               {isEditSuccess ? "Kembali" : "Batal"}
-            </Link>
+            </button>
           </div>
         </form>
       </div>

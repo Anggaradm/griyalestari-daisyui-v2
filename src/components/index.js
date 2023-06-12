@@ -24,6 +24,7 @@ import SignupForm from "./molecules/signforms/SignupForm";
 import AddRoom from "./roominfos/AddRoom";
 import AddUserToRoom from "./roominfos/AddUserToRoom";
 import AllRoomInfo from "./roominfos/AllRoomInfo";
+import DeleteUserFromRoom from "./roominfos/DeleteUserFromRoom";
 import SingleRoomInfo from "./roominfos/SingleRoomInfo";
 
 export {
@@ -38,6 +39,7 @@ export {
   AllRoomInfo,
   Copyright,
   DashNav,
+  DeleteUserFromRoom,
   DrawerDash,
   EditMemberProfile,
   FinancialsBook,

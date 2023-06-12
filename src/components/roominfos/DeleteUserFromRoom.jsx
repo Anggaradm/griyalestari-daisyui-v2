@@ -5,12 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getMe } from "../../features/authSlice";
 
-const AddUserToRoom = () => {
+const DeleteUserFromRoom = () => {
   const [userId, setUserId] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
 
-  const [isAddSuccess, setIsAddSuccess] = useState(false);
+  const [isDeletSuccess, setIsDeleteSuccess] = useState(false);
 
   const handleUserId = (e) => {
     setUserId(e.target.value);
@@ -48,21 +48,19 @@ const AddUserToRoom = () => {
   const getUsers = async () => {
     const response = await axios.get(`${serverUrl}/users`);
     const data = response.data;
-    const userData = data?.filter(
-      (user) => user.userStatus === "guest" || user.userStatus === "ex"
-    );
+    const userData = data?.filter((user) => user.roomId?._id === id);
     setUsers(userData);
   };
 
-  const addUserToRoom = async (id) => {
+  const deleteUserFromRoom = async (id) => {
     await axios
-      .patch(`${serverUrl}/rooms/addmember/${id}`, {
+      .patch(`${serverUrl}/rooms/removemember/${id}`, {
         userId: userId,
       })
       .then((response) => {
         setMessage(response.data.message);
         setStatus(response.status);
-        setIsAddSuccess(true);
+        setIsDeleteSuccess(true);
       })
       .catch((error) => {
         console.log(error);
@@ -72,7 +70,7 @@ const AddUserToRoom = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log({ userId, id });
-    addUserToRoom(id);
+    deleteUserFromRoom(id);
     setUserId("");
   };
 
@@ -89,7 +87,7 @@ const AddUserToRoom = () => {
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-        Masukkan User ke Kamar
+        Hapus User dari Kamar
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         {message && (
@@ -131,7 +129,7 @@ const AddUserToRoom = () => {
             to={`/dashboard/roominfo/${id}`}
             className="btn btn-outline mt-2"
           >
-            {isAddSuccess ? "Kembali" : "Batal"}
+            {isDeletSuccess ? "Kembali" : "Batal"}
           </Link>
         </form>
       </div>
@@ -139,4 +137,4 @@ const AddUserToRoom = () => {
   );
 };
 
-export default AddUserToRoom;
+export default DeleteUserFromRoom;
