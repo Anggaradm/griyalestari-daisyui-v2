@@ -180,7 +180,7 @@ const FinancialsBook = () => {
                   <tr>
                     <td>Pendapatan</td>
                     <td className="text-accent">
-                      + {currency(financials.income)}
+                      + {currency(financials?.income)}
                     </td>
                   </tr>
                 </thead>
@@ -188,22 +188,22 @@ const FinancialsBook = () => {
                   <tr>
                     <td>Pengeluaran</td>
                     <td className="text-error">
-                      - {currency(financials.outcome)}
+                      - {currency(financials?.outcome)}
                     </td>
                   </tr>
                 </thead>
                 <thead>
                   <tr
                     className={`text-base-100 lg:text-base-100 ${currency(
-                      financials.balance >= 0
+                      financials?.balance >= 0
                         ? "bg-accent lg:bg-accent"
                         : "bg-error lg:bg-error"
                     )}`}
                   >
                     <td>Total Pendapatan</td>
                     <td>
-                      {financials.balance >= 0 ? "+" : ""}{" "}
-                      {currency(financials.balance)}
+                      {financials?.balance >= 0 ? "+" : ""}{" "}
+                      {currency(financials?.balance)}
                     </td>
                   </tr>
                 </thead>
@@ -238,10 +238,7 @@ const FinancialsBook = () => {
                         <th>
                           {index + 1 + (currentPagePayments - 1) * itemsPerPage}
                         </th>
-                        <td>
-                          {payment.roomId?.roomNumber}
-                          {payment.roomId?.roomTag}
-                        </td>
+                        <td>{payment.roomName}</td>
                         <td>{payment.createdAt?.toString().slice(0, 10)}</td>
                         <th>{currency(payment.price)}</th>
                       </tr>

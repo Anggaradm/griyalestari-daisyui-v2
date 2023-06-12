@@ -107,9 +107,7 @@ const AdminPaymentHistory = () => {
                 .map((payment, index) => (
                   <tr key={payment._id}>
                     <th>{index + 1 + (currentPage - 1) * itemsPerPage}</th>
-                    <th>
-                      {payment.roomId?.roomNumber + payment.roomId?.roomTag}
-                    </th>
+                    <th>{payment.roomName}</th>
                     <td>{payment.createdAt?.toString().slice(0, 10)}</td>
                     <td>{currency(payment.price)}</td>
                     <td>

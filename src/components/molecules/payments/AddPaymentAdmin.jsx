@@ -6,14 +6,11 @@ import { getMe } from "../../../features/authSlice";
 
 const AddPaymentAdmin = () => {
   const [roomId, setRoomId] = useState("");
+  const [usersId, setUsersId] = useState([]);
+  const [userId, setUserId] = useState("");
 
-  const handleRoomId = (e) => {
-    setRoomId(e.target.value);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ roomId });
+  const handleUserId = (e) => {
+    setUserId(e.target.value);
   };
 
   // consumeAPI
@@ -46,7 +43,31 @@ const AddPaymentAdmin = () => {
 
   const getRooms = async () => {
     const response = await axios.get(`${serverUrl}/rooms`);
-    setRooms(response.data);
+    const data = response.data;
+    const roomData = data?.filter((room) => room.isEmpty === false);
+    setRooms(roomData);
+  };
+
+  const handleRoomId = (e) => {
+    setRoomId(e.target.value);
+
+    const choosedRoom = rooms?.filter((room) => room._id === e.target.value);
+    const dataUsersId = choosedRoom[0]?.userId;
+    console.log({ dataUsersId, choosedRoom });
+    setUsersId(dataUsersId);
+  };
+
+  const createPayment = async () => {
+    await axios.post(`${serverUrl}/payments`, {
+      roomId: roomId,
+      userId: userId,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log({ roomId, userId });
+    createPayment();
   };
 
   return (
@@ -55,38 +76,63 @@ const AddPaymentAdmin = () => {
         Tambah Pembayaran
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
-        <form onSubmit={handleSubmit} className="form-control w-full max-w-xs">
-          <label className="label">
-            <span className="label-text">Pilih kamar</span>
-          </label>
-          <select
-            defaultValue=""
-            onChange={handleRoomId}
-            className="select select-bordered"
-          >
-            <option disabled value="">
-              Pilih kamar
-            </option>
-            {rooms.map((room) => (
-              <option key={room._id} value={room._id}>
-                {room.roomNumber}
-                {room.roomTag}
+        <form onSubmit={handleSubmit} className="w-full max-w-xs">
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Pilih kamar</span>
+            </label>
+            <select
+              value={roomId}
+              onChange={handleRoomId}
+              className="select select-bordered"
+            >
+              <option disabled value="">
+                Pilih kamar
               </option>
-            ))}
-          </select>
-          <button
-            disabled={!roomId ? "disabled" : ""}
-            type="submit"
-            className="btn btn-primary mt-24"
-          >
-            Kirim
-          </button>
-          <Link
-            to="/dashboard/paymenthistory"
-            className="btn btn-error btn-outline mt-2"
-          >
-            Batal
-          </Link>
+              {rooms?.map((room) => (
+                <option key={room._id} value={room._id}>
+                  {room.roomNumber}
+                  {room.roomTag}
+                </option>
+              ))}
+            </select>
+          </div>
+          {roomId && usersId && (
+            <div className="form-control w-full">
+              <label className="label">
+                <span className="label-text">Pilih user</span>
+              </label>
+              <select
+                value={userId && userId}
+                onChange={handleUserId}
+                className="select select-bordered"
+              >
+                <option disabled value="">
+                  Pilih user
+                </option>
+                {usersId?.map((user) => (
+                  <option key={user._id} value={user._id}>
+                    {user.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          <div className="w-full flex flex-col gap-2">
+            <button
+              disabled={!roomId && !userId ? "disabled" : ""}
+              type="submit"
+              className="btn btn-primary mt-24"
+            >
+              Kirim
+            </button>
+            <Link
+              to="/dashboard/paymenthistory"
+              className="btn btn-outline mt-2"
+            >
+              Batal
+            </Link>
+          </div>
         </form>
       </div>
     </>
