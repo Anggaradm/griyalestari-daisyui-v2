@@ -22,6 +22,7 @@ import UserBooking from "./molecules/profiles/UserBooking";
 import SigninForm from "./molecules/signforms/SigninForm";
 import SignupForm from "./molecules/signforms/SignupForm";
 import AddRoom from "./roominfos/AddRoom";
+import AddUserToRoom from "./roominfos/AddUserToRoom";
 import AllRoomInfo from "./roominfos/AllRoomInfo";
 import SingleRoomInfo from "./roominfos/SingleRoomInfo";
 
@@ -31,6 +32,7 @@ export {
   AddPaymentAdmin,
   AddPaymentMember,
   AddRoom,
+  AddUserToRoom,
   AdminPaymentHistory,
   AdminProfile,
   AllRoomInfo,

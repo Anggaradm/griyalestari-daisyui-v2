@@ -9,6 +9,8 @@ const EditRoom = () => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
+  const [isEditSuccess, setIsEditSuccess] = useState(false);
+
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
@@ -63,6 +65,7 @@ const EditRoom = () => {
       .then((res) => {
         setStatus(res.status);
         setMessage(res.data.message);
+        setIsEditSuccess(true);
       })
       .catch((err) => {
         setStatus(err.response.status);
@@ -98,16 +101,6 @@ const EditRoom = () => {
             >
               {message}
             </span>
-            {status === 200 && (
-              <div>
-                <button
-                  onClick={() => window.location.replace("/dashboard/roominfo")}
-                  className="btn btn-sm btn-primary"
-                >
-                  kembali?
-                </button>
-              </div>
-            )}
           </div>
         )}
         <form
@@ -148,9 +141,9 @@ const EditRoom = () => {
             </button>
             <Link
               to="/dashboard/roominfo"
-              className="btn btn-error btn-outline mt-2 w-full max-w-xs"
+              className="btn btn-outline mt-2 w-full max-w-xs"
             >
-              Batal
+              {isEditSuccess ? "Kembali" : "Batal"}
             </Link>
           </div>
         </form>

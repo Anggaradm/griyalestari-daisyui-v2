@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
-import { getMe, reset } from "../../features/authSlice";
+import { getMe } from "../../features/authSlice";
+import AddUserToRoom from "./AddUserToRoom";
 import EditRoom from "./EditRoom";
 
 const AllRoomInfo = () => {
@@ -149,6 +150,12 @@ const AllRoomInfo = () => {
                             <td>{currency(room.price)}</td>
                             <td className="flex gap-1">
                               <Link
+                                to={`/dashboard/roominfo/addusertoroom/${room._id}`}
+                                className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                              >
+                                Tambah user
+                              </Link>
+                              <Link
                                 to={`/dashboard/roominfo/${room._id}`}
                                 className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
                               >
@@ -190,6 +197,7 @@ const AllRoomInfo = () => {
           }
         />
         <Route path="/:id" element={<EditRoom />} />
+        <Route path="/addusertoroom/:id" element={<AddUserToRoom />} />
       </Routes>
 
       {/* The button to open modal */}

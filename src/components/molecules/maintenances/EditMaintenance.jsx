@@ -10,6 +10,8 @@ const EditMaintenance = () => {
   const [cost, setCost] = useState("");
   const [type, setType] = useState("newBuy");
 
+  const [isEditSuccess, setIsEditSuccess] = useState(false);
+
   const today = new Date();
   const [date, setDate] = useState(today);
 
@@ -81,11 +83,10 @@ const EditMaintenance = () => {
         console.log(response);
         setMessage(response.data.message);
         setStatus(response.status);
+        setIsEditSuccess(true);
       })
       .catch((error) => {
         console.log(error);
-        setMessage(error.response.data.message);
-        setStatus(error.response.status);
       });
   };
 
@@ -109,18 +110,6 @@ const EditMaintenance = () => {
             >
               {message}
             </span>
-            {status === 200 && (
-              <div>
-                <button
-                  onClick={() =>
-                    window.location.replace("/dashboard/maintenance")
-                  }
-                  className="btn btn-sm btn-primary"
-                >
-                  kembali?
-                </button>
-              </div>
-            )}
           </div>
         )}
         <form
@@ -188,9 +177,9 @@ const EditMaintenance = () => {
             </button>
             <Link
               to="/dashboard/maintenance"
-              className="btn btn-error btn-outline mt-2 w-full max-w-xs"
+              className="btn btn-outline mt-2 w-full max-w-xs"
             >
-              Batal
+              {isEditSuccess ? "Kembali" : "Batal"}
             </Link>
           </div>
         </form>

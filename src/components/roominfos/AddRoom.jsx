@@ -9,6 +9,8 @@ const AddRoom = () => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
+  const [isAddSuccess, setIsAddSuccess] = useState(false);
+
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
@@ -52,6 +54,7 @@ const AddRoom = () => {
         console.log(response);
         setMessage(response.data.message);
         setStatus(response.status);
+        setIsAddSuccess(true);
       })
       .catch((error) => {
         console.log(error);
@@ -136,9 +139,9 @@ const AddRoom = () => {
             </button>
             <Link
               to="/dashboard/roominfo"
-              className="btn btn-error btn-outline mt-2 w-full max-w-xs"
+              className="btn btn-outline mt-2 w-full max-w-xs"
             >
-              Batal
+              {isAddSuccess ? "Kembali" : "Batal"}
             </Link>
           </div>
         </form>

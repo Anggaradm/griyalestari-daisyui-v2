@@ -12,6 +12,8 @@ const AddMaintenance = () => {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
 
+  const [isAddSuccess, setIsAddSuccess] = useState(false);
+
   const today = new Date();
   const [date, setDate] = useState(today);
 
@@ -73,6 +75,7 @@ const AddMaintenance = () => {
         console.log(response);
         setMessage(response.data.message);
         setStatus(response.status);
+        setIsAddSuccess(true);
       })
       .catch((error) => {
         console.log(error);
@@ -177,9 +180,9 @@ const AddMaintenance = () => {
             </button>
             <Link
               to="/dashboard/maintenance"
-              className="btn btn-error btn-outline mt-2 w-full max-w-xs"
+              className="btn btn-outline mt-2 w-full max-w-xs"
             >
-              Batal
+              {isAddSuccess ? "Kembali" : "Batal"}
             </Link>
           </div>
         </form>
