@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
+import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
@@ -7,17 +9,14 @@ const AddPaymentMember = () => {
   const [image, setImage] = useState(null);
   const [isPopUp, setIsPopUp] = useState(false);
   const [imgPreview, setImgPreview] = useState(null);
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     setImage(file);
     setImgPreview(URL.createObjectURL(file));
     setIsPopUp(true);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(image);
   };
 
   // consumeAPI
@@ -41,12 +40,58 @@ const AddPaymentMember = () => {
     }
   }, [user, navigate]);
 
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
+  const createPayment = async (image) => {
+    await axios
+      .post(
+        `${serverUrl}/payments/client`,
+        { imgUrl: image },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        setMessage(res.data.message);
+        setStatus(res.status);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(image);
+    createPayment(image);
+  };
+
+  useEffect(() => {
+    if (status !== null && message !== "") {
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    }
+  }, [status, message]);
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
         Tambah Pembayaran
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
+        {message && (
+          <div className="alert">
+            <Icon.AlertCircle size={20} />
+            <span
+              className={`${status === 201 ? "text-accent" : "text-error"}`}
+            >
+              {message}
+            </span>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="form-control w-full max-w-xs">
           <label htmlFor="uploadFile" className="label">
             <span className="label-text">Upload bukti bayar</span>
@@ -68,10 +113,7 @@ const AddPaymentMember = () => {
           >
             Kirim
           </button>
-          <Link
-            to="/dashboard/paymenthistory"
-            className="btn btn-error btn-outline mt-2"
-          >
+          <Link to="/dashboard/paymenthistory" className="btn btn-outline mt-2">
             Batal
           </Link>
         </form>

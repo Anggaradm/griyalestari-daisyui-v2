@@ -59,10 +59,7 @@ const DashboardPage = () => {
                 }
               />
               <Route path="/booking" element={<UserBooking />} />
-              <Route
-                path="/editmember"
-                element={<EditMemberProfile userId="01" />}
-              />
+              <Route path="/editmember" element={<EditMemberProfile />} />
               <Route
                 path="/roominfo/*"
                 element={

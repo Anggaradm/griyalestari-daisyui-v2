@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import * as Icon from "react-feather";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import * as image from "../../../assets";
 
 const SignupForm = () => {
@@ -9,6 +12,9 @@ const SignupForm = () => {
   const [phone, setPhone] = useState("");
   const [validation, setValidation] = useState("");
   const [match, setMatch] = useState(true);
+
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -32,16 +38,62 @@ const SignupForm = () => {
     setPhone(e.target.value);
   };
 
+  // consumeAPI
+  const navigate = useNavigate();
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+
+  const createUser = async () => {
+    await axios
+      .post(`${serverUrl}/users/client`, {
+        name: name,
+        email: email,
+        password: password,
+        confPassword: validation,
+        phone: 123,
+      })
+      .then((response) => {
+        setMessage(response.data.message);
+        setStatus(response.status);
+      })
+      .catch((error) => {
+        console.log(error);
+        setMessage(error.message);
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name, email, password, validation, phone });
+    // console.log({ name, email, password, validation, phone });
+
+    createUser();
   };
+
+  useEffect(() => {
+    if (status !== null && message !== "") {
+      setTimeout(() => {
+        setMessage("");
+        setStatus(null);
+        navigate("/login");
+      }, 3000);
+    }
+  }, [status]);
+
   return (
     <>
       <div className="w-screen">
         <div className="py-[4%] mt-12 px-[4%] flex flex-col items-center gap-12">
-          <div className="text-2xl lg:text-4xl font-bold">Signup</div>
-
+          <div className="text-2xl lg:text-4xl font-bold">Daftar</div>
+          {message && (
+            <div className="alert">
+              <Icon.AlertCircle size={20} />
+              <span
+                className={`${status === 201 ? "text-accent" : "text-error"}`}
+              >
+                {message}
+              </span>
+            </div>
+          )}
           <form
             action=""
             onSubmit={handleSubmit}

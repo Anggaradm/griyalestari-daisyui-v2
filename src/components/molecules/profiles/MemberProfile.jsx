@@ -30,7 +30,7 @@ const MemberProfile = () => {
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">{user.name}</h1>
       <div className="py-6 flex flex-col items-center">
-        <div className="menu bg-base-200 w-56 rounded-box flex flex-col gap-4">
+        <div className="menu bg-base-200 w-full rounded-box flex flex-col gap-4">
           <div className="flex gap-6">
             <Icon.User size={20} />
             <span>{user.name}</span>
@@ -51,13 +51,17 @@ const MemberProfile = () => {
           </div>
           <div className="flex gap-6">
             <Icon.MapPin size={20} />
-            <span className={!user.address ? "text-xs text-error italic" : ""}>
+            <span
+              className={
+                !user.address ? "text-xs text-error italic text-justify" : ""
+              }
+            >
               {user.address ? user.address : "silakan lengkapi data anda"}
             </span>
           </div>
           <div className="w-full">
             <Link
-              to="/dashboard/editmember"
+              to={`/dashboard/editmember`}
               className="btn btn-outline btn-ghost w-full mt-12"
             >
               Edit
