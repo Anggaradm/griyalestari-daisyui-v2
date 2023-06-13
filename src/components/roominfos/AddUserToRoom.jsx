@@ -63,6 +63,12 @@ const AddUserToRoom = () => {
         setMessage(response.data.message);
         setStatus(response.status);
         setIsAddSuccess(true);
+        try {
+          axios.post(`${serverUrl}/payments`, {
+            roomId: id,
+            userId: userId,
+          });
+        } catch (error) {}
       })
       .catch((error) => {
         console.log(error);

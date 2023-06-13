@@ -8,6 +8,7 @@ import { getMe } from "../../../features/authSlice";
 const FinancialsBook = () => {
   const [category, setCategory] = useState("");
 
+  // currency
   const currency = (price) => {
     // Menambahkan format rupiah dengan opsi lain
     if (price) {
@@ -352,6 +353,13 @@ const FinancialsBook = () => {
             </div>
           </div>
         </div>
+        <Link
+          target="_blank"
+          to="/print-financial-report"
+          className="btn btn-ghost btn-outline mt-12"
+        >
+          Cetak Laporan Keuangan
+        </Link>
       </div>
     </>
   );

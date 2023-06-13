@@ -5,10 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
 
-const AdminPaymentHistory = () => {
-  const [selectedRoom, setSelectedRoom] = useState({});
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState(null);
+const AcceptPayment = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("delete");
+  };
 
   // consumeAPI
   const dispatch = useDispatch();
@@ -38,31 +39,10 @@ const AdminPaymentHistory = () => {
 
   const getPayments = async () => {
     const response = await axios.get(`${serverUrl}/payments`);
-    setPayments(response.data.datas);
+    setPayments(
+      response.data.datas?.filter((payment) => payment.status === "pending")
+    );
   };
-
-  const deletePayment = async (id) => {
-    await axios
-      .delete(`${serverUrl}/payments/${id}`)
-      .then((res) => {
-        setMessage(res.data.message);
-        setStatus(res.status);
-        getPayments();
-      })
-      .catch((err) => {
-        setMessage(err.response.data.message);
-        setStatus(err.response.status);
-      });
-  };
-
-  useEffect(() => {
-    if (status !== null && message !== "") {
-      setTimeout(() => {
-        setMessage("");
-        setStatus(null);
-      }, 3000);
-    }
-  }, [status, message]);
 
   //currency
   const currency = (price) => {
@@ -108,16 +88,6 @@ const AdminPaymentHistory = () => {
       </Link>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         <div className="overflow-x-auto w-full">
-          {message && (
-            <div className="alert">
-              <Icon.AlertCircle size={20} />
-              <span
-                className={`${status === 200 ? "text-accent" : "text-error"}`}
-              >
-                {message}
-              </span>
-            </div>
-          )}
           <table className="table table-zebra table-pin-cols md:table-pin-rows">
             {/* head */}
             <thead>
@@ -140,20 +110,15 @@ const AdminPaymentHistory = () => {
                     <td>{payment.createdAt?.toString().slice(0, 10)}</td>
                     <td>{currency(payment.price)}</td>
                     <td>
-                      <div className="flex">
-                        <label
-                          onClick={() =>
-                            setSelectedRoom({
-                              id: payment._id,
-                              roomName: payment.roomName,
-                              date: payment.createdAt?.toString().slice(0, 10),
-                            })
-                          }
-                          htmlFor="my_modal_6"
-                          className="btn btn-sm btn-error btn-outline text-xs font-normal"
-                        >
-                          hapus
-                        </label>
+                      <div>
+                        <div className="flex">
+                          <button
+                            type="submit"
+                            className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                          >
+                            Lihat Bukti Bayar
+                          </button>
+                        </div>
                       </div>
                     </td>
                   </tr>
@@ -179,37 +144,8 @@ const AdminPaymentHistory = () => {
           </button>
         </div>
       </div>
-      {/* The button to open modal */}
-      {/* Put this part before </body> tag */}
-      <input type="checkbox" id="my_modal_6" className="modal-toggle" />
-      <div className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg text-warning flex items-center gap-1">
-            <Icon.AlertCircle size={20} /> Peringatan
-          </h3>
-          <p className="py-4">
-            Anda yakin ingin menghapus pembayaran dari kamar{" "}
-            {selectedRoom?.roomName} dengan tanggal
-            {" " + currency(selectedRoom?.date)}?
-          </p>
-          <div className="modal-action">
-            <label htmlFor="my_modal_6" className="btn">
-              Tidak
-            </label>
-            <label
-              onClick={() => {
-                deletePayment(selectedRoom?.id);
-              }}
-              htmlFor="my_modal_6"
-              className="btn"
-            >
-              Ya
-            </label>
-          </div>
-        </div>
-      </div>
     </>
   );
 };
 
-export default AdminPaymentHistory;
+export default AcceptPayment;

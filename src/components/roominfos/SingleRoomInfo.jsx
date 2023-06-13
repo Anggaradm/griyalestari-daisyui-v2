@@ -31,16 +31,31 @@ const SingleRoomInfo = () => {
 
   useEffect(() => {
     getRoom();
-  }, []);
+  }, [user._id]);
 
   // useEffect(() => {
   //   console.log(room);
   // }, [room]);
 
   const getRoom = async () => {
-    const response = await axios.get(`${serverUrl}/rooms/member/${user._id}`);
-    setRoom(response.data[0]);
+    await axios
+      .get(`${serverUrl}/rooms/member/${user._id}`)
+      .then((res) => {
+        setRoom(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
+  const expiredDate = new Date(room.expiredDate);
+  const today = new Date();
+
+  const expDate = Math.floor(
+    (expiredDate.getTime() - today.getTime()) / (1000 * 3600 * 24)
+  );
+
+  const daysLeft = isNaN(expDate) ? String(expDate) : expDate;
 
   //currency
   const currency = (price) => {
@@ -60,7 +75,7 @@ const SingleRoomInfo = () => {
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-        {room.roomNumber}
+        Kamar {room.roomNumber}
         {room.roomTag}
       </h1>
       <div className="py-6 flex flex-col items-center">
@@ -69,7 +84,7 @@ const SingleRoomInfo = () => {
             <div>
               <div className="stat-title">Tanggal Masuk</div>
               <div className="stat-value text-lg font-medium">
-                noted-belum ada
+                {room.checkInDate?.toString().slice(0, 10)}
               </div>
             </div>
             <div>
@@ -87,11 +102,23 @@ const SingleRoomInfo = () => {
           </div>
 
           <div className="stat">
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center items-center">
               <div className="stat-title">Tenggat waktu</div>
-              <div className="stat-value text-xl font-medium">2 hari lagi</div>
+              {daysLeft > 0 && (
+                <div className="stat-value text-xl font-medium mt-2">
+                  <div className="flex flex-col p-4 items-center bg-neutral rounded-box text-neutral-content">
+                    <span className="countdown font-mono text-5xl">
+                      {daysLeft}
+                    </span>
+                    hari lagi
+                  </div>
+                </div>
+              )}
               <div className="stat-actions">
-                <Link to="/dashboard/addpayment" className="btn btn-sm">
+                <Link
+                  to="/dashboard/addpayment"
+                  className={`btn btn-sm ${daysLeft <= 0 && "btn-error"}`}
+                >
                   Bayar Sekarang
                 </Link>
               </div>

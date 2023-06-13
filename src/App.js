@@ -4,6 +4,7 @@ import {
   DashboardPage,
   HomePage,
   NotFoundPage,
+  PrintFinancialReport,
   SigninPage,
   SignupPage,
 } from "./pages";
@@ -18,6 +19,10 @@ function App() {
           <Route path="/dashboard/*" element={<DashboardPage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route
+            path="/print-financial-report"
+            element={<PrintFinancialReport />}
+          />
         </Routes>
       </Router>
     </>

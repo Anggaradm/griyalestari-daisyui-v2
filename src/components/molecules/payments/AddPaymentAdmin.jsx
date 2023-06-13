@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
@@ -8,6 +9,8 @@ const AddPaymentAdmin = () => {
   const [roomId, setRoomId] = useState("");
   const [usersId, setUsersId] = useState([]);
   const [userId, setUserId] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("");
 
   const handleUserId = (e) => {
     setUserId(e.target.value);
@@ -44,7 +47,8 @@ const AddPaymentAdmin = () => {
   const getRooms = async () => {
     const response = await axios.get(`${serverUrl}/rooms`);
     const data = response.data;
-    const roomData = data?.filter((room) => room.isEmpty === false);
+    const roomDataIsEmpty = data?.filter((room) => room.isEmpty === false);
+    const roomData = roomDataIsEmpty?.filter((room) => room.isPaid === false);
     setRooms(roomData);
   };
 
@@ -58,17 +62,39 @@ const AddPaymentAdmin = () => {
   };
 
   const createPayment = async () => {
-    await axios.post(`${serverUrl}/payments`, {
-      roomId: roomId,
-      userId: userId,
-    });
+    await axios
+      .post(`${serverUrl}/payments`, {
+        roomId: roomId,
+        userId: userId,
+      })
+      .then((res) => {
+        setMessage(res.data.message);
+        setStatus(res.status);
+      })
+      .catch((err) => {
+        setMessage(err.response.data.message);
+        setStatus(err.response.status);
+      });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log({ roomId, userId });
     createPayment();
+    getRooms();
+    setRoomId("");
+    setUserId("");
   };
+
+  useEffect(() => {
+    if (status === 201) {
+      getRooms();
+    }
+    setTimeout(() => {
+      setMessage("");
+      setStatus("");
+    }, 3000);
+  }, [status, message]);
 
   return (
     <>
@@ -76,6 +102,16 @@ const AddPaymentAdmin = () => {
         Tambah Pembayaran
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
+        {message && (
+          <div className="alert">
+            <Icon.AlertCircle size={20} />
+            <span
+              className={`${status === 201 ? "text-accent" : "text-error"}`}
+            >
+              {message}
+            </span>
+          </div>
+        )}
         <form onSubmit={handleSubmit} className="w-full max-w-xs">
           <div className="form-control w-full">
             <label className="label">
@@ -120,7 +156,7 @@ const AddPaymentAdmin = () => {
           )}
           <div className="w-full flex flex-col gap-2">
             <button
-              disabled={!roomId && !userId ? "disabled" : ""}
+              disabled={userId === "" || roomId === "" ? "disabled" : ""}
               type="submit"
               className="btn btn-primary mt-24"
             >

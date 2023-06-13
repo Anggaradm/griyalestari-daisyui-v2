@@ -11,6 +11,7 @@ import AddMaintenance from "./molecules/maintenances/AddMaintenance";
 import MaintenanceTable from "./molecules/maintenances/MaintenanceTable";
 import DashNav from "./molecules/nav/DashNav";
 import Navbar from "./molecules/nav/Navbar";
+import AcceptPayment from "./molecules/payments/AcceptPayment";
 import AddPaymentAdmin from "./molecules/payments/AddPaymentAdmin";
 import AddPaymentMember from "./molecules/payments/AddPaymentMember";
 import AdminPaymentHistory from "./molecules/payments/AdminPaymentHistory";
@@ -29,6 +30,7 @@ import SingleRoomInfo from "./roominfos/SingleRoomInfo";
 
 export {
   About,
+  AcceptPayment,
   AddMaintenance,
   AddPaymentAdmin,
   AddPaymentMember,
