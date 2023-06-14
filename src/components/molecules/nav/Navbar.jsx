@@ -60,6 +60,9 @@ const Navbar = () => {
               <li>
                 <a href="#contact">Kontak</a>
               </li>
+              <li>
+                <Link to="/regulation">Tata Tertib</Link>
+              </li>
               {user ? (
                 <li className="max-w-md mt-4 flex flex-col gap-1">
                   <Link
@@ -105,6 +108,9 @@ const Navbar = () => {
             </li>
             <li>
               <a href="#contact">Kontak</a>
+            </li>
+            <li>
+              <Link to="/regulation">Tata Tertib</Link>
             </li>
           </ul>
         </div>

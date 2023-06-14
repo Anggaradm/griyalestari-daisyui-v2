@@ -20,7 +20,6 @@ const About = () => {
               anda selama tinggal di sini. Daftarkan diri Anda segera dan
               nikmati kenyamanan di rumah kos kami.
             </p>
-            <button className="btn btn-primary">Pesan Kamar</button>
           </div>
         </div>
       </div>

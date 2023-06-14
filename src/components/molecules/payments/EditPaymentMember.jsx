@@ -72,8 +72,8 @@ const EditPaymentMember = () => {
   };
 
   useEffect(() => {
-    if (status === 200) {
-      navigate("/dashboard/paymenthistory");
+    if (status === 201) {
+      window.location.replace("/dashboard/paymenthistory");
     }
   }, [status, navigate]);
 

@@ -3,8 +3,11 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import {
   DashboardPage,
   HomePage,
+  InfoRoomPage,
+  InvoiceMember,
   NotFoundPage,
   PrintFinancialReport,
+  RegulationPage,
   SigninPage,
   SignupPage,
 } from "./pages";
@@ -22,6 +25,12 @@ function App() {
           <Route
             path="/print-financial-report"
             element={<PrintFinancialReport />}
+          />
+          <Route path="/inforoom" element={<InfoRoomPage />} />
+          <Route path="/regulation" element={<RegulationPage />} />
+          <Route
+            path="/dashboard/paymenthistory/invoice/:id"
+            element={<InvoiceMember />}
           />
         </Routes>
       </Router>

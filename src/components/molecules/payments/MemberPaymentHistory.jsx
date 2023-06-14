@@ -205,7 +205,11 @@ const MemberPaymentHistory = () => {
                                   Edit
                                 </Link>
                               ) : tab === "accepted" ? (
-                                <Link className="btn btn-sm btn-ghost btn-outline text-xs font-normal">
+                                <Link
+                                  target="_blank"
+                                  to={`/dashboard/paymenthistory/invoice/${payment._id}`}
+                                  className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                                >
                                   Lihat
                                 </Link>
                               ) : (

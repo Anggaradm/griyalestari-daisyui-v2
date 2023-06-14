@@ -153,19 +153,31 @@ const AdminPaymentHistory = () => {
                     <td>{currency(payment.price)}</td>
                     <td>
                       <div className="flex">
-                        <label
-                          onClick={() =>
-                            setSelectedRoom({
-                              id: payment._id,
-                              roomName: payment.roomName,
-                              date: payment.createdAt?.toString().slice(0, 10),
-                            })
-                          }
-                          htmlFor="my_modal_6"
-                          className="btn btn-sm btn-error btn-outline text-xs font-normal"
-                        >
-                          hapus
-                        </label>
+                        {payment.isFromAdmin ? (
+                          <label
+                            onClick={() =>
+                              setSelectedRoom({
+                                id: payment._id,
+                                roomName: payment.roomName,
+                                date: payment.createdAt
+                                  ?.toString()
+                                  .slice(0, 10),
+                              })
+                            }
+                            htmlFor="my_modal_6"
+                            className="btn btn-sm btn-error btn-outline text-xs font-normal"
+                          >
+                            hapus
+                          </label>
+                        ) : (
+                          <button
+                            disabled="disabled"
+                            type="button"
+                            className="btn btn-sm btn-disabled btn-outline text-xs font-normal"
+                          >
+                            hapus
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

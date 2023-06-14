@@ -99,12 +99,13 @@ const ShowPayment = () => {
   return (
     <>
       <div className="max-w-2xl mb-24">
-        <button
+        <Link
+          to="/dashboard/accpayment"
           type="button"
           className="btn btn-ghost my-4 underline underline-offset-2"
         >
           Kembali
-        </button>
+        </Link>
         <img src={`${serverUrl}/public/${payment.imgUrl}`} alt="" />
         <div>
           {!isChoose ? (

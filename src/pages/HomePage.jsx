@@ -21,7 +21,9 @@ const HomePage = () => {
       </div>
       <div id="about">
         <About />
-        <Photos />
+        <div id="roomImage">
+          <Photos />
+        </div>
       </div>
       <div id="contact">
         <Footer />

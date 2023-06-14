@@ -50,7 +50,7 @@ const SignupForm = () => {
         email: email,
         password: password,
         confPassword: validation,
-        phone: 123,
+        phone: phone,
       })
       .then((response) => {
         setMessage(response.data.message);
@@ -74,7 +74,7 @@ const SignupForm = () => {
       setTimeout(() => {
         setMessage("");
         setStatus(null);
-        navigate("/login");
+        navigate("/signin");
       }, 3000);
     }
   }, [status]);

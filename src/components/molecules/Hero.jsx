@@ -16,7 +16,9 @@ const Hero = () => {
               Jaminan Fasilitas Lengkap dan Keamanan 24 Jam untuk Kenyamanan
               Anda.
             </p>
-            <button className="btn btn-primary">Lihat Kamar</button>
+            <a href="#roomImage" className="btn btn-primary">
+              Lihat Kamar
+            </a>
           </div>
         </div>
       </div>
