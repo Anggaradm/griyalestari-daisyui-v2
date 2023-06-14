@@ -53,6 +53,12 @@ const PrintFinancialReport = () => {
     return "Rp 0";
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      window.print();
+    }, 1000);
+  }, []);
+
   return (
     <>
       <div className="bg-white w-screen min-h-screen">
