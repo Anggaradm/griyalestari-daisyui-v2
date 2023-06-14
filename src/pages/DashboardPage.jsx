@@ -16,6 +16,7 @@ import {
   MaintenanceTable,
   MemberPaymentHistory,
   MemberProfile,
+  PendingPayments,
   SingleRoomInfo,
   UserBooking,
 } from "../components";
@@ -100,6 +101,7 @@ const DashboardPage = () => {
                   ))
                 }
               />
+              <Route path="/accpayment/*" element={<PendingPayments />} />
               <Route path="/maintenance/*" element={<MaintenanceTable />} />
               <Route path="/addmaintenance" element={<AddMaintenance />} />
               <Route path="/financial" element={<FinancialsBook />} />

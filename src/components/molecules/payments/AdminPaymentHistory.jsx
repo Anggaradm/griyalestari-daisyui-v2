@@ -38,7 +38,10 @@ const AdminPaymentHistory = () => {
 
   const getPayments = async () => {
     const response = await axios.get(`${serverUrl}/payments`);
-    setPayments(response.data.datas);
+    const datas = response.data.datas?.filter(
+      (data) => data.status === "accept"
+    );
+    setPayments(datas);
   };
 
   const deletePayment = async (id) => {
@@ -102,10 +105,19 @@ const AdminPaymentHistory = () => {
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
         Riwayat Pembayaran
       </h1>
-      <Link to="/dashboard/addpayment" className="mx-6 mt-12 btn btn-primary">
-        Tambah Data
-        <Icon.PlusCircle size={20} />
-      </Link>
+      <div className="flex">
+        <Link to="/dashboard/addpayment" className="mx-6 mt-12 btn btn-primary">
+          Tambah Data
+          <Icon.PlusCircle size={20} />
+        </Link>
+        <Link
+          to="/dashboard/accpayment"
+          className="mx-6 mt-12 btn btn-ghost btn-outline"
+        >
+          <Icon.AlertCircle size={20} />
+          Menunggu persetujuan
+        </Link>
+      </div>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         <div className="overflow-x-auto w-full">
           {message && (

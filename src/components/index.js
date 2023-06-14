@@ -16,6 +16,8 @@ import AddPaymentAdmin from "./molecules/payments/AddPaymentAdmin";
 import AddPaymentMember from "./molecules/payments/AddPaymentMember";
 import AdminPaymentHistory from "./molecules/payments/AdminPaymentHistory";
 import MemberPaymentHistory from "./molecules/payments/MemberPaymentHistory";
+import PendingPayments from "./molecules/payments/PendingPayments";
+import ShowPayment from "./molecules/payments/ShowPayment";
 import AdminProfile from "./molecules/profiles/AdminProfile";
 import EditMemberProfile from "./molecules/profiles/EditMemberProfile";
 import MemberProfile from "./molecules/profiles/MemberProfile";
@@ -52,8 +54,10 @@ export {
   MemberPaymentHistory,
   MemberProfile,
   Navbar,
+  PendingPayments,
   PhotoCard,
   Photos,
+  ShowPayment,
   SigninForm,
   SignupForm,
   SingleRoomInfo,

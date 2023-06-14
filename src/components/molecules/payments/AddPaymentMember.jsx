@@ -41,6 +41,22 @@ const AddPaymentMember = () => {
   }, [user, navigate]);
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [payment, setPayment] = useState({});
+
+  const getPayment = async () => {
+    await axios
+      .get(`${serverUrl}/payments/client`)
+      .then((res) => {
+        const data = res.data.datas?.filter(
+          (item) => item.status === "pending"
+        );
+
+        setPayment(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const createPayment = async (image) => {
     await axios
@@ -69,6 +85,14 @@ const AddPaymentMember = () => {
   };
 
   useEffect(() => {
+    getPayment();
+  }, []);
+
+  useEffect(() => {
+    console.log(payment);
+  }, [payment]);
+
+  useEffect(() => {
     if (status !== null && message !== "") {
       setTimeout(() => {
         window.location.reload();
@@ -78,46 +102,74 @@ const AddPaymentMember = () => {
 
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-        Tambah Pembayaran
-      </h1>
-      <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
-        {message && (
-          <div className="alert">
-            <Icon.AlertCircle size={20} />
-            <span
-              className={`${status === 201 ? "text-accent" : "text-error"}`}
+      {payment ? (
+        <>
+          <div className="w-full flex flex-col items-center">
+            <h1 className="text-xl font-bold mb-4 text-center pt-12">
+              Pembayaran diterima, silakan menunggu persetujuan admin.
+            </h1>
+            <Link
+              to="/dashboard/paymenthistory"
+              className="btn btn-ghost underline underline-offset-2"
             >
-              {message}
-            </span>
+              kembali
+            </Link>
           </div>
-        )}
-        <form onSubmit={handleSubmit} className="form-control w-full max-w-xs">
-          <label htmlFor="uploadFile" className="label">
-            <span className="label-text">Upload bukti bayar</span>
-          </label>
-          <input
-            type="file"
-            onChange={handleImageUpload}
-            id="uploadFile"
-            className="file-input file-input-bordered w-full max-w-xs"
-          />
+        </>
+      ) : (
+        <>
+          <h1 className="text-4xl font-bold mb-4 text-center pt-12">
+            Tambah Pembayaran
+          </h1>
+          <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
+            {message && (
+              <div className="alert">
+                <Icon.AlertCircle size={20} />
+                <span
+                  className={`${status === 201 ? "text-accent" : "text-error"}`}
+                >
+                  {message}
+                </span>
+              </div>
+            )}
+            <form
+              onSubmit={handleSubmit}
+              className="form-control w-full max-w-xs"
+            >
+              <label htmlFor="uploadFile" className="label">
+                <span className="label-text">Upload bukti bayar</span>
+              </label>
+              <input
+                type="file"
+                onChange={handleImageUpload}
+                id="uploadFile"
+                className="file-input file-input-bordered w-full max-w-xs"
+              />
 
-          {imgPreview && (
-            <img src={imgPreview} alt="uploaded" className="max-w-md mt-12" />
-          )}
-          <button
-            type="submit"
-            disabled={!isPopUp ? "disabled" : ""}
-            className="btn btn-primary mt-24"
-          >
-            Kirim
-          </button>
-          <Link to="/dashboard/paymenthistory" className="btn btn-outline mt-2">
-            Batal
-          </Link>
-        </form>
-      </div>
+              {imgPreview && (
+                <img
+                  src={imgPreview}
+                  alt="uploaded"
+                  className="max-w-md mt-12"
+                />
+              )}
+              <button
+                type="submit"
+                disabled={!isPopUp ? "disabled" : ""}
+                className="btn btn-primary mt-24"
+              >
+                Kirim
+              </button>
+              <Link
+                to="/dashboard/paymenthistory"
+                className="btn btn-outline mt-2"
+              >
+                Batal
+              </Link>
+            </form>
+          </div>
+        </>
+      )}
     </>
   );
 };
