@@ -1,6 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
 
 const EditPaymentMember = () => {
@@ -13,11 +14,6 @@ const EditPaymentMember = () => {
     setImage(file);
     setImgPreview(URL.createObjectURL(file));
     setIsPopUp(true);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(image);
   };
 
   // consumeAPI
@@ -40,6 +36,46 @@ const EditPaymentMember = () => {
       navigate("/dashboard");
     }
   }, [user, navigate]);
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [payment, setPayment] = useState({});
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
+  const { id } = useParams();
+
+  const editPayment = async (image) => {
+    await axios
+      .patch(
+        `${serverUrl}/payments/${id}`,
+        {
+          imgUrl: image,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        setMessage(res.data.message);
+        setStatus(res.data.status);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(image);
+    editPayment(image);
+  };
+
+  useEffect(() => {
+    if (status === 200) {
+      navigate("/dashboard/paymenthistory");
+    }
+  }, [status, navigate]);
 
   return (
     <>
@@ -68,10 +104,7 @@ const EditPaymentMember = () => {
           >
             Kirim
           </button>
-          <Link
-            to="/dashboard/paymenthistory"
-            className="btn btn-error btn-outline mt-2"
-          >
+          <Link to="/dashboard/paymenthistory" className="btn btn-outline mt-2">
             Batal
           </Link>
         </form>

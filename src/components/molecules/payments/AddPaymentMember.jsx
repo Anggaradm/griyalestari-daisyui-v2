@@ -102,7 +102,7 @@ const AddPaymentMember = () => {
 
   return (
     <>
-      {payment ? (
+      {payment?.length > 0 ? (
         <>
           <div className="w-full flex flex-col items-center">
             <h1 className="text-xl font-bold mb-4 text-center pt-12">

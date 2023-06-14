@@ -65,7 +65,7 @@ const AdminProfile = () => {
             </Link>
           </li>
           <li className="indicator">
-            <Link to="/dashboard/paymenthistory">
+            <Link to="/dashboard/accpayment">
               <Icon.CheckCircle size={15} />
               Terima Pembayaran
               <span className="indicator-item badge badge-secondary badge-sm">

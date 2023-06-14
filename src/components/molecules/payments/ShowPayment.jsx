@@ -14,11 +14,6 @@ const ShowPayment = () => {
     setNote(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setPaymentStatus("reject");
-  };
-
   // consumeAPI
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,24 +62,39 @@ const ShowPayment = () => {
     console.log(payment);
   }, [payment]);
 
-  //currency
-  const currency = (price) => {
-    // Menambahkan format rupiah dengan opsi lain
-    if (price) {
-      const formatted = price.toLocaleString("id-ID", {
-        style: "currency",
-        currency: "IDR",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+  const accPayment = async (status) => {
+    await axios
+      .patch(`${serverUrl}/payments/validate/${id}`, {
+        status: status,
+      })
+      .then((res) => {
+        console.log(res.data);
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
       });
-      return formatted;
-    }
-    return "Rp 0";
   };
 
-  useEffect(() => {
-    console.log(paymentStatus, note);
-  }, [paymentStatus, note]);
+  const rejectPayment = async (status, note) => {
+    await axios
+      .patch(`${serverUrl}/payments/validate/${id}`, {
+        status: status,
+        note: note,
+      })
+      .then((res) => {
+        console.log(res.data);
+        window.location.replace("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    rejectPayment(paymentStatus, note);
+  };
 
   return (
     <>
@@ -102,7 +112,7 @@ const ShowPayment = () => {
               <button
                 type="button"
                 onClick={() => {
-                  setPaymentStatus("accept");
+                  accPayment("accept");
                 }}
                 className="btn btn-primary"
               >
