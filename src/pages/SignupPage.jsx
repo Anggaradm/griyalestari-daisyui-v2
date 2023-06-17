@@ -4,7 +4,7 @@ import { Copyright, SignupForm } from "../components";
 const SignupPage = () => {
   return (
     <>
-      <div className="w-screen">
+      <div className="max-w-screen">
         <SignupForm />
         <Copyright />
       </div>

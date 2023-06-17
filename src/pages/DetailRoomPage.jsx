@@ -86,7 +86,7 @@ const DetailRoomPage = () => {
                     </li>
                   </ul>
                   <div className="card-actions justify-end mt-6">
-                    <Link to="/signup" className="btn btn-primary">
+                    <Link to={`/signup/${id}`} className="btn btn-primary">
                       Booking
                     </Link>
                   </div>
