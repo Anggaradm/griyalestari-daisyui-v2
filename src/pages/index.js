@@ -1,4 +1,5 @@
 import DashboardPage from "./DashboardPage";
+import DetailRoomPage from "./DetailRoomPage";
 import HomePage from "./HomePage";
 import InfoRoomPage from "./InfoRoomPage";
 import InvoiceMember from "./InvoiceMember";
@@ -10,6 +11,7 @@ import SignupPage from "./SignupPage";
 
 export {
   DashboardPage,
+  DetailRoomPage,
   HomePage,
   InfoRoomPage,
   InvoiceMember,

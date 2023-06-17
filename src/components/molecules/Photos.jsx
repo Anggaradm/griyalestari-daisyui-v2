@@ -10,11 +10,26 @@ const Photos = () => {
           <div className="w-full my-12 text-4xl font-medium text-center">
             <h2>Kos Griya Lestari</h2>
           </div>
-          <PhotoCard />
-          <PhotoCard />
-          <PhotoCard />
-          <PhotoCard />
-          <PhotoCard />
+          <PhotoCard
+            url="https://source.unsplash.com/400x400?villa"
+            title="halaman"
+          />
+          <PhotoCard
+            url="https://source.unsplash.com/400x400?park"
+            title="taman"
+          />
+          <PhotoCard
+            url="https://source.unsplash.com/400x400?parking-area"
+            title="parkiran"
+          />
+          <PhotoCard
+            url="https://source.unsplash.com/400x400?interior"
+            title="kamar"
+          />
+          <PhotoCard
+            url="https://source.unsplash.com/400x400?toilet"
+            title="toilet"
+          />
         </div>
 
         <div className="mt-24">

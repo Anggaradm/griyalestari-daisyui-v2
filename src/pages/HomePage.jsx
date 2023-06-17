@@ -1,6 +1,15 @@
 import React, { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import SmoothScroll from "smooth-scroll";
-import { About, Copyright, Footer, Hero, Navbar, Photos } from "../components";
+import {
+  About,
+  Copyright,
+  Footer,
+  Hero,
+  Navbar,
+  Photos,
+  Rooms,
+} from "../components";
 
 const HomePage = () => {
   useEffect(() => {
@@ -10,6 +19,14 @@ const HomePage = () => {
       easing: "easeInOutCubic", // Efek easing (opsional, default: 'easeInOutCubic')
     });
   }, []);
+
+  // back to top if navigated to this page from another page
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Menggulirkan ke atas halaman saat terjadi navigasi
+  }, [location]);
+  // end of back to top
 
   return (
     <>
@@ -21,8 +38,8 @@ const HomePage = () => {
       </div>
       <div id="about">
         <About />
-        <div id="roomImage">
-          <Photos />
+        <div id="rooms">
+          <Rooms />
         </div>
       </div>
       <div id="contact">

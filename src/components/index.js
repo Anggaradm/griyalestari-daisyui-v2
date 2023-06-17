@@ -28,6 +28,8 @@ import AddRoom from "./roominfos/AddRoom";
 import AddUserToRoom from "./roominfos/AddUserToRoom";
 import AllRoomInfo from "./roominfos/AllRoomInfo";
 import DeleteUserFromRoom from "./roominfos/DeleteUserFromRoom";
+import RoomNumber from "./roominfos/RoomNumber";
+import Rooms from "./roominfos/Rooms";
 import SingleRoomInfo from "./roominfos/SingleRoomInfo";
 
 export {
@@ -57,6 +59,8 @@ export {
   PendingPayments,
   PhotoCard,
   Photos,
+  RoomNumber,
+  Rooms,
   ShowPayment,
   SigninForm,
   SignupForm,

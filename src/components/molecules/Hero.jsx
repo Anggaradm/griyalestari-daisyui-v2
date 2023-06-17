@@ -4,7 +4,7 @@ import "./styles/hero.css";
 const Hero = () => {
   return (
     <>
-      <div className="hero min-h-screen" id="hero-bg">
+      <div className="hero min-h-screen" tabIndex={0} id="hero-bg">
         <div className="hero-overlay bg-gradient-to-t from-base-100 to-base-80"></div>
         <div className="hero-content text-center text-neutral-content">
           <div className="max-w-md text-white">
@@ -16,7 +16,7 @@ const Hero = () => {
               Jaminan Fasilitas Lengkap dan Keamanan 24 Jam untuk Kenyamanan
               Anda.
             </p>
-            <a href="#roomImage" className="btn btn-primary">
+            <a href="#rooms" className="btn btn-primary">
               Lihat Kamar
             </a>
           </div>

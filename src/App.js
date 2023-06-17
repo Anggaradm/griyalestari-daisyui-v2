@@ -2,6 +2,7 @@ import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import {
   DashboardPage,
+  DetailRoomPage,
   HomePage,
   InfoRoomPage,
   InvoiceMember,
@@ -28,6 +29,7 @@ function App() {
           />
           <Route path="/inforoom" element={<InfoRoomPage />} />
           <Route path="/regulation" element={<RegulationPage />} />
+          <Route path="/roominfo/:id" element={<DetailRoomPage />} />
           <Route
             path="/dashboard/paymenthistory/invoice/:id"
             element={<InvoiceMember />}

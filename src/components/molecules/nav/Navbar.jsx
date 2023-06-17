@@ -89,9 +89,9 @@ const Navbar = () => {
                   >
                     Masuk
                   </Link>
-                  <Link to="/signup" className="btn btn-primary btn-sm">
-                    Daftar
-                  </Link>
+                  <a href="#rooms" className="btn btn-primary btn-sm">
+                    Pesan Kamar
+                  </a>
                 </li>
               )}
             </ul>
@@ -135,9 +135,9 @@ const Navbar = () => {
               <Link to="/signin" className="btn btn-outline btn-ghost">
                 Masuk
               </Link>
-              <Link to="/signup" className="btn btn-primary">
-                Daftar
-              </Link>
+              <a href="#rooms" className="btn btn-primary">
+                Pesan Kamar
+              </a>
             </>
           )}
         </div>
