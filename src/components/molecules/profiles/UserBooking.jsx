@@ -2,8 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
+import ShowBooking from "../payments/ShowBooking";
 
 const UserBooking = () => {
   // consumeAPI
@@ -28,17 +29,19 @@ const UserBooking = () => {
   }, [user, navigate]);
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const [users, setUsers] = useState([]);
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
-    getUsers();
+    getBookings();
   }, []);
 
-  const getUsers = async () => {
-    const response = await axios.get(`${serverUrl}/users`);
-    const datas = response.data;
-    const userGuest = datas?.filter((data) => data.userStatus === "guest");
-    setUsers(userGuest);
+  const getBookings = async () => {
+    const response = await axios.get(`${serverUrl}/booking-payments`);
+    const data = response.data;
+    const bookingData = data.data?.filter(
+      (booking) => booking.status === "pending"
+    );
+    setBookings(bookingData);
   };
 
   //   useEffect(() => {
@@ -49,11 +52,11 @@ const UserBooking = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
-  const totalPages = Math.ceil(users?.length / itemsPerPage);
+  const totalPages = Math.ceil(bookings?.length / itemsPerPage);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const userItems = users?.slice(indexOfFirstItem, indexOfLastItem);
+  const userItems = bookings?.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleNextPage = () => {
     setCurrentPage((pageNumber) => pageNumber + 1);
@@ -68,72 +71,77 @@ const UserBooking = () => {
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
         Daftar Booking
       </h1>
-      <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
-        <div className="overflow-x-auto w-full">
-          <table className="table table-zebra table-pin-cols md:table-pin-rows">
-            {/* head */}
-            <thead>
-              <tr>
-                <th></th>
-                <th>Nama</th>
-                <th>Email</th>
-                <th>Nomor Handphone</th>
-                <th>Pilihan</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* row mapping */}
-              {userItems
-                ?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                .map((user, index) => (
-                  <tr key={user._id}>
-                    <th>{index + 1 + (currentPage - 1) * itemsPerPage}</th>
-                    <th>{user.name}</th>
-                    <td>{user.email}</td>
-                    <td>{user.phone}</td>
-                    <td>
-                      <div>
-                        <div className="flex gap-2">
-                          <a
-                            href={`mailto:${user.email}`}
-                            className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-                          >
-                            <Icon.Mail size={20} />
-                          </a>
-                          <a
-                            target="_blank"
-                            href={`https://wa.me/6287771289730?text=Halo,%20kami%20dari%20Griya%20Kost%20Lestari.%20Kami%20melihat%20anda%20melakukan%20booking%20pada%20Website%20kami,%20untuk%20saat%20ini%20ada%20beberapa%20kamar%20yang%20siap%20ditempati.%20Silakan%20menghubungi%20kami%20di%20nomor%20ini%20%F0%9F%98%89.`}
-                            className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-                            rel="noreferrer"
-                          >
-                            <Icon.MessageCircle size={20} />
-                          </a>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="join mt-12">
-          <button
-            onClick={handlePrevPage}
-            disabled={currentPage <= 1}
-            className="join-item btn"
-          >
-            «
-          </button>
-          <button className="join-item btn">halaman {currentPage}</button>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage >= totalPages}
-            className="join-item btn"
-          >
-            »
-          </button>
-        </div>
-      </div>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
+              <div className="overflow-x-auto w-full">
+                <table className="table table-zebra table-pin-cols md:table-pin-rows">
+                  {/* head */}
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>Kamar</th>
+                      <th>Nama</th>
+                      <th>Tanggal</th>
+                      <th>Pilihan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {/* row mapping */}
+                    {userItems
+                      ?.sort(
+                        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+                      )
+                      .map((booking, index) => (
+                        <tr key={booking._id}>
+                          <th>
+                            {index + 1 + (currentPage - 1) * itemsPerPage}
+                          </th>
+                          <td>
+                            {booking.roomId?.roomNumber}
+                            {booking.roomId?.roomTag}
+                          </td>
+                          <th>{booking.userId?.name}</th>
+                          <td>{booking.createdAt.toString().slice(0, 10)}</td>
+                          <td>
+                            <div>
+                              <Link
+                                to={`/dashboard/booking/${booking._id}`}
+                                className="btn btn-ghost btn-outline btn-sm lowercase"
+                              >
+                                lihat bukti bayar
+                              </Link>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="join mt-12">
+                <button
+                  onClick={handlePrevPage}
+                  disabled={currentPage <= 1}
+                  className="join-item btn"
+                >
+                  «
+                </button>
+                <button className="join-item btn">halaman {currentPage}</button>
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage >= totalPages}
+                  className="join-item btn"
+                >
+                  »
+                </button>
+              </div>
+            </div>
+          }
+        />
+        <Route path="/:id" element={<ShowBooking />} />
+      </Routes>
     </>
   );
 };

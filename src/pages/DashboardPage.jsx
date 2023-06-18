@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import {
+  AddDownPayment,
   AddMaintenance,
   AddPaymentAdmin,
   AddPaymentMember,
@@ -10,13 +11,16 @@ import {
   AdminProfile,
   AllRoomInfo,
   DashNav,
+  EditDownPayment,
   EditMemberProfile,
   FinancialsBook,
+  GuestProfile,
   Maintenance,
   MaintenanceTable,
   MemberPaymentHistory,
   MemberProfile,
   PendingPayments,
+  Rooms,
   SingleRoomInfo,
   UserBooking,
 } from "../components";
@@ -54,12 +58,14 @@ const DashboardPage = () => {
                   user &&
                   (user.userStatus === "admin" ? (
                     <AdminProfile />
-                  ) : (
+                  ) : user.userStatus === "member" ? (
                     <MemberProfile />
+                  ) : (
+                    <GuestProfile />
                   ))
                 }
               />
-              <Route path="/booking" element={<UserBooking />} />
+              <Route path="/booking/*" element={<UserBooking />} />
               <Route path="/editmember" element={<EditMemberProfile />} />
               <Route
                 path="/roominfo/*"
@@ -97,7 +103,7 @@ const DashboardPage = () => {
                   ) : user.userStatus === "member" ? (
                     <AddPaymentMember />
                   ) : (
-                    <NotFoundPage />
+                    <AddDownPayment />
                   ))
                 }
               />
@@ -105,6 +111,8 @@ const DashboardPage = () => {
               <Route path="/maintenance/*" element={<MaintenanceTable />} />
               <Route path="/addmaintenance" element={<AddMaintenance />} />
               <Route path="/financial" element={<FinancialsBook />} />
+              <Route path="/choosenewroom" element={<Rooms />} />
+              <Route path="/downpayment/:id" element={<EditDownPayment />} />
             </Routes>
           </div>
         </div>

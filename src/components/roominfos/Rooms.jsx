@@ -1,14 +1,23 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { getMe } from "../../features/authSlice";
 import RoomNumber from "./RoomNumber";
 
 const Rooms = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
 
   // consumeAPI
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const [rooms, setRooms] = useState([]);
+  const [temporaryRoomId, setTemporaryRoomId] = useState("");
 
   useEffect(() => {
     getRooms();
@@ -19,6 +28,19 @@ const Rooms = () => {
       .get(`${serverUrl}/rooms/guest`)
       .then((response) => {
         setRooms(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const updateTemporaryRoomId = async (roomId) => {
+    await axios
+      .patch(`${serverUrl}/users/temp-update`, {
+        temporaryRoomId: roomId,
+      })
+      .then((response) => {
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -57,8 +79,19 @@ const Rooms = () => {
                           key={index}
                           roomNumber={`${room.roomNumber}${room.roomTag}`}
                           addStyle="btn-accent hover:opacity-80"
-                          disabled={room.isEmpty ? "" : "disabled"}
-                          onClick={() => navigate(`/roominfo/${room._id}`)}
+                          disabled={
+                            room.isEmpty || room.isBooked === false
+                              ? ""
+                              : "disabled"
+                          }
+                          onClick={
+                            !user
+                              ? () => navigate(`/roominfo/${room._id}`)
+                              : () => {
+                                  updateTemporaryRoomId(room._id) &&
+                                    window.location.replace("/dashboard");
+                                }
+                          }
                         />
                       ))}
                   </div>

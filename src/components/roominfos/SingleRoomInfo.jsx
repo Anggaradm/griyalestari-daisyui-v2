@@ -72,6 +72,10 @@ const SingleRoomInfo = () => {
     return "Rp 0";
   };
 
+  useEffect(() => {
+    console.log(room);
+  }, [room]);
+
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
@@ -126,6 +130,12 @@ const SingleRoomInfo = () => {
           </div>
         </div>
       </div>
+      {room.isBooked && (
+        <p>
+          *Silakan melunasi pembayaran sebelum tanggal{" "}
+          {room.expiredDate.toString().slice(0, 10)}
+        </p>
+      )}
     </>
   );
 };

@@ -12,14 +12,18 @@ import MaintenanceTable from "./molecules/maintenances/MaintenanceTable";
 import DashNav from "./molecules/nav/DashNav";
 import Navbar from "./molecules/nav/Navbar";
 import AcceptPayment from "./molecules/payments/AcceptPayment";
+import AddDownPayment from "./molecules/payments/AddDownPayment";
 import AddPaymentAdmin from "./molecules/payments/AddPaymentAdmin";
 import AddPaymentMember from "./molecules/payments/AddPaymentMember";
 import AdminPaymentHistory from "./molecules/payments/AdminPaymentHistory";
+import EditDownPayment from "./molecules/payments/EditDownPayment";
 import MemberPaymentHistory from "./molecules/payments/MemberPaymentHistory";
 import PendingPayments from "./molecules/payments/PendingPayments";
+import ShowBooking from "./molecules/payments/ShowBooking";
 import ShowPayment from "./molecules/payments/ShowPayment";
 import AdminProfile from "./molecules/profiles/AdminProfile";
 import EditMemberProfile from "./molecules/profiles/EditMemberProfile";
+import GuestProfile from "./molecules/profiles/GuestProfile";
 import MemberProfile from "./molecules/profiles/MemberProfile";
 import UserBooking from "./molecules/profiles/UserBooking";
 import SigninForm from "./molecules/signforms/SigninForm";
@@ -35,6 +39,7 @@ import SingleRoomInfo from "./roominfos/SingleRoomInfo";
 export {
   About,
   AcceptPayment,
+  AddDownPayment,
   AddMaintenance,
   AddPaymentAdmin,
   AddPaymentMember,
@@ -47,9 +52,11 @@ export {
   DashNav,
   DeleteUserFromRoom,
   DrawerDash,
+  EditDownPayment,
   EditMemberProfile,
   FinancialsBook,
   Footer,
+  GuestProfile,
   Hero,
   LogoText,
   MaintenanceTable,
@@ -61,6 +68,7 @@ export {
   Photos,
   RoomNumber,
   Rooms,
+  ShowBooking,
   ShowPayment,
   SigninForm,
   SignupForm,

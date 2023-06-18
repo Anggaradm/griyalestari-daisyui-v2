@@ -17,26 +17,41 @@ const DrawerDashboard = () => {
             {/* Sidebar content here */}
 
             {user?.userStatus === "guest" || user?.userStatus === "ex" ? (
-              <li>
-                <details>
-                  <summary>
-                    <Icon.User size={20} className="mr-2" />
-                    User
-                  </summary>
-                  <ul>
-                    <li>
-                      <Link to="/dashboard">Profil</Link>
-                    </li>
-                    {user && user.userStatus === "admin" ? (
+              <>
+                <li>
+                  <details>
+                    <summary>
+                      <Icon.User size={20} className="mr-2" />
+                      User
+                    </summary>
+                    <ul>
                       <li>
-                        <Link to="/dashboard/booking">Daftar Booking</Link>
+                        <Link to="/dashboard">Profil</Link>
                       </li>
-                    ) : (
-                      ""
-                    )}
-                  </ul>
-                </details>
-              </li>
+                      {user && user.userStatus === "admin" ? (
+                        <li>
+                          <Link to="/dashboard/booking">Daftar Booking</Link>
+                        </li>
+                      ) : (
+                        ""
+                      )}
+                    </ul>
+                  </details>
+                </li>
+                <li>
+                  <details>
+                    <summary>
+                      <Icon.Home size={20} className="mr-2" />
+                      Kamar
+                    </summary>
+                    <ul>
+                      <li>
+                        <Link to="/dashboard/choosenewroom">Pilih Kamar</Link>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+              </>
             ) : (
               <>
                 <li>

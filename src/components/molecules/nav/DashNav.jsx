@@ -51,7 +51,7 @@ const NavbarDashboard = () => {
         </div>
         <div className="navbar-center">
           <Link to="/dashboard" className="btn btn-ghost normal-case text-xl">
-            {user && user.userStatus}
+            Dashboard
           </Link>
         </div>
         <div className="navbar-end">

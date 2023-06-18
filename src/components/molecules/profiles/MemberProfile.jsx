@@ -59,14 +59,7 @@ const MemberProfile = () => {
               {user.address ? user.address : "silakan lengkapi data anda"}
             </span>
           </div>
-          <div className="w-full">
-            <Link
-              to={`/dashboard/editmember`}
-              className="btn btn-outline btn-ghost w-full mt-12"
-            >
-              Edit
-            </Link>
-          </div>
+          <div className="w-full"></div>
         </div>
       </div>
     </>
