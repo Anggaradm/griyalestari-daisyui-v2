@@ -52,10 +52,6 @@ const FinancialsBook = () => {
     getFinancials();
   }, [apiEndPoint]);
 
-  // useEffect(() => {
-  //   console.log(financials);
-  // }, [financials]);
-
   const getFinancials = async () => {
     const response = await axios.get(`${serverUrl}/financials${apiEndPoint}`);
     setFinancials(response.data);
@@ -64,16 +60,19 @@ const FinancialsBook = () => {
   // ########pagination########
   const [currentPagePayments, setCurrentPagePayments] = useState(1);
   const [currentPageMaintenances, setCurrentPageMaintenances] = useState(1);
+  const [currentPageBookings, setCurrentPageBookings] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // jumlah item per page
   // inisialisasi data array
   const paymentsData = financials?.paymentData;
   const maintenancesData = financials?.maintenanceData;
+  const bookingsData = financials?.bookingPaymentData;
 
   // menghitung total page
   const totalPagePayments = Math.ceil(paymentsData?.length / itemsPerPage);
   const totalPageMaintenances = Math.ceil(
     maintenancesData?.length / itemsPerPage
   );
+  const totalPageBookings = Math.ceil(bookingsData?.length / itemsPerPage);
 
   // mengambil data halaman saat ini
   const indexOfLastItemPayments = currentPagePayments * itemsPerPage;
@@ -91,12 +90,22 @@ const FinancialsBook = () => {
     indexOfLastItemMaintenances
   );
 
+  const indexOfLastItemBookings = currentPageBookings * itemsPerPage;
+  const indexOfFirstItemBookings = indexOfLastItemBookings - itemsPerPage;
+  const currentItemsBookings = bookingsData?.slice(
+    indexOfFirstItemBookings,
+    indexOfLastItemBookings
+  );
+
   // previous page
   const prevPagePayments = (pageNumber) => {
     setCurrentPagePayments((pageNumber) => pageNumber - 1);
   };
   const prevPageMaintenances = (pageNumber) => {
     setCurrentPageMaintenances((pageNumber) => pageNumber - 1);
+  };
+  const prevPageBookings = (pageNumber) => {
+    setCurrentPageBookings((pageNumber) => pageNumber - 1);
   };
 
   // next page
@@ -105,6 +114,9 @@ const FinancialsBook = () => {
   };
   const nextPageMaintenances = (pageNumber) => {
     setCurrentPageMaintenances((pageNumber) => pageNumber + 1);
+  };
+  const nextPageBookings = (pageNumber) => {
+    setCurrentPageBookings((pageNumber) => pageNumber + 1);
   };
 
   return (
@@ -248,7 +260,7 @@ const FinancialsBook = () => {
                 <tfoot>
                   <tr className="text-accent">
                     <th colSpan="3">Total</th>
-                    <th>{currency(financials.income)}</th>
+                    <th>{currency(financials.totalPaymentCost)}</th>
                   </tr>
                 </tfoot>
               </table>
@@ -270,6 +282,73 @@ const FinancialsBook = () => {
                 disabled={
                   currentPagePayments === totalPagePayments ||
                   totalPagePayments === 0
+                    ? "disabled"
+                    : ""
+                }
+              >
+                »
+              </button>
+            </div>
+          </div>
+
+          {/* pembayaran booking */}
+          <div className="w-full">
+            <div className="my-2">
+              <h3>Detail Pembayaran Booking</h3>
+            </div>
+            <div className="overflow-x-auto w-full">
+              <table className="table table-zebra table-pin-cols table-pin-rows md:table-pin-rows">
+                {/* head */}
+                <thead>
+                  <tr>
+                    <th></th>
+                    <td>Kamar</td>
+                    <td>Tanggal</td>
+                    <th>Nominal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* row mapping */}
+                  {currentItemsBookings
+                    ?.sort(
+                      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+                    )
+                    ?.map((booking, index) => (
+                      <tr key={index}>
+                        <th>
+                          {index + 1 + (currentPageBookings - 1) * itemsPerPage}
+                        </th>
+                        <td>{booking.roomName}</td>
+                        <td>{booking.createdAt?.toString().slice(0, 10)}</td>
+                        <th>{currency(booking.price)}</th>
+                      </tr>
+                    ))}
+                </tbody>
+                <tfoot>
+                  <tr className="text-accent">
+                    <th colSpan="3">Total</th>
+                    <th>{currency(financials.totalBookingPaymentCost)}</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <div className="join mt-1">
+              <button
+                onClick={prevPageBookings}
+                className="join-item btn"
+                disabled={currentPageBookings === 1}
+              >
+                «
+              </button>
+              <button className="join-item btn">
+                halaman {currentPageBookings}
+              </button>
+              <button
+                onClick={nextPageBookings}
+                className="join-item btn"
+                disabled={
+                  currentPageBookings === totalPageBookings ||
+                  totalPageBookings === 0
                     ? "disabled"
                     : ""
                 }

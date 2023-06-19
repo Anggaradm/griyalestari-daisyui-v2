@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import * as image from "../../../assets";
 
-const SignupForm = () => {
+const SignupFormGuest = () => {
   // back to top if navigated to this page from another page
   const location = useLocation();
 
@@ -73,7 +73,6 @@ const SignupForm = () => {
         phone: phone,
         company: company,
         address: address,
-        temporaryRoomId: roomId,
       })
       .then((response) => {
         setMessage(response.data.message);
@@ -262,4 +261,4 @@ const SignupForm = () => {
   );
 };
 
-export default SignupForm;
+export default SignupFormGuest;

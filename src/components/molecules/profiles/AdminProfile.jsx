@@ -28,13 +28,15 @@ const AdminProfile = () => {
   }, [user, navigate]);
 
   const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const [users, setUsers] = useState([]);
+  const [bookingPayment, setBookingPayment] = useState({});
   const [payments, setPayments] = useState([]);
 
-  const getUsers = async () => {
-    const response = await axios.get(`${serverUrl}/users`);
-    const datas = response.data?.filter((user) => user.userStatus === "guest");
-    setUsers(datas);
+  const getBookingPayments = async () => {
+    const response = await axios.get(`${serverUrl}/booking-payments`);
+    const datas = response.data.data?.filter(
+      (bookingPayment) => bookingPayment.status === "pending"
+    );
+    setBookingPayment(datas);
   };
 
   const getPayments = async () => {
@@ -46,7 +48,7 @@ const AdminProfile = () => {
   };
 
   useEffect(() => {
-    getUsers();
+    getBookingPayments();
     getPayments();
   }, []);
 
@@ -60,7 +62,7 @@ const AdminProfile = () => {
               <Icon.Users size={15} />
               Daftar Booking
               <span className="indicator-item badge badge-secondary badge-sm">
-                {users?.length}
+                {bookingPayment?.length}
               </span>
             </Link>
           </li>

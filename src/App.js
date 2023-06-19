@@ -11,6 +11,7 @@ import {
   RegulationPage,
   SigninPage,
   SignupPage,
+  SignupPageGuest,
 } from "./pages";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/dashboard/*" element={<DashboardPage />} />
           <Route path="/signin" element={<SigninPage />} />
           <Route path="/signup/:roomId" element={<SignupPage />} />
+          <Route path="/signup" element={<SignupPageGuest />} />
           <Route
             path="/print-financial-report"
             element={<PrintFinancialReport />}

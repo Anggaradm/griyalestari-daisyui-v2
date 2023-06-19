@@ -61,6 +61,11 @@ const MemberProfile = () => {
           </div>
           <div className="w-full"></div>
         </div>
+        <div className="w-full">
+          <Link to="/dashboard/roominfo" className="btn btn-primary w-full">
+            Lihat Kamar
+          </Link>
+        </div>
       </div>
     </>
   );

@@ -8,6 +8,7 @@ import PrintFinancialReport from "./PrintFinancialReport";
 import RegulationPage from "./RegulationPage";
 import SigninPage from "./SigninPage";
 import SignupPage from "./SignupPage";
+import SignupPageGuest from "./SignupPageGuest";
 
 export {
   DashboardPage,
@@ -20,4 +21,5 @@ export {
   RegulationPage,
   SigninPage,
   SignupPage,
+  SignupPageGuest,
 };
