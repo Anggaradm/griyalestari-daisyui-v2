@@ -24,7 +24,6 @@ const GuestProfile = () => {
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const [room, setRoom] = useState({});
   const [bookingPayments, setBookingPayments] = useState({});
-  const [rejectedBookingPayments, setRejectedBookingPayments] = useState({});
   const roomId = user.temporaryRoomId;
 
   const getRoom = async () => {
@@ -101,7 +100,7 @@ const GuestProfile = () => {
           </div>
         </div>
         <div className="card w-96 bg-base-100 shadow-xl">
-          {!room.isEmpty ? (
+          {room && !room.isEmpty ? (
             <div className="card-body flex flex-col items-center">
               <h2 className="card-title">Ganti kamar</h2>
               <p className="text-center">
@@ -118,8 +117,8 @@ const GuestProfile = () => {
             <div className="card-body flex-col items-center">
               <h2 className="card-title">Pembayaran</h2>
               <div className="divider"></div>
-              {bookingPayments.data[0]?.status === "reject" ? (
-                <p className="text-center">{bookingPayments.data[0]?.note}</p>
+              {bookingPayments.data?.status === "reject" ? (
+                <p className="text-center">{bookingPayments.data?.note}</p>
               ) : (
                 <p className="text-center">
                   Silakan melakukan pembayaran sebesar Rp 100_000 <br />
@@ -128,12 +127,12 @@ const GuestProfile = () => {
                 </p>
               )}
               <div className="card-actions justify-end mt-6">
-                {bookingPayments.data?.length > 0 ? (
-                  bookingPayments.data[0]?.status === "reject" ? (
+                {bookingPayments.data ? (
+                  bookingPayments.data.status === "reject" ? (
                     <button
                       onClick={() =>
                         navigate(
-                          `/dashboard/downpayment/${bookingPayments.data[0]._id}`
+                          `/dashboard/downpayment/${bookingPayments.data?._id}`
                         )
                       }
                       className="btn btn-primary"

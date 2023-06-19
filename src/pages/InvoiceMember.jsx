@@ -82,9 +82,10 @@ const InvoiceMember = () => {
                       Dari:
                       <span className="my-2 font-bold">Griya Kost Lestari</span>
                       <p className="text-xs">
-                        Jl. Gemulung, rt 19 / rw 002,
+                        Jl. Gemulung, Gg. 3
                         <br />
-                        ds.Pulodarat, Pecangaan, Jepara
+                        ds.Pulodarat, rt 19 / rw 002, <br />
+                        kec.Pecangaan, Jepara
                       </p>
                     </div>
                     <div className="w-[50%] flex flex-col text-end">

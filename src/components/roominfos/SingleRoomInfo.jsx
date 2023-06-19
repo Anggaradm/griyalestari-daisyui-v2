@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../features/authSlice";
@@ -82,6 +83,19 @@ const SingleRoomInfo = () => {
         Kamar {room.roomNumber}
         {room.roomTag}
       </h1>
+      {room.isBooked === true ? (
+        <div className="alert alert-warning">
+          <Icon.AlertCircle size={20} />
+          <span>
+            Silakan melunasi pembayaran sebelum tenggat waktu, <br />
+            Jika tidak maka kamar akan dihapus dari daftar kamar yang dipesan{" "}
+            <br />
+            dan uang muka sebesar Rp 100.000 akan hangus.
+          </span>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="py-6 flex flex-col items-center">
         <div className="stats stats-vertical lg:stats-horizontal bg-base-100 text-primary-content">
           <div className="stat flex flex-col gap-2">
@@ -131,7 +145,7 @@ const SingleRoomInfo = () => {
         </div>
       </div>
       {room.isBooked && (
-        <p>
+        <p className="text-center">
           *Silakan melunasi pembayaran sebelum tanggal{" "}
           {room.expiredDate.toString().slice(0, 10)}
         </p>

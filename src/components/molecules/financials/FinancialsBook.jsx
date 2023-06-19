@@ -93,7 +93,7 @@ const FinancialsBook = () => {
 
   // previous page
   const prevPagePayments = (pageNumber) => {
-    setCurrentPagePayments(pageNumber);
+    setCurrentPagePayments((pageNumber) => pageNumber - 1);
   };
   const prevPageMaintenances = (pageNumber) => {
     setCurrentPageMaintenances((pageNumber) => pageNumber - 1);
