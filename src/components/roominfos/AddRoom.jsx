@@ -84,7 +84,13 @@ const AddRoom = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // console.log({ name, number });
-    addRoom();
+    if (image.length !== 3) {
+      alert(`Anda hanya dapat mengunggah 3 file.`);
+      // Lakukan tindakan lain sesuai kebutuhan, misalnya menghapus file yang tidak valid
+    } else {
+      // Jumlah file sesuai batasan, lanjutkan dengan pemrosesan file
+      addRoom();
+    }
   };
 
   useEffect(() => {
