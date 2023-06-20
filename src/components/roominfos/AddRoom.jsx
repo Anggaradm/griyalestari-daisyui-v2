@@ -8,6 +8,7 @@ import { getMe } from "../../features/authSlice";
 const AddRoom = () => {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
+  const [image, setImage] = useState([]);
 
   const [isAddSuccess, setIsAddSuccess] = useState(false);
 
@@ -17,6 +18,10 @@ const AddRoom = () => {
 
   const handleChangeNumber = (e) => {
     setNumber(e.target.value);
+  };
+
+  const handleImageUpload = (e) => {
+    setImage(e.target.files);
   };
 
   // consumeAPI
@@ -45,10 +50,18 @@ const AddRoom = () => {
   const [status, setStatus] = useState(null);
 
   const addRoom = async () => {
+    const formData = new FormData();
+    formData.append("roomTag", name);
+    formData.append("roomNumber", number);
+    for (let i = 0; i < image.length; i++) {
+      formData.append("imgUrl", image[i]);
+    }
+
     await axios
-      .post(`${serverUrl}/rooms`, {
-        roomTag: name,
-        roomNumber: number,
+      .post(`${serverUrl}/rooms`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((response) => {
         console.log(response);
@@ -133,6 +146,21 @@ const AddRoom = () => {
               className="input input-bordered w-full max-w-xs"
             />
           </div>
+          {/* imageUpload */}
+          <div className="form-control w-full max-w-xs flex mt-12">
+            <label htmlFor="uploadImage" className="label">
+              <span className="label-text">Upload Gambar</span>
+              <input
+                type="file"
+                multiple
+                onChange={handleImageUpload}
+                required
+                id="uploadImage"
+                className="input input-bordered w-full max-w-xs py-2"
+              />
+            </label>
+          </div>
+          {/* end imageUpload */}
           <div className="mt-12 w-full flex flex-col items-center">
             <button type="submit" className="btn btn-primary w-full max-w-xs">
               Kirim

@@ -45,18 +45,13 @@ const DetailRoomPage = () => {
             <h1 className="text-4xl font-bold">{`Kamar ${room.roomNumber}${room.roomTag}`}</h1>
             <div className="w-full max-w-screen my-12">
               <div className="w-full flex gap-12 flex-wrap justify-center">
-                <PhotoCard
-                  url="https://source.unsplash.com/600x600?random"
-                  title="random"
-                />
-                <PhotoCard
-                  url="https://source.unsplash.com/600x600?random"
-                  title="random"
-                />
-                <PhotoCard
-                  url="https://source.unsplash.com/600x600?random"
-                  title="random"
-                />
+                {room.imageId &&
+                  room.imageId.map((img, index) => (
+                    <PhotoCard
+                      url={`${serverUrl}/public/images/${img.imgUrl}`}
+                      title="random"
+                    />
+                  ))}
               </div>
               <div className="divider"></div>
               <div className="card min-w-96 max-w-screen bg-base-100 shadow-xl">

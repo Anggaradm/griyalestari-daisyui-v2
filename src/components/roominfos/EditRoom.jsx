@@ -6,17 +6,12 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getMe } from "../../features/authSlice";
 
 const EditRoom = () => {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
+  const [image, setImage] = useState([]);
 
   const [isEditSuccess, setIsEditSuccess] = useState(false);
 
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleChangeNumber = (e) => {
-    setNumber(e.target.value);
+  const handleImageUpload = (e) => {
+    setImage(e.target.files);
   };
 
   // consumeAPI
@@ -44,27 +39,18 @@ const EditRoom = () => {
   const { id } = useParams();
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
-  const [isRoomEmpty, setIsRoomEmpty] = useState(false);
-
-  useEffect(() => {
-    getRoom();
-  }, []);
-
-  const getRoom = async () => {
-    const response = await axios.get(`${serverUrl}/rooms/${id}`);
-    const data = response.data;
-    setName(data.roomTag);
-    setNumber(data.roomNumber);
-    if (data.userId.length === 0) {
-      setIsRoomEmpty(true);
-    }
-  };
 
   const updateRoom = async (id) => {
+    const formData = new FormData();
+    for (let i = 0; i < image.length; i++) {
+      formData.append("imgUrl", image[i]);
+    }
+
     await axios
-      .patch(`${serverUrl}/rooms/${id}`, {
-        newRoomTag: name,
-        newRoomNumber: number,
+      .patch(`${serverUrl}/rooms/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then((res) => {
         setStatus(res.status);
@@ -85,17 +71,18 @@ const EditRoom = () => {
 
   useEffect(() => {
     if (status === 200) {
-      getRoom();
+      setTimeout(() => {
+        setMessage("");
+        setStatus(null);
+      }, 3000);
     }
-    setTimeout(() => {
-      setMessage("");
-      setStatus(null);
-    }, 3000);
   }, [status]);
 
   return (
     <>
-      <h1 className="text-4xl font-bold mb-4 text-center pt-12">Edit Kamar</h1>
+      <h1 className="text-4xl font-bold mb-4 text-center pt-12">
+        Edit Foto Kamar
+      </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
         {message && (
           <div className="alert">
@@ -108,56 +95,25 @@ const EditRoom = () => {
           </div>
         )}
 
-        <div className="flex gap-2 w-full">
-          <Link
-            to={`/dashboard/roominfo/addusertoroom/${id}`}
-            className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-          >
-            <Icon.PlusCircle size={18} />
-            Tambah user
-          </Link>
-          {!isRoomEmpty && (
-            <Link
-              to={`/dashboard/roominfo/deleteuserfromroom/${id}`}
-              className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
-            >
-              <Icon.MinusCircle size={18} />
-              Hapus user
-            </Link>
-          )}
-        </div>
         <form
           onSubmit={handleSubmit}
           className="w-full flex flex-col items-center"
         >
-          <div className="form-control w-full max-w-xs">
-            <label htmlFor="nameInput" className="label">
-              <span className="label-text">Nama Kamar</span>
+          {/* imageUpload */}
+          <div className="form-control w-full max-w-xs flex mt-12">
+            <label htmlFor="uploadImage" className="label">
+              <span className="label-text">Upload Gambar</span>
+              <input
+                type="file"
+                multiple
+                onChange={handleImageUpload}
+                required
+                id="uploadImage"
+                className="input input-bordered w-full max-w-xs py-2"
+              />
             </label>
-            <input
-              type="text"
-              placeholder="nama kamar..."
-              id="nameInput"
-              onChange={handleChangeName}
-              value={name}
-              required
-              className="input input-bordered w-full max-w-xs"
-            />
           </div>
-          <div className="form-control w-full max-w-xs">
-            <label htmlFor="numberInput" className="label">
-              <span className="label-text">Nomor</span>
-            </label>
-            <input
-              type="number"
-              placeholder="0"
-              id="numberInput"
-              onChange={handleChangeNumber}
-              value={number}
-              required
-              className="input input-bordered w-full max-w-xs"
-            />
-          </div>
+          {/* end imageUpload */}
           <div className="mt-12 w-full flex flex-col items-center">
             <button type="submit" className="btn btn-primary w-full max-w-xs">
               Kirim

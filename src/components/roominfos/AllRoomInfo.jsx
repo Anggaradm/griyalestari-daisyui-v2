@@ -11,7 +11,6 @@ import EditRoom from "./EditRoom";
 const AllRoomInfo = () => {
   const [roomTag, setRoomTag] = useState("");
   const [roomTags, setRoomTags] = useState([]);
-  const [modalRoom, setModalRoom] = useState({});
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState(null);
 
@@ -165,21 +164,24 @@ const AllRoomInfo = () => {
                                 to={`/dashboard/roominfo/${room._id}`}
                                 className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
                               >
-                                Edit
+                                Edit foto
                               </Link>
-                              <label
-                                htmlFor="my_modal_6"
-                                className="btn btn-sm btn-error btn-outline text-xs font-normal"
-                                onClick={() => {
-                                  setModalRoom({
-                                    id: room._id,
-                                    number: room.roomNumber,
-                                    tag: room.roomTag,
-                                  });
-                                }}
+                              <Link
+                                to={`/dashboard/roominfo/addusertoroom/${room._id}`}
+                                className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
                               >
-                                Hapus
-                              </label>
+                                <Icon.PlusCircle size={18} />
+                                Tambah user
+                              </Link>
+                              {room.isEmpty === false && (
+                                <Link
+                                  to={`/dashboard/roominfo/deleteuserfromroom/${room._id}`}
+                                  className="btn btn-sm btn-ghost btn-outline text-xs font-normal"
+                                >
+                                  <Icon.MinusCircle size={18} />
+                                  Hapus user
+                                </Link>
+                              )}
                             </td>
                           </tr>
                         ))}
@@ -209,38 +211,6 @@ const AllRoomInfo = () => {
           element={<DeleteUserFromRoom />}
         />
       </Routes>
-
-      {/* The button to open modal */}
-
-      {/* Put this part before </body> tag */}
-      <input type="checkbox" id="my_modal_6" className="modal-toggle" />
-      <div className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg text-warning flex items-center gap-1">
-            <Icon.AlertCircle size={20} /> Peringatan
-          </h3>
-          <p className="py-4">
-            Anda yakin ingin menghapus kamar {modalRoom?.number}
-            {modalRoom?.tag}?
-          </p>
-          <div className="modal-action">
-            <label htmlFor="my_modal_6" className="btn btn-outline">
-              Tidak
-            </label>
-            <label
-              htmlFor="my_modal_6"
-              className="btn"
-              onClick={(e) => {
-                setMessage("");
-                setStatus(null);
-                deleteRoom(modalRoom?.id);
-              }}
-            >
-              Ya
-            </label>
-          </div>
-        </div>
-      </div>
     </>
   );
 };

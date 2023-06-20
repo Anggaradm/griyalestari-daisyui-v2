@@ -133,10 +133,7 @@ const AddUserToRoom = () => {
           >
             Kirim
           </button>
-          <Link
-            to={`/dashboard/roominfo/${id}`}
-            className="btn btn-outline mt-2"
-          >
+          <Link to={`/dashboard/roominfo`} className="btn btn-outline mt-2">
             {isAddSuccess ? "Kembali" : "Batal"}
           </Link>
         </form>
