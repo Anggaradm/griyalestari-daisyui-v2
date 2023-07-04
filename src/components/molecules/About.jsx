@@ -1,5 +1,5 @@
 import React from "react";
-import { DummyHomeImage } from "../../assets";
+import { HomeKos } from "../../assets";
 
 const About = () => {
   return (
@@ -11,7 +11,7 @@ const About = () => {
               Tentang Kami
             </h1>
             <img
-              src={DummyHomeImage}
+              src={HomeKos}
               className="rounded-lg shadow-2xl"
               alt="tentang-kami"
             />
