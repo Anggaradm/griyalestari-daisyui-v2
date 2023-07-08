@@ -36,7 +36,7 @@ const Footer = () => {
         <div>
           <span className="footer-title">Kontak</span>
           <Link
-            to="https://wa.link/hjcc4s"
+            to="https://wa.me/628122507192"
             target="_blank"
             className="link link-hover flex gap-4 items-center"
           >

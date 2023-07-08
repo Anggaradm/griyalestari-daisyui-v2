@@ -1,4 +1,5 @@
 import axios from "axios";
+import { string } from "prop-types";
 import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,7 +7,44 @@ import { Link, useNavigate } from "react-router-dom";
 import { getMe } from "../../../features/authSlice";
 
 const FinancialsBook = () => {
+  const stringMonth = [
+    "Januari",
+    "Februari",
+    "Maret",
+    "April",
+    "Mei",
+    "Juni",
+    "Juli",
+    "Agustus",
+    "September",
+    "Oktober",
+    "November",
+    "Desember",
+  ];
+
+  const today = new Date();
+  const thisMonth = today.getMonth() + 1;
+
+  const years = Array.from(
+    { length: today.getFullYear() - 2018 + 1 },
+    (_, index) => 2018 + index
+  );
+
   const [category, setCategory] = useState("");
+  const [month, setMonth] = useState(thisMonth);
+  const [year, setYear] = useState(today.getFullYear());
+
+  const handleMonthChange = (e) => {
+    setMonth(e.target.value);
+  };
+
+  const handleYearChange = (e) => {
+    setYear(e.target.value);
+  };
+
+  useEffect(() => {
+    setApiEndPoint(`/${month}/${year}`);
+  }, [month, year]);
 
   // currency
   const currency = (price) => {
@@ -124,7 +162,6 @@ const FinancialsBook = () => {
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
         Catatan Keuangan
       </h1>
-      <h2 className="text-xl font-medium mb-4 text-center">{category}</h2>
       <div className="py-6 flex flex-col items-center lg:items-start w-screen px-6 lg:w-full">
         <div className="btn-group pt-4 pb-12 flex flex-wrap">
           <button
@@ -138,47 +175,51 @@ const FinancialsBook = () => {
           </button>
           <button
             onClick={() => {
-              setCategory("Hari ini");
-              setApiEndPoint("/today");
+              setCategory("Per Bulan");
+              setApiEndPoint(`/${month}/${year}`);
             }}
             className="btn btn-ghost underline underline-offset-2"
           >
-            Hari ini
-          </button>
-          <button
-            onClick={() => {
-              setCategory("Minggu ini");
-              setApiEndPoint("/week");
-            }}
-            className="btn btn-ghost underline underline-offset-2"
-          >
-            Minggu ini
-          </button>
-          <button
-            onClick={() => {
-              setCategory("Minggu lalu");
-              setApiEndPoint("/last-week");
-            }}
-            className="btn btn-ghost underline underline-offset-2"
-          >
-            Minggu lalu
-          </button>
-          <button
-            onClick={() => {
-              setCategory("Bulan ini");
-              setApiEndPoint("/month");
-            }}
-            className="btn btn-ghost underline underline-offset-2"
-          >
-            Bulan ini
+            Per Bulan
           </button>
         </div>
         <div className="w-full flex flex-col gap-10">
+          {category === "Per Bulan" ? (
+            <div className="w-full flex gap-2">
+              <select
+                className="select select-bordered"
+                defaultValue={thisMonth}
+                onChange={handleMonthChange}
+              >
+                {stringMonth?.map((month, i) => (
+                  <option key={i + 1} value={i + 1}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+              <select
+                className="select select-bordered"
+                defaultValue={today.getFullYear()}
+                onChange={handleYearChange}
+              >
+                {years?.map((year, i) => (
+                  <option key={i} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            ""
+          )}
+
           <div className="w-full">
             {financials?.income === 0 && financials?.outcome === 0 ? (
               <div className="alert text-warning">
                 <Icon.AlertCircle size={20} />
-                <span>Tidak Ada Catatan {category}</span>
+                <span>
+                  Tidak Ada Catatan {`${stringMonth[month - 1]} ${year}`}
+                </span>
               </div>
             ) : (
               ""
