@@ -25,7 +25,8 @@ const Footer = () => {
           >
             <Icon.MapPin size={20} />
             <div>
-              Jl.Gemulung, ds.Pulodarat <br />
+              Jl.Gemulung, Gg. 3 <br />
+              ds.Pulodarat, RT 11 RW 002 <br />
               kec.Pecangaan, kab.Jepara <br />
               Jawa Tengah <br />
               <span className="font-semibold">59462</span>
@@ -35,7 +36,7 @@ const Footer = () => {
         <div>
           <span className="footer-title">Kontak</span>
           <Link
-            to="https://wa.link/hjcc4s"
+            to="https://wa.me/628122507192"
             target="_blank"
             className="link link-hover flex gap-4 items-center"
           >

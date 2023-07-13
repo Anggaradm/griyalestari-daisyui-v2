@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Icon from "react-feather";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { DrawerDash } from "../..";
+import { Logout, reset } from "../../../features/authSlice";
 
 const NavbarDashboard = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
+
+  const handleLogout = () => {
+    setIsLoading(true);
+    dispatch(Logout());
+    dispatch(reset());
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate("/signin");
+    }, 500);
+  };
+
   return (
     <>
       <div className="navbar fixed bg-base-100 px-[7%] z-40">
@@ -31,7 +50,9 @@ const NavbarDashboard = () => {
           </div>
         </div>
         <div className="navbar-center">
-          <Link className="btn btn-ghost normal-case text-xl">daisyUI</Link>
+          <Link to="/dashboard" className="btn btn-ghost normal-case text-xl">
+            Dashboard
+          </Link>
         </div>
         <div className="navbar-end">
           <div className="dropdown dropdown-bottom dropdown-end lg:hidden">
@@ -50,10 +71,17 @@ const NavbarDashboard = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/" className="btn btn-error btn-sm btn-outline">
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-error btn-sm btn-outline"
+                >
                   Keluar
-                  <Icon.LogOut size={15} className="ml-2" />
-                </Link>
+                  {isLoading ? (
+                    "..."
+                  ) : (
+                    <Icon.LogOut size={15} className="ml-2" />
+                  )}
+                </button>
               </li>
             </ul>
           </div>
@@ -61,10 +89,10 @@ const NavbarDashboard = () => {
             <Link to="/" className="btn btn-ghost">
               Beranda
             </Link>
-            <Link to="/" className="btn text-error">
+            <button onClick={handleLogout} className="btn text-error">
               Keluar
-              <Icon.LogOut size={18} className="ml-2" />
-            </Link>
+              {isLoading ? "..." : <Icon.LogOut size={18} className="ml-2" />}
+            </button>
           </div>
         </div>
       </div>

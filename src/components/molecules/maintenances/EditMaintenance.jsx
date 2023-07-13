@@ -1,10 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import * as Icon from "react-feather";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 
 const EditMaintenance = () => {
   const [name, setName] = useState("");
   const [cost, setCost] = useState("");
   const [type, setType] = useState("newBuy");
+
+  const [isEditSuccess, setIsEditSuccess] = useState(false);
 
   const today = new Date();
   const [date, setDate] = useState(today);
@@ -25,17 +31,87 @@ const EditMaintenance = () => {
     setType(e.target.value);
   };
 
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
+
+  useEffect(() => {
+    if (user && user.userStatus !== "admin") {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const { id } = useParams();
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
+
+  useEffect(() => {
+    getMaintenance();
+  }, []);
+
+  const getMaintenance = async () => {
+    await axios.get(`${serverUrl}/maintenances/${id}`).then((response) => {
+      console.log(response);
+      setName(response.data.mtName);
+      setCost(response.data.mtCost);
+      setDate(response.data.mtDate?.toString().slice(0, 10));
+      setType(response.data.mtType);
+    });
+  };
+
+  const updateMaintenance = async (id) => {
+    await axios
+      .patch(`${serverUrl}/maintenances/${id}`, {
+        mtCost: cost,
+        mtDate: date,
+        mtName: name,
+        mtType: type,
+      })
+      .then((response) => {
+        console.log(response);
+        setMessage(response.data.message);
+        setStatus(response.status);
+        setIsEditSuccess(true);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log({ name, cost, date, type });
+    // console.log({ name, cost, date, type });
+    updateMaintenance(id);
   };
 
   return (
     <>
       <h1 className="text-4xl font-bold mb-4 text-center pt-12">
-        Tambah Pengeluaran
+        Edit Pengeluaran
       </h1>
       <div className="py-6 flex flex-col items-center w-screen px-6 lg:w-full">
+        {message && (
+          <div className="alert">
+            <Icon.AlertCircle size={20} />
+            <span
+              className={`${status === 200 ? "text-accent" : "text-error"}`}
+            >
+              {message}
+            </span>
+          </div>
+        )}
         <form
           action=""
           onSubmit={handleSubmit}
@@ -88,6 +164,7 @@ const EditMaintenance = () => {
             </label>
             <select
               onChange={handleChangeType}
+              value={type}
               className="select select-bordered"
             >
               <option value="newBuy">Beli baru</option>
@@ -100,9 +177,9 @@ const EditMaintenance = () => {
             </button>
             <Link
               to="/dashboard/maintenance"
-              className="btn btn-error btn-outline mt-2 w-full max-w-xs"
+              className="btn btn-outline mt-2 w-full max-w-xs"
             >
-              Batal
+              {isEditSuccess ? "Kembali" : "Batal"}
             </Link>
           </div>
         </form>

@@ -1,5 +1,8 @@
-import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getMe } from "../../../features/authSlice";
 
 const EditPaymentMember = () => {
   const [image, setImage] = useState(null);
@@ -13,10 +16,66 @@ const EditPaymentMember = () => {
     setIsPopUp(true);
   };
 
+  // consumeAPI
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { user, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      navigate("/dashboard");
+    }
+  }, [isError, navigate]);
+
+  useEffect(() => {
+    if (user && user.userStatus !== "member") {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [payment, setPayment] = useState({});
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState(null);
+  const { id } = useParams();
+
+  const editPayment = async (image) => {
+    await axios
+      .patch(
+        `${serverUrl}/payments/${id}`,
+        {
+          imgUrl: image,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then((res) => {
+        setMessage(res.data.message);
+        setStatus(res.data.status);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(image);
+    // console.log(image);
+    editPayment(image);
   };
+
+  useEffect(() => {
+    if (status === 201) {
+      window.location.replace("/dashboard/paymenthistory");
+    }
+  }, [status, navigate]);
 
   return (
     <>
@@ -45,10 +104,7 @@ const EditPaymentMember = () => {
           >
             Kirim
           </button>
-          <Link
-            to="/dashboard/paymenthistory"
-            className="btn btn-error btn-outline mt-2"
-          >
+          <Link to="/dashboard/paymenthistory" className="btn btn-outline mt-2">
             Batal
           </Link>
         </form>
