@@ -38,8 +38,8 @@ const DashboardPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isError) {
-      console.log({isError})
+    if (isError || !user) {
+      window.location.href = "/signin";
     }
   }, [isError, navigate]);
 
