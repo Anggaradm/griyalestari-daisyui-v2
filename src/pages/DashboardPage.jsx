@@ -38,9 +38,9 @@ const DashboardPage = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (isError || !user) {
-      window.location.href = "/signin";
-    }
+    // if (isError || !user) {
+    //   window.location.href = "/signin";
+    // }
   }, [isError, navigate]);
 
   return (
