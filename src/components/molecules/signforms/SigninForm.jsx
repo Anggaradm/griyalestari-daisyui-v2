@@ -33,7 +33,6 @@ const SigninForm = () => {
   useEffect(() => {
     if (user || isSuccess) {
       cnosole.log({user})
-      // navigate("/dashboard")
     }
     if (isError) {
       setIsLoadError(true);
