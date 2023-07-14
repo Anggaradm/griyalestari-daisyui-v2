@@ -30,9 +30,9 @@ const SigninForm = () => {
     (state) => state.auth
   );
 
-    useEffect(() => {
+      useEffect(() => {
     if (user || isSuccess) {
-      console.log({user})
+      navigate("/dashboard");
     }
     if (isError) {
       setIsLoadError(true);
