@@ -30,20 +30,6 @@ const SigninForm = () => {
     (state) => state.auth
   );
 
-  useEffect(() => {
-    if (user || isSuccess) {
-      cnosole.log({user})
-    }
-    if (isError) {
-      setIsLoadError(true);
-      setTimeout(() => {
-        dispatch(reset());
-        setIsLoadError(false);
-      }, 2000);
-    }
-    dispatch(reset);
-  }, [user, dispatch, isSuccess, navigate, isError]);
-
   return (
     <>
       <div className="w-full">
