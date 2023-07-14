@@ -32,7 +32,7 @@ export const LoginUser = createAsyncThunk(
 
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
-    const response = await axios.get(`${serverUrl}/auth`);
+    const response = await axios.get(`${serverUrl}/auth`, {withCredentials: true});
     return response.data;
   } catch (error) {
     if (error.response) {
