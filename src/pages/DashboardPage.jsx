@@ -35,7 +35,12 @@ const DashboardPage = () => {
 
   useEffect(() => {
     dispatch(getMe());
-    console.log(user);
+
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("cookieName="))
+      ?.split("=")[1];
+    console.log(cookieValue);
   }, [dispatch, user]);
 
   useEffect(() => {
