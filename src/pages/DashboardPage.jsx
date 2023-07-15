@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import {
@@ -31,17 +32,21 @@ const DashboardPage = () => {
   // consumeAPI
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isError, user } = useSelector((state) => state.auth);
+  const { isError } = useSelector((state) => state.auth);
+
+  const serverUrl = process.env.REACT_APP_SERVER_URL;
+  const [user, setUser] = useState({});
+
+  const getUser = async () => {
+    await axios.get(`${serverUrl}/auth`).then((response) => {
+      const data = response.data;
+      setUser(data);
+    });
+  };
 
   useEffect(() => {
-    dispatch(getMe());
-
-    const cookieValue = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("cookieName="))
-      ?.split("=")[1];
-    console.log(cookieValue);
-  }, [dispatch, user]);
+    getUser();
+  }, [user]);
 
   useEffect(() => {
     if (isError) {
