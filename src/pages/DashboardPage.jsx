@@ -45,9 +45,12 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
-    dispatch(getMe());
     getUser();
-  }, [dispatch, user]);
+  }, [user]);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
 
   useEffect(() => {
     if (isError) {
