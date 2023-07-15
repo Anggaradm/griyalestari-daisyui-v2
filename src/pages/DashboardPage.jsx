@@ -35,7 +35,8 @@ const DashboardPage = () => {
 
   useEffect(() => {
     dispatch(getMe());
-  }, [dispatch]);
+    console.log(user);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (isError) {
