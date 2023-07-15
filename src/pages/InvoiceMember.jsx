@@ -16,14 +16,23 @@ const InvoiceMember = () => {
 
   // consumeAPI
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
   const serverUrl = process.env.REACT_APP_SERVER_URL;
   const [payment, setPayment] = useState({});
   const { id } = useParams();
 
+  const [user, setUser] = useState({});
+
+  const getUser = async () => {
+    await axios.get(`${serverUrl}/auth`).then((response) => {
+      const data = response.data;
+      setUser(data);
+    });
+  };
+
   useEffect(() => {
     dispatch(getMe());
-  }, [dispatch]);
+    getUser();
+  }, [dispatch, user]);
 
   const getPayment = async () => {
     await axios.get(`${serverUrl}/payments/${id}`).then((res) => {

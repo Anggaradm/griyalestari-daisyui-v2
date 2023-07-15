@@ -8,11 +8,21 @@ import RoomNumber from "./RoomNumber";
 const Rooms = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isError } = useSelector((state) => state.auth);
+  const { isError } = useSelector((state) => state.auth);
+
+  const [user, setUser] = useState({});
+
+  const getUser = async () => {
+    await axios.get(`${serverUrl}/auth`).then((response) => {
+      const data = response.data;
+      setUser(data);
+    });
+  };
 
   useEffect(() => {
     dispatch(getMe());
-  }, [dispatch]);
+    getUser();
+  }, [dispatch, user]);
 
   // consumeAPI
   const serverUrl = process.env.REACT_APP_SERVER_URL;

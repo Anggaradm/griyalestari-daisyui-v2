@@ -15,16 +15,9 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await fetch(`${serverUrl}/auth`, {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          password: user.password,
-        }),
+      const response = await axios.post(`${serverUrl}/auth`, {
+        email: user.email,
+        password: user.password,
       });
       return response.data;
     } catch (error) {

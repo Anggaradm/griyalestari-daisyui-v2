@@ -13,7 +13,7 @@ const AdminPaymentHistory = () => {
   // consumeAPI
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isError } = useSelector((state) => state.auth);
+  const { isError } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getMe());

@@ -64,12 +64,22 @@ const FinancialsBook = () => {
   // consumeAPI
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user, isError } = useSelector((state) => state.auth);
+  const { isError } = useSelector((state) => state.auth);
   const [apiEndPoint, setApiEndPoint] = useState("");
 
+  const [user, setUser] = useState({});
+
+  const getUser = async () => {
+    await axios.get(`${serverUrl}/auth`).then((response) => {
+      const data = response.data;
+      setUser(data);
+    });
+  };
+
   useEffect(() => {
+    getUser();
     dispatch(getMe());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (isError) {
