@@ -45,8 +45,9 @@ const DashboardPage = () => {
   };
 
   useEffect(() => {
+    dispatch(getMe());
     getUser();
-  }, [user]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (isError) {
