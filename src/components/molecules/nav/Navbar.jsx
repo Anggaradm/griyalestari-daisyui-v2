@@ -69,7 +69,7 @@ const Navbar = () => {
                     to="/dashboard"
                     className="btn btn-outline btn-ghost btn-sm"
                   >
-                    Dashboard | {user.userStatus}
+                    Dashboard
                   </Link>
                   <button
                     className="btn btn-outline text-error btn-sm"
