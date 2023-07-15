@@ -15,10 +15,16 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await axios.post(`${serverUrl}/auth`, {
-        email: user.email,
-        password: user.password,
-      });
+      const response = await axios.post(
+        `${serverUrl}/auth`,
+        {
+          email: user.email,
+          password: user.password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -32,7 +38,9 @@ export const LoginUser = createAsyncThunk(
 
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
-    const response = await axios.get(`${serverUrl}/auth`);
+    const response = await axios.get(`${serverUrl}/auth`, {
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -45,7 +53,9 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
 
 export const Logout = createAsyncThunk("user/Logout", async (_, thunkAPI) => {
   try {
-    await axios.delete(`${serverUrl}/auth`);
+    await axios.delete(`${serverUrl}/auth`, {
+      withCredentials: true,
+    });
   } catch (error) {
     throw error;
   }
