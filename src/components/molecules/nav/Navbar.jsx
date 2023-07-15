@@ -34,8 +34,11 @@ const Navbar = () => {
 
   useEffect(() => {
     getUser();
+  }, [user]);
+
+  useEffect(() => {
     dispatch(getMe());
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   return (
     <>
