@@ -27,7 +27,7 @@ const AdminProfile = () => {
 
   useEffect(() => {
     if (isError) {
-      navigate("/dashboard");
+      // navigate("/dashboard");
     }
   }, [isError, navigate]);
 
