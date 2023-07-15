@@ -32,7 +32,9 @@ const AdminProfile = () => {
   const [payments, setPayments] = useState([]);
 
   const getBookingPayments = async () => {
-    const response = await axios.get(`${serverUrl}/booking-payments`);
+    const response = await axios.get(`${serverUrl}/booking-payments`, {
+      withCredentials: true,
+    });
     const datas = response.data.data?.filter(
       (bookingPayment) => bookingPayment.status === "pending"
     );
@@ -40,7 +42,9 @@ const AdminProfile = () => {
   };
 
   const getPayments = async () => {
-    const response = await axios.get(`${serverUrl}/payments`);
+    const response = await axios.get(`${serverUrl}/payments`, {
+      withCredentials: true,
+    });
     const datas = response.data?.datas?.filter(
       (payment) => payment.status === "pending"
     );
