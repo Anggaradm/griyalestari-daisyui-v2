@@ -15,19 +15,17 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await axios
-        .post(
-          `${serverUrl}/auth`,
-          {
-            email: user.email,
-            password: user.password,
-          },
-          {
-            withCredentials: true, // Tambahkan ini untuk kredensial
-          }
-        )
-        .then((res) => res.response.data)
-        .catch((err) => err.response.data);
+      const response = await axios.post(
+        `${serverUrl}/auth`,
+        {
+          email: user.email,
+          password: user.password,
+        },
+        {
+          withCredentials: true, // Tambahkan ini untuk kredensial
+        }
+      );
+      return response.data;
     } catch (error) {
       if (error.response) {
         const message = error.response.data.message;
@@ -40,10 +38,12 @@ export const LoginUser = createAsyncThunk(
 
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
-    const response = await axios.get(`${serverUrl}/auth`, {
-      withCredentials: true, // Tambahkan ini untuk kredensial
-    });
-    return response.data;
+    const response = await axios
+      .get(`${serverUrl}/auth`, {
+        withCredentials: true, // Tambahkan ini untuk kredensial
+      })
+      .then((res) => res.response.data)
+      .catch((err) => err.response.data);
   } catch (error) {
     if (error.response) {
       const message = error.response.data.message;
