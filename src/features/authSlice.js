@@ -15,14 +15,16 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await fetch(`${serverUrl}/auth`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        `${serverUrl}/auth`,
+        {
+          email: user.email,
+          password: user.password,
         },
-        body: JSON.stringify(user),
-        credentials: "include",
-      });
+        {
+          withCredentials: true,
+        }
+      );
       return response.data;
     } catch (error) {
       if (error.response) {

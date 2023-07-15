@@ -32,7 +32,7 @@ const SigninForm = () => {
 
   useEffect(() => {
     if (user || isSuccess) {
-      navigate("/dashboard");
+      navigate("/");
     }
     if (isError) {
       setIsLoadError(true);
