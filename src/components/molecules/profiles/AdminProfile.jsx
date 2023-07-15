@@ -21,13 +21,16 @@ const AdminProfile = () => {
   };
 
   useEffect(() => {
-    dispatch(getMe());
     getUser();
-  }, [dispatch, user]);
+  }, [user]);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
 
   useEffect(() => {
     if (isError) {
-      // navigate("/dashboard");
+      navigate("/dashboard");
     }
   }, [isError, navigate]);
 
