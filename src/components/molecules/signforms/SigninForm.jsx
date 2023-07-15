@@ -42,7 +42,7 @@ const SigninForm = () => {
 
   useEffect(() => {
     getUser();
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (user || isSuccess) {
