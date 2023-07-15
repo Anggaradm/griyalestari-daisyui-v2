@@ -1,4 +1,3 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,24 +20,10 @@ const Navbar = () => {
 
   // consumeAPI
   const dispatch = useDispatch();
-
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const [user, setUser] = useState({});
-
-  const getUser = async () => {
-    await axios.get(`${serverUrl}/auth`).then((response) => {
-      const data = response.data;
-      setUser(data);
-    });
-  };
-
-  useEffect(() => {
-    getUser();
-  }, [user]);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getMe());
-    console.log(user);
   }, [dispatch]);
 
   return (

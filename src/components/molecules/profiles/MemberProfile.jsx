@@ -1,5 +1,4 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import * as Icon from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -9,22 +8,11 @@ const MemberProfile = () => {
   // consumeAPI
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
-
-  const serverUrl = process.env.REACT_APP_SERVER_URL;
-  const [user, setUser] = useState({});
-
-  const getUser = async () => {
-    await axios.get(`${serverUrl}/auth`).then((response) => {
-      const data = response.data;
-      setUser(data);
-    });
-  };
+  const { user, isError } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getMe());
-    getUser();
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isError) {

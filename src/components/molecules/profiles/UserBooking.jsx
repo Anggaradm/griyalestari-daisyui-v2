@@ -10,21 +10,11 @@ const UserBooking = () => {
   // consumeAPI
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isError } = useSelector((state) => state.auth);
-
-  const [user, setUser] = useState({});
-
-  const getUser = async () => {
-    await axios.get(`${serverUrl}/auth`).then((response) => {
-      const data = response.data;
-      setUser(data);
-    });
-  };
+  const { user, isError } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getMe());
-    getUser();
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isError) {
