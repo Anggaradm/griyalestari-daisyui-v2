@@ -15,22 +15,20 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await fetch(`${serverUrl}/auth`, {
-        method: "POST",
-        credentials: "include", // Tambahkan ini untuk mengirim kredensial
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        `${serverUrl}/auth`,
+        {
           email: user.email,
           password: user.password,
-        }),
-      });
-      const data = await response.json();
-      return data;
+        },
+        {
+          withCredentials: true, // Tambahkan ini untuk kredensial
+        }
+      );
+      return response.data;
     } catch (error) {
-      if (error instanceof Response) {
-        const message = await error.text();
+      if (error.response) {
+        const message = error.response.data.message;
         return thunkAPI.rejectWithValue({ message });
       }
       throw error;
@@ -42,13 +40,12 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
     const response = await fetch(`${serverUrl}/auth`, {
       method: "GET",
-      credentials: "include", // Tambahkan ini untuk mengirim kredensial
+      credentials: "include", // Tambahkan ini untuk kredensial
     });
-    const data = await response.json();
-    return data;
+    return response.data;
   } catch (error) {
-    if (error instanceof Response) {
-      const message = await error.text();
+    if (error.response) {
+      const message = error.response.data.message;
       return thunkAPI.rejectWithValue({ message });
     }
     throw error;
@@ -57,9 +54,8 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
 
 export const Logout = createAsyncThunk("user/Logout", async (_, thunkAPI) => {
   try {
-    await fetch(`${serverUrl}/auth`, {
-      method: "DELETE",
-      credentials: "include", // Tambahkan ini untuk mengirim kredensial
+    await axios.delete(`${serverUrl}/auth`, {
+      withCredentials: true, // Tambahkan ini untuk kredensial
     });
   } catch (error) {
     throw error;
