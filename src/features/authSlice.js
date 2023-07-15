@@ -38,9 +38,8 @@ export const LoginUser = createAsyncThunk(
 
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
-    const response = await fetch(`${serverUrl}/auth`, {
-      method: "GET",
-      credentials: "include", // Tambahkan ini untuk kredensial
+    const response = await axios.get(`${serverUrl}/auth`, {
+      withCredentials: true, // Tambahkan ini untuk kredensial
     });
     return response.data;
   } catch (error) {
