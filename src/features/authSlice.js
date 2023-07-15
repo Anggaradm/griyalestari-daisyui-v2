@@ -15,18 +15,10 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await fetch(`${serverUrl}/auth`, {
-        method: "POST",
-        credentials: "include", // Tambahkan ini untuk mengirim kredensial
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: user.email,
-          password: user.password,
-        }),
+      const response = await axios.post(`${serverUrl}/auth`, {
+        email: user.email,
+        password: user.password,
       });
-
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -40,10 +32,7 @@ export const LoginUser = createAsyncThunk(
 
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
-    const response = await fetch(`${serverUrl}/auth`, {
-      method: "GET",
-      credentials: "include", // Tambahkan ini untuk kredensial
-    });
+    const response = await axios.get(`${serverUrl}/auth`);
     return response.data;
   } catch (error) {
     if (error.response) {
@@ -56,9 +45,7 @@ export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
 
 export const Logout = createAsyncThunk("user/Logout", async (_, thunkAPI) => {
   try {
-    await axios.delete(`${serverUrl}/auth`, {
-      withCredentials: true, // Tambahkan ini untuk kredensial
-    });
+    await axios.delete(`${serverUrl}/auth`);
   } catch (error) {
     throw error;
   }

@@ -30,7 +30,7 @@ const SigninForm = () => {
     (state) => state.auth
   );
 
-      useEffect(() => {
+  useEffect(() => {
     if (user || isSuccess) {
       navigate("/dashboard");
     }
