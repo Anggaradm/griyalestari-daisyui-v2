@@ -38,6 +38,7 @@ const Navbar = () => {
 
   useEffect(() => {
     dispatch(getMe());
+    console.log(user);
   }, [dispatch]);
 
   return (
