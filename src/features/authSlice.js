@@ -15,16 +15,18 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `${serverUrl}/auth`,
-        {
+      const response = await fetch(`${serverUrl}/auth`, {
+        method: "POST",
+        credentials: "include", // Tambahkan ini untuk mengirim kredensial
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           email: user.email,
           password: user.password,
-        },
-        {
-          withCredentials: true, // Tambahkan ini untuk kredensial
-        }
-      );
+        }),
+      });
+
       return response.data;
     } catch (error) {
       if (error.response) {
