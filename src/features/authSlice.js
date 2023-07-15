@@ -15,16 +15,14 @@ export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
     try {
-      const response = await axios.post(
-        `${serverUrl}/auth`,
-        {
-          email: user.email,
-          password: user.password,
+      const response = await fetch(`${serverUrl}/auth`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        {
-          withCredentials: true,
-        }
-      );
+        body: JSON.stringify(user),
+        credentials: "include",
+      });
       return response.data;
     } catch (error) {
       if (error.response) {
@@ -38,9 +36,8 @@ export const LoginUser = createAsyncThunk(
 
 export const getMe = createAsyncThunk("user/getMe", async (_, thunkAPI) => {
   try {
-    const response = await fetch(`${serverUrl}/auth`, {
-      method: "GET",
-      credentials: "include",
+    const response = await axios.get(`${serverUrl}/auth`, {
+      withCredentials: true,
     });
     return response.data;
   } catch (error) {
